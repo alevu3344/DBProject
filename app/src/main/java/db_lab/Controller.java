@@ -3,6 +3,9 @@ package db_lab;
 import db_lab.data.DAOException;
 import db_lab.data.ProductPreview;
 import db_lab.model.Model;
+import db_lab.view.MainMenu;
+
+
 import java.util.Objects;
 
 // The controller provides a holistic description of how the outside world can
@@ -30,9 +33,16 @@ public final class Controller {
     //            actions
     //
     private final Model model;
-    private final View view;
+    private final MainMenu view;
 
-    public Controller(Model model, View view) {
+
+    private enum App_State{
+        PREVIEW_PAGE,
+        PRODUCT_PAGE,
+        INITIAL_PAGE
+    }
+
+    public Controller(Model model, MainMenu view) {
         Objects.requireNonNull(model, "Controller created with null model");
         Objects.requireNonNull(view, "Controller created with null view");
         this.view = view;
@@ -69,7 +79,7 @@ public final class Controller {
         }
     }
 
-    void loadInitialPage() {
+    private void loadInitialPage() {
         try {
             this.view.loadingPreviews();
             var previews = this.model.loadPreviews();

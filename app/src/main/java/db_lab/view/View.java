@@ -1,5 +1,6 @@
-package db_lab;
+/*package db_lab.view;
 
+import db_lab.Controller;
 import db_lab.data.Product;
 import db_lab.data.ProductPreview;
 import java.awt.Container;
@@ -179,3 +180,4 @@ public final class View {
         this.mainFrame.pack();
     }
 }
+*/
