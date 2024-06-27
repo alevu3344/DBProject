@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
-import java.awt.event.WindowEvent;
 
 public class LoginPage implements ActionListener {
 
@@ -20,6 +19,7 @@ public class LoginPage implements ActionListener {
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton resetButton;
+    private JButton backButton;
     private JLabel messageLabel;
 
     private Optional<LoginController> controller;
@@ -34,15 +34,11 @@ public class LoginPage implements ActionListener {
         System.out.println("Constructor of login page");
     }
 
-    
-
     private void setupComponents() {
         container = mainFrame.getContentPane();
         container.removeAll();
         container.validate();
         container.repaint();
-
-        
 
         userLabel = new JLabel("Username");
         passwordLabel = new JLabel("Password");
@@ -52,27 +48,27 @@ public class LoginPage implements ActionListener {
 
         loginButton = new JButton("Login");
         resetButton = new JButton("Reset");
+        backButton = new JButton("Back");
 
         messageLabel = new JLabel("");
 
         loginButton.addActionListener(this);
         resetButton.addActionListener(this);
+        backButton.addActionListener(this);
     }
 
-    public JFrame getMainFrame(){
+    public JFrame getMainFrame() {
         return this.mainFrame;
     }
 
-
-
     private void addComponentsToFrame() {
-        
         container.add(userLabel);
         container.add(userTextField);
         container.add(passwordLabel);
         container.add(passwordField);
         container.add(loginButton);
         container.add(resetButton);
+        container.add(backButton);
         container.add(messageLabel);
 
         userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -81,6 +77,7 @@ public class LoginPage implements ActionListener {
         passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         userLabel.setPreferredSize(new Dimension(100, 30));
@@ -89,13 +86,10 @@ public class LoginPage implements ActionListener {
         passwordField.setPreferredSize(new Dimension(150, 30));
         loginButton.setPreferredSize(new Dimension(100, 30));
         resetButton.setPreferredSize(new Dimension(100, 30));
+        backButton.setPreferredSize(new Dimension(100, 30));
         messageLabel.setPreferredSize(new Dimension(250, 30));
 
-        //container.validate();
-        //container.repaint();
-//------------------------------------------
-        this.mainFrame.pack();            //
-//----------------------------------------
+        this.mainFrame.pack();
     }
 
     // Action event handler
@@ -110,6 +104,8 @@ public class LoginPage implements ActionListener {
             userTextField.setText("");
             passwordField.setText("");
             messageLabel.setText("");
+        } else if (e.getSource() == backButton) {
+            this.controller.get().handleBack();
         }
     }
 

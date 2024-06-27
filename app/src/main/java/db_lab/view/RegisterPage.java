@@ -8,14 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 public class RegisterPage implements ActionListener {
 
@@ -33,6 +25,7 @@ public class RegisterPage implements ActionListener {
     private JPasswordField passwordField;
     private JButton registerButton;
     private JButton resetButton;
+    private JButton backButton;
     private JLabel messageLabel;
 
     private Optional<RegisterController> controller;
@@ -67,11 +60,13 @@ public class RegisterPage implements ActionListener {
 
         registerButton = new JButton("Register");
         resetButton = new JButton("Reset");
+        backButton = new JButton("Back");
 
         messageLabel = new JLabel("");
 
         registerButton.addActionListener(this);
         resetButton.addActionListener(this);
+        backButton.addActionListener(this);
     }
 
     public JFrame getMainFrame() {
@@ -79,7 +74,8 @@ public class RegisterPage implements ActionListener {
     }
 
     private void addComponentsToFrame() {
-        
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+
         container.add(nameLabel);
         container.add(nameTextField);
         container.add(surnameLabel);
@@ -92,6 +88,7 @@ public class RegisterPage implements ActionListener {
         container.add(passwordField);
         container.add(registerButton);
         container.add(resetButton);
+        container.add(backButton);
         container.add(messageLabel);
 
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -106,6 +103,7 @@ public class RegisterPage implements ActionListener {
         passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
         registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         Dimension fieldDimension = new Dimension(200, 30);
@@ -121,6 +119,7 @@ public class RegisterPage implements ActionListener {
         passwordField.setPreferredSize(fieldDimension);
         registerButton.setPreferredSize(new Dimension(100, 30));
         resetButton.setPreferredSize(new Dimension(100, 30));
+        backButton.setPreferredSize(new Dimension(100, 30));
         messageLabel.setPreferredSize(new Dimension(250, 30));
 
         mainFrame.pack(); // Adjust frame size
@@ -145,6 +144,8 @@ public class RegisterPage implements ActionListener {
             usernameTextField.setText("");
             passwordField.setText("");
             messageLabel.setText("");
+        } else if (e.getSource() == backButton) {
+            this.controller.get().handleBack();
         }
     }
 

@@ -1,6 +1,7 @@
 package db_lab.controller;
 
 import db_lab.model.Model;
+import db_lab.view.FirstPage;
 import db_lab.view.RegisterPage;
 
 import java.util.Objects;
@@ -9,12 +10,14 @@ public class RegisterController {
 
     private final Model model;
     private final RegisterPage registerView;
+    private FirstController firstCtrl;
 
-    public RegisterController(RegisterPage registerView, Model model) {
+    public RegisterController(RegisterPage registerView, Model model, FirstController firstCtrl) {
         Objects.requireNonNull(model, "RegisterController created with null model");
         Objects.requireNonNull(registerView, "RegisterController created with null registerView");
         this.model = model;
         this.registerView = registerView;
+        this.firstCtrl = firstCtrl;
 
         // Set this controller as the registerView's controller
         registerView.setController(this);
@@ -31,5 +34,9 @@ public class RegisterController {
         System.out.println("Password: " + password);
         registerView.displayMessage("Registration successful");
         // Optionally, you can proceed to another page or update the UI as needed
+    }
+
+    public void handleBack(){
+        this.firstCtrl.backToFirstPage();
     }
 }

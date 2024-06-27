@@ -54,11 +54,13 @@ public class FirstPage {
         return this.mainFrame;
     }
 
+
     public void setController(FirstController controller) {
         this.controller = Optional.of(controller);
     }
 
     private void setupComponents() {
+        this.mainFrame.getContentPane().removeAll();
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(2, 1, 10, 10)); // 2 rows, 1 column, with gaps of 10px
         var padding = BorderFactory.createEmptyBorder(20, 20, 20, 20);
@@ -72,6 +74,10 @@ public class FirstPage {
 
         mainFrame.add(buttonPanel, BorderLayout.CENTER);
         mainFrame.pack();
+    }
+
+    public void redraw(){
+        this.setupComponents();
     }
 
     private JButton createButton(String text) {

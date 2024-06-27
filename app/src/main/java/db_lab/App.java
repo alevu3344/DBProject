@@ -19,14 +19,7 @@ public final class App {
       
         var connection = DAOUtils.localMySQLConnection("Tessiland", "root", "");
         var model = Model.fromConnection(connection);
-        var view = new FirstPage(() -> {
-            // We want to make sure we close the connection when we're done
-            // with our application.
-            try {
-                connection.close();
-            } catch (Exception e) {}
-        });
-        var controller = new FirstController(model, view);
-        view.setController(controller);
+        var controller = new FirstController(model, connection);
+ 
     }
 }

@@ -2,6 +2,7 @@ package db_lab.controller;
 
 import db_lab.data.DAOException;
 import db_lab.model.Model;
+import db_lab.view.FirstPage;
 import db_lab.view.LoginPage;
 import db_lab.view.RestaurantsPage;
 
@@ -21,13 +22,15 @@ public class LoginController {
     private final LoginPage loginView;
     private AppState appState;
     private Optional<RestaurantsController> resCtrl;
+    private FirstController firstCtrl;
 
-    public LoginController(LoginPage loginView, Model model) {
+    public LoginController(LoginPage loginView, Model model, FirstController firstCtrl) {
         Objects.requireNonNull(model, "MainController created with null model");
         Objects.requireNonNull(loginView, "MainController created with null loginView");
         this.resCtrl = Optional.empty();
         this.loginView = loginView;
         this.model = model;
+        this.firstCtrl = firstCtrl;
         this.appState = AppState.LOGIN_PAGE;
 
         // Set this controller as the loginView's controller
@@ -48,4 +51,7 @@ public class LoginController {
         }
     }
 
+    public void handleBack(){
+        this.firstCtrl.backToFirstPage();
+    }
 }
