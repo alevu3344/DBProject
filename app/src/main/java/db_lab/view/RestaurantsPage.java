@@ -1,8 +1,7 @@
 package db_lab.view;
 
-
-
 import db_lab.controller.Controller;
+import db_lab.controller.RestaurantsController;
 import db_lab.data.Product;
 import db_lab.data.ProductPreview;
 import java.awt.Container;
@@ -25,46 +24,31 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-public final class MainMenu {
+public class RestaurantsPage {
 
-    private Optional<Controller> controller;
     private final JFrame mainFrame;
+    private JLabel titleLabel;
+    private Optional<RestaurantsController> controller;
 
-    // We take an action to run before closing the view so that one can gracefully
-    // deal with open resources.
-    public MainMenu(Runnable onClose) {
+    public RestaurantsPage(JFrame mainFrame) {
         this.controller = Optional.empty();
-        this.mainFrame = this.setupMainFrame(onClose);
+        this.mainFrame = mainFrame;
+
     }
 
-    private JFrame setupMainFrame(Runnable onClose) {
-        var frame = new JFrame("Tessiland");
-        var padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        ((JComponent) frame.getContentPane()).setBorder(padding);
-        frame.setMinimumSize(new Dimension(300, 100));
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
-        frame.pack();
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.addWindowListener(
-            new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    onClose.run();
-                    System.exit(0);
-                }
-            }
-        );
 
-        return frame;
+
+    public void setController(RestaurantsController ctrl){
+        this.controller = Optional.of(ctrl);
     }
 
-    private Controller getController() {
+    private RestaurantsController getController() {
         if (this.controller.isPresent()) {
             return this.controller.get();
         } else {
             throw new IllegalStateException(
                 """
-                The MainMenu's Controller is undefined, did you remember to call
+                The RestaurantsPage's Controller is undefined, did you remember to call
                 `setController` before starting the application?
                 Remeber that `MainMenu` needs a reference to the controller in order
                 to notify it of button clicks and other changes.
@@ -73,7 +57,9 @@ public final class MainMenu {
         }
     }
 
-    
+
+
+
 
     public void loadingProduct() {
         freshPane(cp -> cp.add(new JLabel("Loading product...", SwingConstants.CENTER)));
@@ -178,4 +164,6 @@ public final class MainMenu {
         cp.repaint();
         this.mainFrame.pack();
     }
+
+
 }
