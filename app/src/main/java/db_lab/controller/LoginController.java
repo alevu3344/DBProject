@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import java.util.Objects;
 
-public class MainController {
+public class LoginController {
     private enum AppState{
         LOGIN_PAGE,
         RESTAURANTS_PAGE,
@@ -20,12 +20,12 @@ public class MainController {
     private final Model model;
     private final LoginPage loginView;
     private AppState appState;
-    private Optional<RestaurantsController> rp;
+    private Optional<RestaurantsController> resCtrl;
 
-    public MainController(Model model, LoginPage loginView) {
+    public LoginController(LoginPage loginView, Model model) {
         Objects.requireNonNull(model, "MainController created with null model");
         Objects.requireNonNull(loginView, "MainController created with null loginView");
-        this.rp = Optional.empty();
+        this.resCtrl = Optional.empty();
         this.loginView = loginView;
         this.model = model;
         this.appState = AppState.LOGIN_PAGE;
@@ -40,8 +40,8 @@ public class MainController {
             loginView.displayMessage("Login successful");
             this.appState = AppState.RESTAURANTS_PAGE;
             var resPage = new RestaurantsPage(this.loginView.getMainFrame());
-            var resCtrl = new RestaurantsController(resPage, this.model);
-            resPage.setController(resCtrl);
+            this.resCtrl = Optional.of(new RestaurantsController(resPage, this.model));
+            resPage.setController(this.resCtrl.get());
             
         } else {
             loginView.displayMessage("Invalid username or password");

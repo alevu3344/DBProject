@@ -2,19 +2,12 @@ package db_lab.view;
 
 import javax.swing.*;
 
-import db_lab.controller.MainController;
+import db_lab.controller.LoginController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.event.WindowEvent;
 
 public class LoginPage implements ActionListener {
@@ -29,41 +22,25 @@ public class LoginPage implements ActionListener {
     private JButton resetButton;
     private JLabel messageLabel;
 
-    private Optional<MainController> controller;
+    private Optional<LoginController> controller;
     private final JFrame mainFrame;
 
     // Constructor to set up the GUI components
-    public LoginPage(Runnable onClose) {
+    public LoginPage(JFrame mainFrame) {
         this.controller = Optional.empty();
-        this.mainFrame = this.setupMainFrame(onClose);
+        this.mainFrame = mainFrame;
         this.setupComponents();
         this.addComponentsToFrame();
         System.out.println("Constructor of login page");
     }
 
-    private JFrame setupMainFrame(Runnable onClose) {
-        var frame = new JFrame("Consegne_Db");
-        var padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        ((JComponent) frame.getContentPane()).setBorder(padding);
-        frame.setMinimumSize(new Dimension(300, 300));
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
-        frame.pack();
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.addWindowListener(
-            new java.awt.event.WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    onClose.run();
-                    System.exit(0);
-                }
-            }
-        );
-        return frame;
-    }
+    
 
     private void setupComponents() {
         container = mainFrame.getContentPane();
+        container.removeAll();
+        container.validate();
+        container.repaint();
 
         
 
@@ -89,6 +66,7 @@ public class LoginPage implements ActionListener {
 
 
     private void addComponentsToFrame() {
+        
         container.add(userLabel);
         container.add(userTextField);
         container.add(passwordLabel);
@@ -135,7 +113,7 @@ public class LoginPage implements ActionListener {
         }
     }
 
-    public void setController(MainController controller) {
+    public void setController(LoginController controller) {
         this.controller = Optional.of(controller);
     }
 
