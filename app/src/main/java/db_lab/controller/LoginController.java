@@ -1,8 +1,6 @@
 package db_lab.controller;
 
-import db_lab.data.DAOException;
 import db_lab.model.Model;
-import db_lab.view.FirstPage;
 import db_lab.view.LoginPage;
 import db_lab.view.RestaurantsPage;
 

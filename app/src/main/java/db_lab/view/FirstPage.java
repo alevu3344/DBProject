@@ -1,6 +1,5 @@
 package db_lab.view;
 
-import javax.swing.*;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -14,7 +13,6 @@ import java.awt.event.WindowEvent;
 import java.util.Optional;
 
 import db_lab.controller.FirstController;
-import db_lab.controller.LoginController;
 
 public class FirstPage {
 
@@ -36,7 +34,7 @@ public class FirstPage {
         JFrame frame = new JFrame("Consegne_Db");
         var padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         ((JComponent) frame.getContentPane()).setBorder(padding);
-        frame.setMinimumSize(new Dimension(300, 300));
+        frame.setMinimumSize(new Dimension(600, 600));
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
         frame.setResizable(false);
         frame.setVisible(true);

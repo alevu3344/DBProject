@@ -1,13 +1,10 @@
 package db_lab.controller;
 
-import db_lab.data.DAOException;
+
 import db_lab.model.Model;
 import db_lab.view.FirstPage;
 import db_lab.view.LoginPage;
 import db_lab.view.RegisterPage;
-import db_lab.view.RestaurantsPage;
-import db_lab.data.DAOException;
-import db_lab.data.DAOUtils;
 import java.sql.Connection;
 
 import java.util.Optional;
@@ -17,7 +14,6 @@ import java.util.Objects;
 public class FirstController {
     private final Model model;
     private FirstPage firstPage;
-    private boolean loggingIn;
     private Optional<LoginController> loginCtrl;
     private Optional<RegisterController> registerCtrl;
     private Runnable onClose;
@@ -37,7 +33,6 @@ public class FirstController {
 
         this.firstPage = new FirstPage(this.onClose);
         this.model = model;
-        this.loggingIn = false;
 
         // Set this controller as the loginView's controller
         this.firstPage.setController(this);

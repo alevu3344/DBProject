@@ -7,11 +7,11 @@ import db_lab.view.RestaurantsPage;
 
 public class RestaurantsController {
 
-    private RestaurantsPage rp;
+    private RestaurantsPage resPage;
     private Model model;
 
-    public RestaurantsController(RestaurantsPage rp, Model model){
-        this.rp = rp;
+    public RestaurantsController(RestaurantsPage resPage, Model model){
+        this.resPage = resPage;
         this.model = model;
         this.userRequestedInitialPage();
     }
@@ -26,34 +26,34 @@ public class RestaurantsController {
 
     public void userClickedPreview(ProductPreview productPreview) {
         try {
-            this.rp.loadingProduct();
+            this.resPage.loadingProduct();
             var product = this.model.find(productPreview.code);
             if (product.isPresent()) {
-                this.rp.productPage(product.get());
+                this.resPage.productPage(product.get());
             } else {
-                this.rp.failedToLoadProduct(productPreview);
+                this.resPage.failedToLoadProduct(productPreview);
             }
         } catch (DAOException e) {
-            this.rp.failedToLoadProduct(productPreview);
+            this.resPage.failedToLoadProduct(productPreview);
         }
     }
 
     public void userClickedBack() {
         if (this.model.loadedPreviews()) {
-            this.rp.previewPage(this.model.previews());
+            this.resPage.previewPage(this.model.previews());
         } else {
             this.loadInitialPage();
         }
     }
 
-    void loadInitialPage() {
+    private void loadInitialPage() {
         try {
-            this.rp.loadingPreviews();
+            this.resPage.loadingPreviews();
             var previews = this.model.loadPreviews();
-            this.rp.previewPage(previews);
+            this.resPage.previewPage(previews);
         } catch (DAOException e) {
             e.printStackTrace();
-            this.rp.failedToLoadPreviews();
+            this.resPage.failedToLoadPreviews();
         }
     }
     
