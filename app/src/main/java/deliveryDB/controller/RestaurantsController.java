@@ -1,9 +1,9 @@
-package db_lab.controller;
+package deliveryDB.controller;
 
-import db_lab.data.DAOException;
-import db_lab.data.ProductPreview;
-import db_lab.model.Model;
-import db_lab.view.RestaurantsPage;
+import deliveryDB.data.DAOException;
+import deliveryDB.data.ProductPreview;
+import deliveryDB.model.Model;
+import deliveryDB.view.RestaurantsPage;
 
 public class RestaurantsController {
 

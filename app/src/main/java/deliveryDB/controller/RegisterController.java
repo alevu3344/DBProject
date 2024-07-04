@@ -1,11 +1,12 @@
-package db_lab.controller;
+package deliveryDB.controller;
 
-import db_lab.model.Model;
-import db_lab.view.FirstPage;
-import db_lab.view.RegisterPage;
 import java.util.List;
 
 import java.util.Objects;
+
+import deliveryDB.model.Model;
+import deliveryDB.view.FirstPage;
+import deliveryDB.view.RegisterPage;
 
 public class RegisterController {
 

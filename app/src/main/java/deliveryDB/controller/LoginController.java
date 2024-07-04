@@ -1,9 +1,10 @@
-package db_lab.controller;
+package deliveryDB.controller;
 
-import db_lab.model.Model;
-import db_lab.view.LoginPage;
-import db_lab.view.RestaurantsPage;
 import javax.swing.BoxLayout;
+
+import deliveryDB.model.Model;
+import deliveryDB.view.LoginPage;
+import deliveryDB.view.RestaurantsPage;
 
 import java.util.Optional;
 

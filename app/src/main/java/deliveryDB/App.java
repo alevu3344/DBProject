@@ -1,10 +1,10 @@
-package db_lab;
-
-import db_lab.controller.FirstController;
-import db_lab.data.DAOUtils;
-import db_lab.model.Model;
+package deliveryDB;
 
 import java.sql.SQLException;
+
+import deliveryDB.controller.FirstController;
+import deliveryDB.data.DAOUtils;
+import deliveryDB.model.Model;
 
 public final class App {
 
@@ -13,7 +13,7 @@ public final class App {
         // all methods, you can pass the controller a mocked model instead:
         //
       
-        var connection = DAOUtils.localMySQLConnection("Tessiland", "root", "");
+        var connection = DAOUtils.localMySQLConnection("DeliveryDatabase", "root", "");
         var model = Model.fromConnection(connection);
         new FirstController(model, connection);
  

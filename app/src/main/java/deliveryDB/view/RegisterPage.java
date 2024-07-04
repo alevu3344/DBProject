@@ -1,8 +1,8 @@
-package db_lab.view;
+package deliveryDB.view;
 
 import javax.swing.*;
 
-import db_lab.controller.RegisterController;
+import deliveryDB.controller.RegisterController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -131,10 +131,6 @@ public class RegisterPage implements ActionListener {
 
             // get the text from the text fields and put in the fields list using a stream
             this.textFieldsMap.forEach((label, textField) -> fields.add(textField.getText()));
-            // get the last value as the password
-            String password = fields.getLast();
-
-            // Inform the controller about the registration attempt
             controller.ifPresent(ctrl -> ctrl.handleRegistration(fields));
         } else if (e.getSource() == resetButton) {
             this.textFieldsMap.forEach((label, textField) -> textField.setText(""));

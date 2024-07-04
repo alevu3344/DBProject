@@ -1,4 +1,4 @@
-package db_lab.data;
+package deliveryDB.data;
 
 import java.util.List;
 import java.util.stream.Collectors;

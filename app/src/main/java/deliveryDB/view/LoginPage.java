@@ -1,8 +1,8 @@
-package db_lab.view;
+package deliveryDB.view;
 
 import javax.swing.*;
 
-import db_lab.controller.LoginController;
+import deliveryDB.controller.LoginController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

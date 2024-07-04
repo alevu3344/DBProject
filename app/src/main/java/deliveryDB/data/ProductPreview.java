@@ -1,4 +1,4 @@
-package db_lab.data;
+package deliveryDB.data;
 
 import java.sql.Connection;
 import java.util.ArrayList;

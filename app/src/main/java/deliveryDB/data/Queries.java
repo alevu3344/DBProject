@@ -1,4 +1,4 @@
-package db_lab.data;
+package deliveryDB.data;
 
 public final class Queries {
 
@@ -32,4 +32,34 @@ public final class Queries {
         FROM PRODUCT p
         WHERE p.code = ?
         """;
+
+    public static final String RESTAURANT_REVIEWS =
+        """
+        SELECT r.review
+        FROM REVIEW r
+        WHERE r.restaurant_id = ?
+        """;
+
+    public static final String RESTAURANT_MENU =
+        """
+        SELECT p.code, p.name
+        FROM PRODUCT p
+        JOIN SERVES s ON p.code = s.product_code
+        WHERE s.restaurant_id = ?
+        """;
+
+    public static final String USERNAME_AVAILABILITY_CHECK =
+        """
+        SELECT u.username
+        FROM USER u
+        WHERE u.username = ?
+        """;
+    public static final String AUTHENTICATION =
+        """
+        SELECT u.username, u.password
+        FROM USER u
+        WHERE u.username = ?
+        """;
+
+  
 }
