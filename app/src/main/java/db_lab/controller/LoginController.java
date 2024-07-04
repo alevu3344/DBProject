@@ -3,6 +3,7 @@ package db_lab.controller;
 import db_lab.model.Model;
 import db_lab.view.LoginPage;
 import db_lab.view.RestaurantsPage;
+import javax.swing.BoxLayout;
 
 import java.util.Optional;
 
@@ -29,9 +30,13 @@ public class LoginController {
 
     public void handleLogin(String username, String password) {
         // Replace this with actual authentication logic
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
         if (username.equals("admin") && password.equals("admin123")) {
             loginView.displayMessage("Login successful");
-            var resPage = new RestaurantsPage(this.loginView.getMainFrame());
+            var boxFrame = loginView.getMainFrame();
+            boxFrame.setLayout(new BoxLayout(boxFrame.getContentPane(), BoxLayout.PAGE_AXIS));
+            var resPage = new RestaurantsPage(boxFrame);
             this.resCtrl = Optional.of(new RestaurantsController(resPage, this.model));
             resPage.setController(this.resCtrl.get());
             

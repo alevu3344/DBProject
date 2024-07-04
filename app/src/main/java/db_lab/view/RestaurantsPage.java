@@ -143,9 +143,9 @@ public class RestaurantsPage {
     private void freshPane(Consumer<Container> consumer) {
         var cp = this.mainFrame.getContentPane();
         cp.removeAll();
-        consumer.accept(cp);
         cp.validate();
         cp.repaint();
+        consumer.accept(cp);
         this.mainFrame.pack();
     }
 
