@@ -3,6 +3,7 @@ package db_lab.controller;
 import db_lab.model.Model;
 import db_lab.view.FirstPage;
 import db_lab.view.RegisterPage;
+import java.util.List;
 
 import java.util.Objects;
 
@@ -23,15 +24,19 @@ public class RegisterController {
         registerView.setController(this);
     }
 
-    public void handleRegistration(String name, String surname, String address, String username, String password) {
+
+
+    public void handleRegistration(List<String> list) {
         // Replace this with actual registration logic
         // For now, just print the registration details
         System.out.println("Registration details:");
-        System.out.println("Name: " + name);
-        System.out.println("Surname: " + surname);
-        System.out.println("Address: " + address);
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
+        System.out.println("Name: " + list.get(0));
+        System.out.println("Surname: " + list.get(1));
+        System.out.println("Street: " + list.get(2));
+        System.out.println("Number: " + list.get(3));
+        System.out.println("City: " + list.get(4));
+        System.out.println("Username: " + list.get(5));
+        System.out.println("Password: " + list.get(6));
         registerView.displayMessage("Registration successful");
         // Optionally, you can proceed to another page or update the UI as needed
     }

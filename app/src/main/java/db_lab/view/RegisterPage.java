@@ -8,21 +8,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 public class RegisterPage implements ActionListener {
 
     // Components of the Form
-    private Container container;
-    private JLabel nameLabel;
-    private JLabel surnameLabel;
-    private JLabel addressLabel;
-    private JLabel usernameLabel;
-    private JLabel passwordLabel;
-    private JTextField nameTextField;
-    private JTextField surnameTextField;
-    private JTextField addressTextField;
-    private JTextField usernameTextField;
-    private JPasswordField passwordField;
+
     private JButton registerButton;
     private JButton resetButton;
     private JButton backButton;
@@ -30,33 +23,36 @@ public class RegisterPage implements ActionListener {
 
     private Optional<RegisterController> controller;
     private final JFrame mainFrame;
+    // a hashmap that maps each text field to the corresponding label
+    private HashMap<JLabel, JTextField> textFieldsMap;
 
     // Constructor to set up the GUI components
     public RegisterPage(JFrame mainFrame) {
         this.controller = Optional.empty();
         this.mainFrame = mainFrame;
         this.setupComponents();
-        this.addComponentsToFrame();
         System.out.println("Constructor of register page");
     }
 
     private void setupComponents() {
-        container = mainFrame.getContentPane();
-        container.removeAll();
-        container.validate();
-        container.repaint();
+        this.mainFrame.getContentPane().removeAll();
+        this.mainFrame.getContentPane().validate();
+        this.mainFrame.getContentPane().repaint();
+        Container container = mainFrame.getContentPane();
+        container.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        nameLabel = new JLabel("Name");
-        surnameLabel = new JLabel("Surname");
-        addressLabel = new JLabel("Address");
-        usernameLabel = new JLabel("Username");
-        passwordLabel = new JLabel("Password");
+        // add the labels and text fields to the hashmap
+        this.textFieldsMap = new LinkedHashMap<>();
 
-        nameTextField = new JTextField();
-        surnameTextField = new JTextField();
-        addressTextField = new JTextField();
-        usernameTextField = new JTextField();
-        passwordField = new JPasswordField();
+        // Adding entries to the map
+        textFieldsMap.put(new JLabel("Name:"), new JTextField());
+        textFieldsMap.put(new JLabel("Surname:"), new JTextField());
+        textFieldsMap.put(new JLabel("Street:"), new JTextField());
+        textFieldsMap.put(new JLabel("Number:"), new JTextField());
+        textFieldsMap.put(new JLabel("City:"), new JTextField());
+        textFieldsMap.put(new JLabel("Username:"), new JTextField());
+        textFieldsMap.put(new JLabel("Password:"), new JPasswordField());
 
         registerButton = new JButton("Register");
         resetButton = new JButton("Reset");
@@ -64,88 +60,87 @@ public class RegisterPage implements ActionListener {
 
         messageLabel = new JLabel("");
 
+        // Set the preferred sizes for the components
+        Dimension fieldDimension = new Dimension(200, 25);
+        this.textFieldsMap.values().forEach(textField -> textField.setPreferredSize(fieldDimension));
+        registerButton.setPreferredSize(new Dimension(100, 30));
+        resetButton.setPreferredSize(new Dimension(100, 30));
+        backButton.setPreferredSize(new Dimension(100, 30));
+
         registerButton.addActionListener(this);
         resetButton.addActionListener(this);
         backButton.addActionListener(this);
+
+        // Add components to container with GridBagConstraints
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        int row = 0; // Initial row index
+
+        for (var entry : textFieldsMap.entrySet()) {
+            JLabel lab = entry.getKey();
+            JTextField txt = entry.getValue();
+
+            gbc.gridx = 0;
+            gbc.gridy = row;
+            gbc.anchor = GridBagConstraints.LINE_END;
+            container.add(lab, gbc);
+
+            gbc.gridx = 1;
+            gbc.anchor = GridBagConstraints.LINE_START;
+            container.add(txt, gbc);
+
+            row++;
+        }
+
+        // Add buttons and message label
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(15, 0, 0, 0); // Larger top inset for spacing
+
+        container.add(registerButton, gbc);
+
+        row++;
+
+        gbc.gridy = row;
+        container.add(resetButton, gbc);
+
+        row++;
+
+        gbc.gridy = row;
+        container.add(backButton, gbc);
+
+        row++;
+
+        gbc.gridy = row;
+        container.add(messageLabel, gbc);
+
+        this.mainFrame.pack();
     }
 
     public JFrame getMainFrame() {
         return this.mainFrame;
     }
 
-    private void addComponentsToFrame() {
-        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-
-        container.add(nameLabel);
-        container.add(nameTextField);
-        container.add(surnameLabel);
-        container.add(surnameTextField);
-        container.add(addressLabel);
-        container.add(addressTextField);
-        container.add(usernameLabel);
-        container.add(usernameTextField);
-        container.add(passwordLabel);
-        container.add(passwordField);
-        container.add(registerButton);
-        container.add(resetButton);
-        container.add(backButton);
-        container.add(messageLabel);
-
-        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        surnameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addressLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        usernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        nameTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        surnameTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addressTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        usernameTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        Dimension fieldDimension = new Dimension(200, 30);
-        nameLabel.setPreferredSize(fieldDimension);
-        surnameLabel.setPreferredSize(fieldDimension);
-        addressLabel.setPreferredSize(fieldDimension);
-        usernameLabel.setPreferredSize(fieldDimension);
-        passwordLabel.setPreferredSize(fieldDimension);
-        nameTextField.setPreferredSize(fieldDimension);
-        surnameTextField.setPreferredSize(fieldDimension);
-        addressTextField.setPreferredSize(fieldDimension);
-        usernameTextField.setPreferredSize(fieldDimension);
-        passwordField.setPreferredSize(fieldDimension);
-        registerButton.setPreferredSize(new Dimension(100, 30));
-        resetButton.setPreferredSize(new Dimension(100, 30));
-        backButton.setPreferredSize(new Dimension(100, 30));
-        messageLabel.setPreferredSize(new Dimension(250, 30));
-
-        mainFrame.pack(); // Adjust frame size
-    }
-
     // Action event handler
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == registerButton) {
-            String name = nameTextField.getText();
-            String surname = surnameTextField.getText();
-            String address = addressTextField.getText();
-            String username = usernameTextField.getText();
-            String password = new String(passwordField.getPassword());
-            
+            LinkedList<String> fields = new LinkedList<>();
+
+            // get the text from the text fields and put in the fields list using a stream
+            this.textFieldsMap.forEach((label, textField) -> fields.add(textField.getText()));
+            // get the last value as the password
+            String password = fields.getLast();
+
             // Inform the controller about the registration attempt
-            controller.ifPresent(ctrl -> ctrl.handleRegistration(name, surname, address, username, password));
+            controller.ifPresent(ctrl -> ctrl.handleRegistration(fields));
         } else if (e.getSource() == resetButton) {
-            nameTextField.setText("");
-            surnameTextField.setText("");
-            addressTextField.setText("");
-            usernameTextField.setText("");
-            passwordField.setText("");
+            this.textFieldsMap.forEach((label, textField) -> textField.setText(""));
             messageLabel.setText("");
         } else if (e.getSource() == backButton) {
-            this.controller.get().handleBack();
+            controller.ifPresent(RegisterController::handleBack);
         }
     }
 

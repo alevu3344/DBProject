@@ -9,16 +9,9 @@ import java.util.Optional;
 import java.util.Objects;
 
 public class LoginController {
-    private enum AppState{
-        LOGIN_PAGE,
-        RESTAURANTS_PAGE,
-        REVIEW_PAGE,
-        ORDER_PAGE,
-    }
 
     private final Model model;
     private final LoginPage loginView;
-    private AppState appState;
     private Optional<RestaurantsController> resCtrl;
     private FirstController firstCtrl;
 
@@ -29,7 +22,6 @@ public class LoginController {
         this.loginView = loginView;
         this.model = model;
         this.firstCtrl = firstCtrl;
-        this.appState = AppState.LOGIN_PAGE;
 
         // Set this controller as the loginView's controller
         loginView.setController(this);
@@ -39,7 +31,6 @@ public class LoginController {
         // Replace this with actual authentication logic
         if (username.equals("admin") && password.equals("admin123")) {
             loginView.displayMessage("Login successful");
-            this.appState = AppState.RESTAURANTS_PAGE;
             var resPage = new RestaurantsPage(this.loginView.getMainFrame());
             this.resCtrl = Optional.of(new RestaurantsController(resPage, this.model));
             resPage.setController(this.resCtrl.get());

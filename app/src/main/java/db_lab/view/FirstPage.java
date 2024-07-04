@@ -45,6 +45,7 @@ public class FirstPage {
                 System.exit(0);
             }
         });
+        
         return frame;
     }
 
@@ -52,29 +53,37 @@ public class FirstPage {
         return this.mainFrame;
     }
 
-
     public void setController(FirstController controller) {
         this.controller = Optional.of(controller);
     }
 
     private void setupComponents() {
         this.mainFrame.getContentPane().removeAll();
+        this.mainFrame.getContentPane().validate();
+        this.mainFrame.getContentPane().repaint();
+        this.mainFrame.setLayout(new BorderLayout());
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(2, 1, 10, 10)); // 2 rows, 1 column, with gaps of 10px
-        var padding = BorderFactory.createEmptyBorder(20, 20, 20, 20);
-        buttonPanel.setBorder(padding); // Add padding around the panel
+        buttonPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around buttons
 
         loginButton = createButton("Login");
         registerButton = createButton("Register");
 
-        buttonPanel.add(loginButton);
-        buttonPanel.add(registerButton);
+        buttonPanel.add(loginButton, gbc);
 
+        gbc.gridy++;
+        buttonPanel.add(registerButton, gbc);
+
+        // Add the buttonPanel to the center of the main frame
         mainFrame.add(buttonPanel, BorderLayout.CENTER);
         mainFrame.pack();
+        mainFrame.setLocationRelativeTo(null); // Center the frame on the screen
     }
 
-    public void redraw(){
+    public void redraw() {
         this.setupComponents();
     }
 
@@ -86,6 +95,7 @@ public class FirstPage {
         button.setFocusPainted(false); // Remove focus border
         button.setBorderPainted(false); // Remove border
         button.setOpaque(true); // Make the button opaque for background color to show
+        button.setPreferredSize(new Dimension(150, 40)); // Set a smaller preferred size for the buttons
 
         // Add hover effect - change background color when mouse enters
         button.addMouseListener(new java.awt.event.MouseAdapter() {

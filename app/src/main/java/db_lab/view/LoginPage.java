@@ -12,7 +12,6 @@ import java.util.Optional;
 public class LoginPage implements ActionListener {
 
     // Components of the Form
-    private Container container;
     private JLabel userLabel;
     private JLabel passwordLabel;
     private JTextField userTextField;
@@ -30,18 +29,19 @@ public class LoginPage implements ActionListener {
         this.controller = Optional.empty();
         this.mainFrame = mainFrame;
         this.setupComponents();
-        this.addComponentsToFrame();
         System.out.println("Constructor of login page");
     }
 
     private void setupComponents() {
-        container = mainFrame.getContentPane();
-        container.removeAll();
-        container.validate();
-        container.repaint();
+        this.mainFrame.getContentPane().removeAll();
+        this.mainFrame.getContentPane().validate();
+        this.mainFrame.getContentPane().repaint();
+        Container container = mainFrame.getContentPane();
+        container.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        userLabel = new JLabel("Username");
-        passwordLabel = new JLabel("Password");
+        userLabel = new JLabel("Username:");
+        passwordLabel = new JLabel("Password:");
 
         userTextField = new JTextField();
         passwordField = new JPasswordField();
@@ -52,44 +52,54 @@ public class LoginPage implements ActionListener {
 
         messageLabel = new JLabel("");
 
+        // Set the preferred sizes for the components
+        userTextField.setPreferredSize(new Dimension(150, 25));
+        passwordField.setPreferredSize(new Dimension(150, 25));
+        loginButton.setPreferredSize(new Dimension(80, 30));
+        resetButton.setPreferredSize(new Dimension(80, 30));
+        backButton.setPreferredSize(new Dimension(80, 30));
+
         loginButton.addActionListener(this);
         resetButton.addActionListener(this);
         backButton.addActionListener(this);
+
+        // Add components to container with GridBagConstraints
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        container.add(userLabel, gbc);
+
+        gbc.gridx = 1;
+        container.add(userTextField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        container.add(passwordLabel, gbc);
+
+        gbc.gridx = 1;
+        container.add(passwordField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        container.add(loginButton, gbc);
+
+        gbc.gridx = 1;
+        container.add(resetButton, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        container.add(backButton, gbc);
+
+        gbc.gridy = 4;
+        container.add(messageLabel, gbc);
+
+        this.mainFrame.pack();
     }
 
     public JFrame getMainFrame() {
-        return this.mainFrame;
-    }
-
-    private void addComponentsToFrame() {
-        container.add(userLabel);
-        container.add(userTextField);
-        container.add(passwordLabel);
-        container.add(passwordField);
-        container.add(loginButton);
-        container.add(resetButton);
-        container.add(backButton);
-        container.add(messageLabel);
-
-        userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        userTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        userLabel.setPreferredSize(new Dimension(100, 30));
-        passwordLabel.setPreferredSize(new Dimension(100, 30));
-        userTextField.setPreferredSize(new Dimension(150, 30));
-        passwordField.setPreferredSize(new Dimension(150, 30));
-        loginButton.setPreferredSize(new Dimension(100, 30));
-        resetButton.setPreferredSize(new Dimension(100, 30));
-        backButton.setPreferredSize(new Dimension(100, 30));
-        messageLabel.setPreferredSize(new Dimension(250, 30));
-
-        this.mainFrame.pack();
+        return this.mainFrame; 
     }
 
     // Action event handler
