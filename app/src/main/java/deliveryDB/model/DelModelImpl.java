@@ -68,5 +68,10 @@ public class DelModelImpl implements DelModel{
     public boolean login(String username, String password) {
         return User.DAO.userLogin(connection, username, password);
     }
+
+    @Override
+    public boolean checkUsername(String username) {
+        return User.DAO.isUserNameAvailable(connection, username);
+    }
     
 }

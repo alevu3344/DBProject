@@ -28,6 +28,12 @@ public class RegisterController {
 
 
     public void handleRegistration(List<String> list) {
+
+        //check if username is already in use
+        if (model.checkUsername(list.get(5))) {
+            registerView.displayMessage("Username already in use");
+            return;
+        }
         System.out.println("Registration details:");
         System.out.println("Name: " + list.get(0));
         System.out.println("Surname: " + list.get(1));

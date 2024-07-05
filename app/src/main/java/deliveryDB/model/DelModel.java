@@ -31,4 +31,6 @@ public interface DelModel {
     public boolean deleteReview(int reviewID);
 
     public boolean login(String username, String password);
+
+    public boolean checkUsername(String username);
 }
