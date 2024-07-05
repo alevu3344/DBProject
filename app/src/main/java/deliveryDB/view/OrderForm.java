@@ -1,5 +1,5 @@
 package deliveryDB.view;
 
-public class RestaurantsPage {
+public class OrderForm {
     
 }

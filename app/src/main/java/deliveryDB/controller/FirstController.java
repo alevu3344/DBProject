@@ -5,7 +5,7 @@ import java.sql.Connection;
 
 import java.util.Optional;
 
-import deliveryDB.model.Model;
+import deliveryDB.model.DelModel;
 import deliveryDB.view.FirstPage;
 import deliveryDB.view.LoginPage;
 import deliveryDB.view.RegisterPage;
@@ -13,13 +13,13 @@ import deliveryDB.view.RegisterPage;
 import java.util.Objects;
 
 public class FirstController {
-    private final Model model;
+    private final DelModel model;
     private FirstPage firstPage;
     private Optional<LoginController> loginCtrl;
     private Optional<RegisterController> registerCtrl;
     private Runnable onClose;
 
-    public FirstController(Model model, Connection connection) {
+    public FirstController(DelModel model, Connection connection) {
         Objects.requireNonNull(model, "MainController created with null model");
         Objects.requireNonNull(connection, "MainController created with null connection");
         this.loginCtrl = Optional.empty();

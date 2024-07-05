@@ -2,15 +2,15 @@ package deliveryDB.controller;
 
 import deliveryDB.data.DAOException;
 import deliveryDB.data.ProductPreview;
-import deliveryDB.model.Model;
-import deliveryDB.view.RestaurantsPage;
+import deliveryDB.model.TessilandModel;
+import deliveryDB.view.PreviewPage;
 
-public class RestaurantsController {
+public class PreviewsController {
 
-    private RestaurantsPage resPage;
-    private Model model;
+    private PreviewPage resPage;
+    private TessilandModel model;
 
-    public RestaurantsController(RestaurantsPage resPage, Model model){
+    public PreviewsController(PreviewPage resPage, TessilandModel model){
         this.resPage = resPage;
         this.model = model;
         this.userRequestedInitialPage();

@@ -4,17 +4,17 @@ import java.util.List;
 
 import java.util.Objects;
 
-import deliveryDB.model.Model;
+import deliveryDB.model.DelModel;
 import deliveryDB.view.FirstPage;
 import deliveryDB.view.RegisterPage;
 
 public class RegisterController {
 
-    private final Model model;
+    private final DelModel model;
     private final RegisterPage registerView;
     private FirstController firstCtrl;
 
-    public RegisterController(RegisterPage registerView, Model model, FirstController firstCtrl) {
+    public RegisterController(RegisterPage registerView, DelModel model, FirstController firstCtrl) {
         Objects.requireNonNull(model, "RegisterController created with null model");
         Objects.requireNonNull(registerView, "RegisterController created with null registerView");
         this.model = model;
@@ -28,8 +28,6 @@ public class RegisterController {
 
 
     public void handleRegistration(List<String> list) {
-        // Replace this with actual registration logic
-        // For now, just print the registration details
         System.out.println("Registration details:");
         System.out.println("Name: " + list.get(0));
         System.out.println("Surname: " + list.get(1));

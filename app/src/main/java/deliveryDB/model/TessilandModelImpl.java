@@ -16,12 +16,12 @@ import deliveryDB.data.ProductPreview;
 // A real model might be doing much more, but for the sake of the example we're
 // keeping it simple.
 //
-public final class DBModel implements Model {
+public final class TessilandModelImpl implements TessilandModel {
 
     private final Connection connection;
     private Optional<List<ProductPreview>> previews;
 
-    public DBModel(Connection connection) {
+    public TessilandModelImpl(Connection connection) {
         Objects.requireNonNull(connection, "Model created with null connection");
         this.connection = connection;
         this.previews = Optional.empty();

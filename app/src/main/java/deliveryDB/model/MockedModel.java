@@ -17,7 +17,7 @@ import deliveryDB.data.Tag;
 // This can be handy to test out our application's look and feel without having
 // to setup a database connection.
 //
-public final class MockedModel implements Model {
+public final class MockedModel implements TessilandModel {
 
     private Map<ProductPreview, Product> previews;
 

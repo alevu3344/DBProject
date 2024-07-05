@@ -51,15 +51,23 @@ public final class Queries {
     public static final String USERNAME_AVAILABILITY_CHECK =
         """
         SELECT u.username
-        FROM USER u
-        WHERE u.username = ?
-        """;
-    public static final String AUTHENTICATION =
-        """
-        SELECT u.username, u.password
-        FROM USER u
+        FROM UTENTI u
         WHERE u.username = ?
         """;
 
-  
+    public static final String USER_LOGIN =
+        """
+        SELECT u.username
+        FROM UTENTI u
+        WHERE u.username = ? AND u.password = ?
+        """;
+
+
+    public static final String USER_REGISTER =
+        """
+        INSERT INTO UTENTI (Username, Password, Nome, Cognome, IndirizzoVia, IndirizzoCivico, IndirizzoCittà)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """;
+        
+
 }

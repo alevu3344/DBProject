@@ -10,8 +10,8 @@ import deliveryDB.data.Review;
 public interface DelModel {
     // Create a model that connects to a database using the given connection.
     //
-    public static Model fromConnection(Connection connection) {
-        return new DBModel(connection);
+    public static DelModel fromConnection(Connection connection) {
+        return new DelModelImpl(connection);
     }
 
     public boolean sendOrder(Order order);
@@ -29,4 +29,6 @@ public interface DelModel {
     public boolean deliverOrder(Order order);
 
     public boolean deleteReview(int reviewID);
+
+    public boolean login(String username, String password);
 }
