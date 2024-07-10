@@ -15,7 +15,6 @@ import java.util.LinkedList;
 public class RegisterPage implements ActionListener {
 
     // Components of the Form
-
     private JButton registerButton;
     private JButton resetButton;
     private JButton backButton;
@@ -51,6 +50,7 @@ public class RegisterPage implements ActionListener {
         textFieldsMap.put(new JLabel("Street:"), new JTextField());
         textFieldsMap.put(new JLabel("Number:"), new JTextField());
         textFieldsMap.put(new JLabel("City:"), new JTextField());
+        //textFieldsMap.put(new JLabel("Email:"), new JTextField()); // Add email field
         textFieldsMap.put(new JLabel("Username:"), new JTextField());
         textFieldsMap.put(new JLabel("Password:"), new JPasswordField());
 
@@ -136,7 +136,7 @@ public class RegisterPage implements ActionListener {
             this.textFieldsMap.forEach((label, textField) -> textField.setText(""));
             messageLabel.setText("");
         } else if (e.getSource() == backButton) {
-            controller.ifPresent(RegisterController::handleBack);
+            controller.ifPresent(ctrl -> ctrl.handleBack());
         }
     }
 

@@ -79,13 +79,13 @@ CREATE TABLE Recensione (
     FOREIGN KEY (RistoranteID) REFERENCES Ristorante(RistoranteID)
 );
 
--- Creazione della tabella AssegnazioneConsegna
+
 CREATE TABLE AssegnazioneConsegna (
-    AssegnazioneID INT PRIMARY KEY AUTO_INCREMENT,
     OrdineID INT NOT NULL,
     DeliveryManUsername VARCHAR(50) NOT NULL,
     DataOraAssegnazione DATETIME,
     DataOraConsegna DATETIME,
+    PRIMARY KEY (OrdineID, DeliveryManUsername),
     FOREIGN KEY (OrdineID) REFERENCES Ordine(OrdineID),
     FOREIGN KEY (DeliveryManUsername) REFERENCES Utente(Username)
 );
