@@ -3,6 +3,11 @@ package deliveryDB.data;
 import java.sql.Connection;
 
 public class User {
+
+    public enum USER_TYPE {
+        CUSTOMER,
+        DELIVERY_PERSON
+    }
     
 
 

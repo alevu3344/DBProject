@@ -4,6 +4,8 @@ import java.util.List;
 
 import java.util.Objects;
 
+import deliveryDB.data.User;
+import deliveryDB.data.User.USER_TYPE;
 import deliveryDB.model.DelModel;
 import deliveryDB.view.FirstPage;
 import deliveryDB.view.RegisterPage;
@@ -27,7 +29,7 @@ public class RegisterController {
 
 
 
-    public void handleRegistration(List<String> list) {
+    public void handleRegistration(User.USER_TYPE type, List<String> list) {
 
         //check if username is already in use
         if (model.checkUsername(list.get(5))) {
@@ -42,6 +44,7 @@ public class RegisterController {
         System.out.println("City: " + list.get(4));
         System.out.println("Username: " + list.get(5));
         System.out.println("Password: " + list.get(6));
+        System.out.println("Type: " + type);
         registerView.displayMessage("Registration successful");
         // Optionally, you can proceed to another page or update the UI as needed
     }

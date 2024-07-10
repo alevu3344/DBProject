@@ -3,6 +3,7 @@ package deliveryDB.view;
 import javax.swing.*;
 
 import deliveryDB.controller.RegisterController;
+import deliveryDB.data.User;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,7 @@ public class RegisterPage implements ActionListener {
     private JButton resetButton;
     private JButton backButton;
     private JLabel messageLabel;
+    private JCheckBox deliveryManCheckBox;  // Add the checkbox
 
     private Optional<RegisterController> controller;
     private final JFrame mainFrame;
@@ -58,6 +60,8 @@ public class RegisterPage implements ActionListener {
         resetButton = new JButton("Reset");
         backButton = new JButton("Back");
 
+        deliveryManCheckBox = new JCheckBox("Register as a delivery man"); // Initialize the checkbox
+
         messageLabel = new JLabel("");
 
         // Set the preferred sizes for the components
@@ -91,6 +95,15 @@ public class RegisterPage implements ActionListener {
 
             row++;
         }
+
+        // Add the checkbox
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridwidth = 2;
+        container.add(deliveryManCheckBox, gbc);
+
+        row++;
 
         // Add buttons and message label
         gbc.gridx = 0;
@@ -131,9 +144,13 @@ public class RegisterPage implements ActionListener {
 
             // get the text from the text fields and put in the fields list using a stream
             this.textFieldsMap.forEach((label, textField) -> fields.add(textField.getText()));
-            controller.ifPresent(ctrl -> ctrl.handleRegistration(fields));
+            
+    
+            
+            controller.ifPresent(ctrl -> ctrl.handleRegistration( deliveryManCheckBox.isSelected() ? User.USER_TYPE.DELIVERY_PERSON : User.USER_TYPE.CUSTOMER , fields));
         } else if (e.getSource() == resetButton) {
             this.textFieldsMap.forEach((label, textField) -> textField.setText(""));
+            deliveryManCheckBox.setSelected(false);  // Reset the checkbox
             messageLabel.setText("");
         } else if (e.getSource() == backButton) {
             controller.ifPresent(ctrl -> ctrl.handleBack());
