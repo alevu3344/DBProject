@@ -13,11 +13,9 @@ import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
 
-public class DelModelImpl implements DelModel{
-
+public class DelModelImpl implements DelModel {
 
     private final Connection connection;
-
 
     public DelModelImpl(Connection connection) {
         Objects.requireNonNull(connection, "Model created with null connection");
@@ -51,7 +49,7 @@ public class DelModelImpl implements DelModel{
 
     @Override
     public boolean deliverOrder(Order order) {
-        return false;   
+        return false;
     }
 
     @Override
@@ -70,8 +68,9 @@ public class DelModelImpl implements DelModel{
     }
 
     @Override
-    public boolean checkUsername(String username) {
-        return User.DAO.isUserNameAvailable(connection, username);
+    public boolean userRegister(User.USER_TYPE type, String username, String name, String surname, String password, String street,
+            String number, String city) {
+        return User.DAO.userRegister(connection,type, username, password, name, surname, street, number, city);
     }
-    
+
 }

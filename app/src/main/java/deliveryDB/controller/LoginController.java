@@ -31,17 +31,15 @@ public class LoginController {
     }
 
     public void handleLogin(String username, String password) {
-        // Replace this with actual authentication logic
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
+
         //If username and password are correct in the UTENTI table in the database, then login is successful    
         if (this.model.login(username, password)) {
             loginView.displayMessage("Login successful");
-            var boxFrame = loginView.getMainFrame();
-            boxFrame.setLayout(new BoxLayout(boxFrame.getContentPane(), BoxLayout.PAGE_AXIS));
-            var previewPage = new PreviewPage(boxFrame);
+            //var boxFrame = loginView.getMainFrame();
+            //boxFrame.setLayout(new BoxLayout(boxFrame.getContentPane(), BoxLayout.PAGE_AXIS));
+            //var previewPage = new PreviewPage(boxFrame);
             //this.resCtrl = Optional.of(new PreviewsController(previewPage, this.model));
-            previewPage.setController(this.resCtrl.get());
+            //previewPage.setController(this.resCtrl.get());
             
         } else {
             loginView.displayMessage("Invalid username or password");

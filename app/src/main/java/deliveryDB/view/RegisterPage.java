@@ -47,14 +47,14 @@ public class RegisterPage implements ActionListener {
         this.textFieldsMap = new LinkedHashMap<>();
 
         // Adding entries to the map
-        textFieldsMap.put(new JLabel("Name:"), new JTextField());
-        textFieldsMap.put(new JLabel("Surname:"), new JTextField());
-        textFieldsMap.put(new JLabel("Street:"), new JTextField());
-        textFieldsMap.put(new JLabel("Number:"), new JTextField());
-        textFieldsMap.put(new JLabel("City:"), new JTextField());
-        //textFieldsMap.put(new JLabel("Email:"), new JTextField()); // Add email field
         textFieldsMap.put(new JLabel("Username:"), new JTextField());
+        textFieldsMap.put(new JLabel("Nome:"), new JTextField());
+        textFieldsMap.put(new JLabel("Cognome:"), new JTextField());
         textFieldsMap.put(new JLabel("Password:"), new JPasswordField());
+        textFieldsMap.put(new JLabel("Via:"), new JTextField());
+        //textFieldsMap.put(new JLabel("Email:"), new JTextField()); // Add email field
+        textFieldsMap.put(new JLabel("Civico:"), new JTextField());
+        textFieldsMap.put(new JLabel("Città:"), new JTextField());
 
         registerButton = new JButton("Register");
         resetButton = new JButton("Reset");

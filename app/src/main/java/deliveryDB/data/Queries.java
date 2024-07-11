@@ -65,8 +65,8 @@ public final class Queries {
 
     public static final String USER_REGISTER =
         """
-        INSERT INTO UTENTI (Username, Password, Nome, Cognome, IndirizzoVia, IndirizzoCivico, IndirizzoCittà)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO UTENTI (Username, Password, Nome, Cognome, IndirizzoVia, IndirizzoCivico, IndirizzoCittà, Ruolo)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """;
         
 

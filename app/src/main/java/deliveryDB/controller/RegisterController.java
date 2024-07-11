@@ -31,22 +31,20 @@ public class RegisterController {
 
     public void handleRegistration(User.USER_TYPE type, List<String> list) {
 
-        //check if username is already in use
-        if (model.checkUsername(list.get(5))) {
-            registerView.displayMessage("Username already in use");
-            return;
+        var success = this.model.userRegister(type, list.get(0), 
+                                list.get(1), 
+                                list.get(2), 
+                                list.get(3), 
+                                list.get(4), 
+                                list.get(5), 
+                                list.get(6)
+                                );
+        if (success) {
+            this.firstCtrl.backToFirstPage();
+        } else {
+            this.registerView.displayMessage("Username already exists!");
         }
-        System.out.println("Registration details:");
-        System.out.println("Name: " + list.get(0));
-        System.out.println("Surname: " + list.get(1));
-        System.out.println("Street: " + list.get(2));
-        System.out.println("Number: " + list.get(3));
-        System.out.println("City: " + list.get(4));
-        System.out.println("Username: " + list.get(5));
-        System.out.println("Password: " + list.get(6));
-        System.out.println("Type: " + type);
-        registerView.displayMessage("Registration successful");
-        // Optionally, you can proceed to another page or update the UI as needed
+                
     }
 
     public void handleBack(){

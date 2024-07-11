@@ -6,6 +6,7 @@ import deliveryDB.data.Item;
 import deliveryDB.data.Order;
 import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
+import deliveryDB.data.User;
 
 public interface DelModel {
     // Create a model that connects to a database using the given connection.
@@ -32,5 +33,5 @@ public interface DelModel {
 
     public boolean login(String username, String password);
 
-    public boolean checkUsername(String username);
+    public boolean userRegister(User.USER_TYPE type, String username, String name, String surname,String password, String street, String number, String city);
 }
