@@ -12,6 +12,7 @@ import deliveryDB.data.ProductPreview;
 import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
+import deliveryDB.utilities.Pair;
 
 public class DelModelImpl implements DelModel {
 
@@ -34,8 +35,8 @@ public class DelModelImpl implements DelModel {
     }
 
     @Override
-    public List<Restaurant> getRestaurants() {
-        return null;
+    public List<Pair<String, Integer>> getRestaurants() {
+        return Restaurant.DAO.listRestaurants(connection).orElse(List.of());
     }
 
     @Override

@@ -7,6 +7,7 @@ import deliveryDB.data.Order;
 import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
+import deliveryDB.utilities.Pair;
 
 public interface DelModel {
     // Create a model that connects to a database using the given connection.
@@ -19,7 +20,7 @@ public interface DelModel {
 
     public boolean acceptOrder(Order order);
 
-    public List<Restaurant> getRestaurants();
+    public List<Pair<String, Integer>> getRestaurants();
 
     public List<Item> getMenuFor(int RestaurantID);
 
