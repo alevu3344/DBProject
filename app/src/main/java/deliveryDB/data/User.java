@@ -4,12 +4,20 @@ import java.sql.Connection;
 
 public class User {
 
+    private final USER_TYPE type;
+    private final String username;
+    private final String name;
+    private final String surname;
+    private final String street;
+    private final String number;
+    private final String city;
+
     public enum USER_TYPE {
         CUSTOMER,
         DELIVERY_PERSON,
         ADMIN;
 
-        public USER_TYPE fromString(String type) {
+        public static USER_TYPE fromString(String type) {
             return switch (type) {
                 case "Consumatore" -> CUSTOMER;
                 case "Fattorino" -> DELIVERY_PERSON;
@@ -26,9 +34,31 @@ public class User {
             };
         }
     }
+
+    public User(USER_TYPE type, String username, String name, String surname, String street, String number, String city) {
+        this.type = type;
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.street = street;
+        this.number = number;
+        this.city = city;
+    }
+
+    //Custom toString that ovverids the default one
+    @Override   
+    public String toString() {
+        return "User{" +
+                "type=" + type +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", street='" + street + '\'' +
+                ", number='" + number + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
     
-
-
     public final class DAO {
 
         public static boolean isUserNameAvailable(Connection connection, String username) {
@@ -63,6 +93,20 @@ public class User {
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
+            }
+        }
+
+        public static User getUser(Connection connection, String username) {
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.USER_DETAILS, username);
+                var result = statement.executeQuery();
+                if (result.next()) {
+                    return new User(User.USER_TYPE.fromString(result.getString("Ruolo")), result.getString("Username"), result.getString("Nome"), result.getString("Cognome"), result.getString("IndirizzoVia"), result.getString("IndirizzoCivico"), result.getString("IndirizzoCittà"));
+                }
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
             }
         }
     }

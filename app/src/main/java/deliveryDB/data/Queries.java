@@ -68,6 +68,12 @@ public final class Queries {
         INSERT INTO UTENTI (Username, Password, Nome, Cognome, IndirizzoVia, IndirizzoCivico, IndirizzoCittà, Ruolo)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """;
+    public static final String USER_DETAILS =
+        """
+        SELECT u.username, u.nome, u.cognome, u.indirizzoVia, u.indirizzoCivico, u.indirizzoCittà, u.ruolo
+        FROM UTENTI u
+        WHERE u.username = ?
+        """;
         
 
 }

@@ -16,6 +16,7 @@ import deliveryDB.data.User;
 public class DelModelImpl implements DelModel {
 
     private final Connection connection;
+    private Optional<User> user = Optional.empty();
 
     public DelModelImpl(Connection connection) {
         Objects.requireNonNull(connection, "Model created with null connection");
@@ -64,7 +65,13 @@ public class DelModelImpl implements DelModel {
 
     @Override
     public boolean login(String username, String password) {
-        return User.DAO.userLogin(connection, username, password);
+        var tempUserName = username;
+        if(User.DAO.userLogin(connection, username, password)){
+            this.user = Optional.of(User.DAO.getUser(connection, username));
+            System.out.println(this.user.get().toString());
+            return true;
+        }
+        return false;
     }
 
     @Override
