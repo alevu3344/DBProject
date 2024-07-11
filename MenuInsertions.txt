@@ -1,3 +1,168 @@
+INSERT INTO UTENTI (Username, Nome, Cognome, Password, IndirizzoVia, IndirizzoCivico, IndirizzoCittà, Ruolo, Balance)
+VALUES
+('mario.rossi', 'Mario', 'Rossi', 'password123', 'Via Roma', '10', 'Roma', 'Amministratore', 1000.00),
+('luca.verdi', 'Luca', 'Verdi', 'verdi123', 'Via Garibaldi', '5', 'Milano', 'Consumatore', 500.00),
+('francesca.bianchi', 'Francesca', 'Bianchi', 'bianchi456', 'Corso Italia', '15', 'Torino', 'Consumatore', 750.00),
+('giuseppe.ferrari', 'Giuseppe', 'Ferrari', 'ferrari789', 'Via Dante', '30', 'Firenze', 'Fattorino', 0.00),
+('eleonora.romano', 'Eleonora', 'Romano', 'romano321', 'Via Garibaldi', '25', 'Napoli', 'Consumatore', 250.00),
+('andrea.gallo', 'Andrea', 'Gallo', 'gallo567', 'Via Mazzini', '12', 'Bologna', 'Consumatore', 320.00),
+('giulia.marini', 'Giulia', 'Marini', 'marini890', 'Via Veneto', '8', 'Palermo', 'Consumatore', 150.00),
+('marco.conti', 'Marco', 'Conti', 'conti234', 'Via Roma', '3', 'Genova', 'Consumatore', 430.00),
+('laura.galli', 'Laura', 'Galli', 'galli567', 'Corso Vittorio Emanuele', '20', 'Catania', 'Consumatore', 200.00),
+('simone.rizzo', 'Simone', 'Rizzo', 'rizzo567', 'Via Garibaldi', '18', 'Milano', 'Consumatore', 300.00),
+('anna.rossi', 'Anna', 'Rossi', 'rossi890', 'Corso Vittorio Emanuele', '45', 'Roma', 'Consumatore', 180.00),
+('maria.ferraro', 'Maria', 'Ferraro', 'ferraro123', 'Via Verdi', '7', 'Napoli', 'Fattorino', 0.00),
+('luigi.rossi', 'Luigi', 'Rossi', 'rossi456', 'Via Garibaldi', '22', 'Torino', 'Consumatore', 400.00),
+('giovanna.romano', 'Giovanna', 'Romano', 'romano789', 'Via Dante Alighieri', '14', 'Firenze', 'Consumatore', 270.00),
+('paolo.bianchi', 'Paolo', 'Bianchi', 'bianchi234', 'Corso Italia', '30', 'Milano', 'Consumatore', 520.00),
+('elisa.gatti', 'Elisa', 'Gatti', 'gatti567', 'Via Garibaldi', '9', 'Roma', 'Consumatore', 380.00),
+('roberto.marini', 'Roberto', 'Marini', 'marini345', 'Via Mazzini', '5', 'Bologna', 'Consumatore', 290.00),
+('serena.conti', 'Serena', 'Conti', 'conti678', 'Via Roma', '17', 'Napoli', 'Consumatore', 210.00),
+('fabio.gallo', 'Fabio', 'Gallo', 'gallo123', 'Corso Vittorio Emanuele', '25', 'Palermo', 'Consumatore', 350.00),
+('rita.pellegrini', 'Rita', 'Pellegrini', 'pellegrini456', 'Via Veneto', '11', 'Genova', 'Consumatore', 240.00),
+('andrea.vitali', 'Andrea', 'Vitali', 'vitali789', 'Via Garibaldi', '6', 'Catania', 'Consumatore', 410.00),
+('sara.longo', 'Sara', 'Longo', 'longo234', 'Corso Italia', '40', 'Milano', 'Consumatore', 480.00),
+('lorenzo.leone', 'Lorenzo', 'Leone', 'leone567', 'Via Garibaldi', '13', 'Roma', 'Consumatore', 320.00);
+
+
+
+
+
+
+
+INSERT INTO RISTORANTI (Nome, OraApertura, OraChiusura, TipologiaCucina, IndirizzoVia, IndirizzoCivico, IndirizzoCittà)
+VALUES
+('Trattoria da Mario', '12:00:00', '22:00:00', 'Italiana', 'Via Roma', '10', 'Roma'),
+('Ristorante del Porto', '11:30:00', '23:00:00', 'Frutti di mare', 'Lungomare Vesuvio', '1', 'Napoli'),
+('La Pizzeria di Napoli', '18:00:00', '23:30:00', 'Pizza', 'Via dei Mille', '5', 'Napoli'),
+('Ristorante La Florentina', '13:00:00', '21:30:00', 'Toscana', 'Via dei Calzaiuoli', '25', 'Firenze'),
+('Osteria dei Sapori', '12:30:00', '22:30:00', 'Emiliana', 'Via delle Belle Arti', '8', 'Bologna'),
+('Trattoria Siciliana', '12:00:00', '23:00:00', 'Siciliana', 'Via Vittorio Emanuele', '15', 'Palermo'),
+('Ristorante da Genova', '11:00:00', '22:00:00', 'Ligure', 'Piazza De Ferrari', '3', 'Genova'),
+('Sushi Master', '19:00:00', '00:00:00', 'Giapponese', 'Corso Italia', '15', 'Milano'),
+('La Taverna del Piemonte', '12:30:00', '22:30:00', 'Piemontese', 'Via Roma', '12', 'Torino'),
+('Pizzeria di Franco', '18:00:00', '23:30:00', 'Pizza', 'Via Cavour', '30', 'Milano'),
+('Ristorante della Nonna', '12:00:00', '22:00:00', 'Italiana', 'Via Garibaldi', '18', 'Roma'),
+('Ristorante Mare e Monti', '11:30:00', '23:00:00', 'Mediterranea', 'Lungomare Adriatico', '2', 'Bari'),
+('La Trattoria di Venezia', '18:00:00', '23:30:00', 'Veneta', 'Fondamenta della Misericordia', '7', 'Venezia'),
+('Ristorante del Sud', '13:00:00', '21:30:00', 'Siciliana', 'Via Etna', '10', 'Catania'),
+('Osteria Toscanella', '12:30:00', '22:30:00', 'Toscana', 'Via dei Neri', '8', 'Firenze'),
+('Ristorante dei Sapori', '12:00:00', '23:00:00', 'Italiana', 'Via Veneto', '5', 'Roma'),
+('Sushi Time', '19:00:00', '00:00:00', 'Giapponese', 'Corso Umberto I', '20', 'Milano'),
+('Eccomi Kebab', '12:30:00', '22:30:00', 'Piemontese', 'Via Garibaldi', '10', 'Torino'),
+('Ramen Bar', '18:00:00', '23:30:00', 'Pizza', 'Via Roma', '15', 'Napoli');
+
+
+
+INSERT INTO RECENSIONI (Voto, Commento, DataOra, Username, RistoranteID)
+VALUES
+(4, 'Ottimo cibo e servizio rapido!', '2024-07-10 15:30:00', 'luca.verdi', 2),
+(5, 'Ambiente accogliente e piatti deliziosi.', '2024-07-09 19:45:00', 'francesca.bianchi', 1),
+(3, 'Pizza buona ma un po\' fredda.', '2024-07-11 13:00:00', 'andrea.gallo', 3),
+(4, 'Cucina tradizionale toscana, consigliato!', '2024-07-08 20:00:00', 'paolo.bianchi', 4),
+(5, 'Molto soddisfatto del pesce fresco.', '2024-07-07 21:15:00', 'giuseppe.ferrari', 2),
+(2, 'Servizio lento e piatti poco gustosi.', '2024-07-10 18:30:00', 'simone.rizzo', 5),
+(4, 'Locale pulito e personale cortese.', '2024-07-09 14:00:00', 'maria.ferraro', 6),
+(5, 'Fantastico sushi fresco e varietà di piatti.', '2024-07-11 19:00:00', 'laura.galli', 8),
+(3, 'Buona pizza ma un po\' rumoroso il locale.', '2024-07-10 21:30:00', 'giovanna.romano', 10),
+(4, 'Piatti siciliani autentici, prezzi giusti.', '2024-07-09 12:45:00', 'andrea.vitali', 6),
+(5, 'Piatti piemontesi eccellenti, da provare!', '2024-07-08 20:45:00', 'sara.longo', 9),
+(4, 'Ambiente romantico e cucina deliziosa.', '2024-07-07 19:30:00', 'lorenzo.leone', 11),
+(3, 'Pizze non eccezionali ma buon rapporto qualità/prezzo.', '2024-07-10 13:15:00', 'rita.pellegrini', 12),
+(5, 'Cibo siciliano fresco e gustoso.', '2024-07-11 14:30:00', 'fabio.gallo', 13),
+(4, 'Atmosfera accogliente e buona selezione di vini.', '2024-07-09 22:00:00', 'elisa.gatti', 14),
+(2, 'Sushi scadente, non tornerei.', '2024-07-10 20:00:00', 'roberto.marini', 8),
+(5, 'Servizio impeccabile e piatti raffinati.', '2024-07-11 18:30:00', 'serena.conti', 15),
+(4, 'Buona pizza e staff gentile.', '2024-07-09 16:45:00', 'giulia.marini', 10),
+(3, 'Molto caro per la qualità offerta.', '2024-07-08 21:00:00', 'marco.conti', 12),
+(5, 'Mangiato benissimo, consigliatissimo!', '2024-07-07 19:00:00', 'giulia.marini', 2);
+
+
+
+
+INSERT INTO ORDINI (DataOra, Username, RistoranteID, Stato)
+VALUES
+('2024-07-10 12:30:00', 'luca.verdi', 2, 'Stallo'),
+('2024-07-09 19:00:00', 'francesca.bianchi', 1, 'Consegna'),
+('2024-07-11 13:45:00', 'andrea.gallo', 3, 'Stallo'),
+('2024-07-08 20:15:00', 'paolo.bianchi', 4, 'Consegna'),
+('2024-07-07 21:30:00', 'giuseppe.ferrari', 2, 'Consegnato'),
+('2024-07-10 18:00:00', 'simone.rizzo', 5, 'Stallo'),
+('2024-07-09 14:30:00', 'maria.ferraro', 6, 'Consegna'),
+('2024-07-11 19:30:00', 'laura.galli', 8, 'Stallo'),
+('2024-07-10 21:00:00', 'giovanna.romano', 10, 'Stallo'),
+('2024-07-09 12:00:00', 'andrea.vitali', 6, 'Consegna'),
+('2024-07-08 20:30:00', 'sara.longo', 9, 'Stallo'),
+('2024-07-07 19:15:00', 'lorenzo.leone', 11, 'Consegna'),
+('2024-07-10 13:45:00', 'rita.pellegrini', 12, 'Stallo'),
+('2024-07-11 14:00:00', 'fabio.gallo', 13, 'Consegna'),
+('2024-07-09 22:15:00', 'elisa.gatti', 14, 'Stallo'),
+('2024-07-10 20:30:00', 'roberto.marini', 8, 'Consegna'),
+('2024-07-11 18:45:00', 'serena.conti', 15, 'Stallo'),
+('2024-07-09 16:30:00', 'giulia.marini', 10, 'Stallo'),
+('2024-07-08 21:15:00', 'marco.conti', 12, 'Consegna'),
+('2024-07-07 19:30:00', 'giulia.marini', 2, 'Stallo');
+
+
+
+
+-- Popolamento della tabella DETTAGLI_ORDINI
+INSERT INTO DETTAGLI_ORDINI (OrdineID, ElementoMenuID, RistoranteID, Quantità)
+VALUES
+(1, 1, 1, 2),
+(2, 2, 2, 1),
+(3, 3, 3, 1),
+(4, 4, 4, 2),
+(5, 5, 2, 1),
+(6, 6, 5, 1),
+(7, 7, 3, 1),
+(8, 8, 8, 1),
+(9, 9, 10, 2),
+(10, 10, 6, 1),
+(11, 11, 2, 1),
+(12, 12, 12, 1),
+(13, 13, 8, 1),
+(14, 14, 6, 2),
+(15, 15, 14, 1),
+(16, 8, 8, 1),
+(17, 7, 3, 1),
+(18, 5, 10, 1),
+(19, 3, 12, 2),
+(20, 2, 2, 1);
+
+
+INSERT INTO ASSEGNAZIONI_CONSEGNE (OrdineID, DeliveryManUsername, DataOraAssegnazione, DataOraConsegna)
+VALUES
+(1, 'giuseppe.ferrari', '2024-07-10 12:45:00', '2024-07-10 13:15:00'),
+(2, 'marco.conti', '2024-07-09 19:30:00', '2024-07-09 20:00:00'),
+(3, 'paolo.bianchi', '2024-07-11 14:00:00', NULL),
+(4, 'sara.longo', '2024-07-08 20:30:00', '2024-07-08 21:00:00'),
+(5, 'giuseppe.ferrari', '2024-07-07 21:45:00', '2024-07-07 22:15:00'),
+(6, 'marco.conti', '2024-07-10 18:30:00', '2024-07-10 19:00:00'),
+(7, 'maria.ferraro', '2024-07-09 14:45:00', '2024-07-09 15:15:00'),
+(8, 'laura.galli', '2024-07-11 19:45:00', NULL),
+(9, 'andrea.vitali', '2024-07-10 21:15:00', NULL),
+(10, 'sara.longo', '2024-07-09 12:15:00', '2024-07-09 12:45:00'),
+(11, 'lorenzo.leone', '2024-07-08 19:45:00', '2024-07-08 20:15:00'),
+(12, 'marco.conti', '2024-07-07 19:45:00', '2024-07-07 20:15:00'),
+(13, 'fabio.gallo', '2024-07-11 14:15:00', '2024-07-11 14:45:00'),
+(14, 'elisa.gatti', '2024-07-09 22:30:00', '2024-07-09 23:00:00'),
+(15, 'roberto.marini', '2024-07-10 20:45:00', '2024-07-10 21:15:00'),
+(16, 'serena.conti', '2024-07-11 18:30:00', NULL),
+(17, 'giuseppe.ferrari', '2024-07-09 16:45:00', '2024-07-09 17:15:00'),
+(18, 'andrea.vitali', '2024-07-08 21:30:00', NULL),
+(19, 'maria.ferr
+
+
+
+
+
+
+
+
+
+
+
 -- Inserimenti per il ristorante con RistoranteID = 1
 INSERT INTO ELEMENTI (ElementoMenuID, Nome, Prezzo, Tipo, RistoranteID)
 VALUES

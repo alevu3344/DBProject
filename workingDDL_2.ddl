@@ -70,17 +70,15 @@ CREATE TABLE ASSEGNAZIONI_CONSEGNE (
     FOREIGN KEY (DeliveryManUsername) REFERENCES UTENTI(Username)
 );
 
--- Creazione della tabella RECENSIONI
+-- Creazione della tabella RECENSIONI con chiave primaria composta
 CREATE TABLE RECENSIONI (
-    RecensioneID INT PRIMARY KEY AUTO_INCREMENT,
+    Username VARCHAR(50),
+    DataOra DATETIME NOT NULL,
+    RistoranteID INT NOT NULL,
     Voto INT NOT NULL CHECK (Voto BETWEEN 1 AND 5),
     Commento TEXT,
-    DataOra DATETIME NOT NULL,
-    Username VARCHAR(50) NOT NULL,
-    RistoranteID INT NOT NULL,
+    PRIMARY KEY (Username, DataOra, RistoranteID),
     FOREIGN KEY (Username) REFERENCES UTENTI(Username),
     FOREIGN KEY (RistoranteID) REFERENCES RISTORANTI(RistoranteID)
 );
-
-
 
