@@ -2,35 +2,34 @@ package deliveryDB.view;
 
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import deliveryDB.controller.ResPreviewCtrl;
-
-import javax.swing.*;
-import java.util.function.Consumer;
-import deliveryDB.utilities.Pair;
 import java.util.LinkedHashMap;
-import java.awt.Component;
-import deliveryDB.data.Item;
 import java.util.Map;
+import javax.swing.*;
+import java.awt.*;
 
-public class ResPreview {
+import deliveryDB.controller.ResMenuCtrl;
+import deliveryDB.data.Item;
+
+public class ResMenu {
 
     private final JFrame mainFrame;
-    private Optional<ResPreviewCtrl> controller;
+    private Optional<ResMenuCtrl> controller;
     private Map<Item, Integer> itemQuantityMap;
+    private JTextArea orderSummaryArea;
+    private JLabel totalCostLabel; // Label for total cost
 
-    public ResPreview(JFrame mainFrame) {
+    public ResMenu(JFrame mainFrame) {
         this.controller = Optional.empty();
         this.mainFrame = mainFrame;
+        this.orderSummaryArea = new JTextArea();
+        this.orderSummaryArea.setLineWrap(true);
+        this.totalCostLabel = new JLabel("Total: $0.0"); // Initialize total cost label
+        orderSummaryArea.setEditable(false);
     }
 
     public void setItemMap(List<Item> list) {
@@ -39,11 +38,9 @@ public class ResPreview {
         itemQuantityMap.entrySet().forEach(e -> System.out.println(e.getKey().getName() + " " + e.getKey().getType()));
     }
 
-    public void setController(ResPreviewCtrl ctrl) {
+    public void setController(ResMenuCtrl ctrl) {
         this.controller = Optional.of(ctrl);
     }
-
-    // List the menu for the restaurant
 
     private void freshPane(Consumer<Container> consumer) {
         var cp = this.mainFrame.getContentPane();
@@ -57,8 +54,9 @@ public class ResPreview {
 
     public void displayMenu() {
         freshPane(cp -> {
-            var mainBox = Box.createVerticalBox();
+            var mainPanel = Box.createHorizontalBox(); // Create a horizontal box to hold menu and summary
 
+            var mainBox = Box.createVerticalBox();
             for (var item : this.itemQuantityMap.keySet()) {
                 var rowBox = Box.createHorizontalBox();
 
@@ -79,6 +77,7 @@ public class ResPreview {
                 spinner.setMaximumSize(new Dimension(50, 30));
                 spinner.addChangeListener(e -> {
                     this.itemQuantityMap.put(item, (Integer) spinner.getValue());
+                    updateOrderSummary();
                 });
                 spinner.setAlignmentX(Component.LEFT_ALIGNMENT);
                 rowBox.add(Box.createHorizontalStrut(10));
@@ -95,25 +94,63 @@ public class ResPreview {
                 rowBox.setAlignmentX(Component.LEFT_ALIGNMENT);
                 mainBox.add(rowBox);
             }
-
             mainBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 
             // Wrap mainBox in a JScrollPane
             var scrollPane = new JScrollPane(mainBox);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-            // Set preferred size for the scroll pane
             scrollPane.setPreferredSize(new Dimension(600, 600)); // Adjust the size as needed
 
-            // Add the scroll pane to the content pane
-            cp.add(scrollPane);
+            mainPanel.add(scrollPane);
+
+            // Create the order summary panel
+            var orderSummaryPanel = createOrderSummaryPanel();
+            mainPanel.add(orderSummaryPanel);
+
+            cp.add(mainPanel);
             // Add back button
             this.addBackButton(cp);
         });
     }
 
-    
+    private JPanel createOrderSummaryPanel() {
+        var orderSummaryPanel = new JPanel();
+        orderSummaryPanel.setLayout(new BoxLayout(orderSummaryPanel, BoxLayout.Y_AXIS));
+        orderSummaryPanel.setPreferredSize(new Dimension(200, 200));
+        orderSummaryPanel.setMaximumSize(new Dimension(200, 200));
+        orderSummaryPanel.add(new JLabel("Order Summary:"));
+        orderSummaryArea.setPreferredSize(new Dimension(200, 200));
+        var scrollPane = new JScrollPane(orderSummaryArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        orderSummaryPanel.add(scrollPane);
+        orderSummaryPanel.add(totalCostLabel); // Add total cost label to the panel
+        //locate the panel at the top right corner
+        orderSummaryPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        orderSummaryPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+        return orderSummaryPanel;
+    }
+
+    private void updateOrderSummary() {
+        StringBuilder summary = new StringBuilder();
+        double totalCost = 0.0;
+        for (var entry : itemQuantityMap.entrySet()) {
+            if (entry.getValue() > 0) {
+                summary.append(entry.getKey().getName())
+                       .append(" (")
+                       .append(entry.getKey().getType())
+                       .append("): ")
+                       .append(entry.getValue())
+                       .append(" x ")
+                       .append(entry.getKey().getPrice())
+                       .append("$\n");
+                totalCost += entry.getValue() * entry.getKey().getPrice();
+            }
+        }
+        orderSummaryArea.setText(summary.toString());
+        totalCostLabel.setText("Total: $" + totalCost); // Update total cost label
+    }
+
     public void addBackButton(Container cp) {
         var logoutButton = new JButton("Back");
         logoutButton.addActionListener(new ActionListener() {
@@ -125,9 +162,4 @@ public class ResPreview {
         logoutButton.setAlignmentX(Component.RIGHT_ALIGNMENT); // Center alignment
         cp.add(logoutButton);
     }
-    
-    
-    
-
-
 }

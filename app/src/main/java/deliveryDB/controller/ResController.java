@@ -3,7 +3,7 @@ package deliveryDB.controller;
 import deliveryDB.data.Restaurant;
 import deliveryDB.model.DelModel;
 import deliveryDB.view.RestaurantsPage;
-import deliveryDB.view.ResPreview;
+import deliveryDB.view.ResMenu;
 
 public class ResController {
     
@@ -28,8 +28,8 @@ public class ResController {
 
     public void handleRestaurant(int restaurantID){
         var res = this.model.onRestaurantID(restaurantID);
-        var view = new ResPreview(this.resView.getMainFrame());
-        var resPrvCtrl = new ResPreviewCtrl(this, view , this.model, res);
+        var view = new ResMenu(this.resView.getMainFrame());
+        var resPrvCtrl = new ResMenuCtrl(this, view , this.model, res);
         view.setController(resPrvCtrl);
     }
 

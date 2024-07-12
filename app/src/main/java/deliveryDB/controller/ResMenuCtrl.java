@@ -1,18 +1,18 @@
 package deliveryDB.controller;
 
 import deliveryDB.model.DelModel;
-import deliveryDB.view.ResPreview;
+import deliveryDB.view.ResMenu;
 import deliveryDB.data.Restaurant;
 import java.util.Optional;
 
 
-public class ResPreviewCtrl {
+public class ResMenuCtrl {
     
     private final DelModel model;
-    private final ResPreview view;
+    private final ResMenu view;
     private final ResController prevctrl;
     private Restaurant restaurant;
-    public ResPreviewCtrl(ResController prevctrl, ResPreview view, DelModel model, Restaurant restaurant) {
+    public ResMenuCtrl(ResController prevctrl, ResMenu view, DelModel model, Restaurant restaurant) {
         this.view = view;
         this.model = model;
         this.prevctrl = prevctrl;

@@ -32,13 +32,13 @@ public class RegisterController {
     public void handleRegistration(User.USER_TYPE type, List<String> list) {
 
         var success = this.model.userRegister(type, list.get(0), 
-                                list.get(1), 
-                                list.get(2), 
-                                list.get(3), 
-                                list.get(4), 
-                                list.get(5), 
-                                list.get(6)
-                                );
+                                                    list.get(1), 
+                                                    list.get(2), 
+                                                    list.get(3), 
+                                                    list.get(4), 
+                                                    list.get(5), 
+                                                    list.get(6)); 
+                                                                        
         if (success) {
             this.firstCtrl.backToFirstPage();
         } else {
