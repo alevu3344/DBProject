@@ -67,7 +67,7 @@ public class Restaurant {
             }
         }
 
-        public Optional<List<Pair<String, Integer>>> listRestaurants(Connection connection) {
+        public static Optional<List<Pair<String, Integer>>> listRestaurants(Connection connection) {
             var restaurants = new LinkedList<Pair<String, Integer>>();
             try {
                 var statement = DAOUtils.prepare(connection, Queries.RESTAURANT_LIST);

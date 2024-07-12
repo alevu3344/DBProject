@@ -5,10 +5,13 @@ import deliveryDB.controller.ResController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Optional;
 import javax.swing.*;
 import java.util.function.Consumer;
 import deliveryDB.utilities.Pair;
+
 import java.util.List;
 
 public class RestaurantsPage {
@@ -30,21 +33,15 @@ public class RestaurantsPage {
 
     public void displayRestaurants(List<Pair<String, Integer>> restaurants) {
         freshPane(cp -> {
-            cp.setLayout(new BoxLayout(cp, BoxLayout.PAGE_AXIS));
-            for (Pair<String, Integer> restaurant : restaurants) {
-                JButton button = new JButton(restaurant.get1());
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (controller.isPresent()) {
-                            controller.get().handleRestaurant(restaurant.get2());
-                        } else {
-                            throw new IllegalStateException("RestaurantsPage's Controller is undefined");
-                        }
-                    }
-                });
-                cp.add(button);
+            var box = Box.createVerticalBox();
+            for (var restaurant : restaurants) {
+                box.add(clickableLabel(restaurant.get1(), () -> {
+                    this.controller.ifPresent(ctrl -> {
+                        ctrl.handleRestaurant(restaurant.get2());
+                    });
+                }));
             }
+            cp.add(box);
         });
     }
 
@@ -53,5 +50,23 @@ public class RestaurantsPage {
         fill.accept(this.mainFrame.getContentPane());
         this.mainFrame.revalidate();
         this.mainFrame.repaint();
+    }
+
+    private JLabel clickableLabel(String labelText, Runnable action) {
+        var label = new JLabel(labelText);
+        label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        //make the label bigger and centered
+        label.setFont(new Font("Arial", Font.PLAIN, 20));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.addMouseListener(
+                new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        SwingUtilities.invokeLater(() -> {
+                            action.run();
+                        });
+                    }
+                });
+        return label;
     }
 }
