@@ -81,4 +81,14 @@ public class DelModelImpl implements DelModel {
         return User.DAO.userRegister(connection,type, username, password, name, surname, street, number, city);
     }
 
+    @Override
+    public void logout() {
+        this.user = Optional.empty();
+    }
+
+    @Override
+    public Restaurant onRestaurantID(int RestaurantID) {
+        return Restaurant.DAO.findRestaurant(connection, RestaurantID);
+    }
+
 }

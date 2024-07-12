@@ -35,27 +35,48 @@ public class RestaurantsPage {
         freshPane(cp -> {
             var box = Box.createVerticalBox();
             for (var restaurant : restaurants) {
-                box.add(clickableLabel(restaurant.get1(), () -> {
+                var label = clickableLabel(restaurant.get1(), () -> {
                     this.controller.ifPresent(ctrl -> {
                         ctrl.handleRestaurant(restaurant.get2());
                     });
-                }));
+                });
+                label.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+                box.add(label);
             }
             cp.add(box);
+            this.addLogoutButton(cp); // Pass the container to addLogoutButton
         });
     }
 
-    private void freshPane(Consumer<Container> fill) {
-        this.mainFrame.getContentPane().removeAll();
-        fill.accept(this.mainFrame.getContentPane());
-        this.mainFrame.revalidate();
-        this.mainFrame.repaint();
+    public JFrame getMainFrame() {
+        return this.mainFrame;
+    }
+    
+    public void addLogoutButton(Container cp) {
+        var logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.ifPresent(ctrl -> ctrl.handleLogOut());
+            }
+        });
+        logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
+        cp.add(logoutButton);
+    }
+    
+    private void freshPane(Consumer<Container> consumer) {
+        var cp = this.mainFrame.getContentPane();
+        this.mainFrame.setLayout(new BoxLayout(this.mainFrame.getContentPane(), BoxLayout.PAGE_AXIS));
+        cp.removeAll();
+        cp.validate();
+        cp.repaint();
+        consumer.accept(cp);
+        //this.mainFrame.pack();
     }
 
     private JLabel clickableLabel(String labelText, Runnable action) {
         var label = new JLabel(labelText);
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        //make the label bigger and centered
         label.setFont(new Font("Arial", Font.PLAIN, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.addMouseListener(
@@ -69,4 +90,7 @@ public class RestaurantsPage {
                 });
         return label;
     }
+
+
+   
 }

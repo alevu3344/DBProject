@@ -22,6 +22,8 @@ public interface DelModel {
 
     public List<Pair<String, Integer>> getRestaurants();
 
+    public Restaurant onRestaurantID(int RestaurantID);
+
     public List<Item> getMenuFor(int RestaurantID);
 
     public List<Review> getReviewsFor(int RestaurantID);
@@ -33,6 +35,8 @@ public interface DelModel {
     public boolean deleteReview(int reviewID);
 
     public boolean login(String username, String password);
+
+    public void logout();
 
     public boolean userRegister(User.USER_TYPE type, String username, String name, String surname,String password, String street, String number, String city);
 }

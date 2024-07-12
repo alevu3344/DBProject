@@ -32,7 +32,7 @@ public class LoginPage implements ActionListener {
         System.out.println("Constructor of login page");
     }
 
-    private void setupComponents() {
+    public void setupComponents() {
         this.mainFrame.getContentPane().removeAll();
         this.mainFrame.getContentPane().validate();
         this.mainFrame.getContentPane().repaint();

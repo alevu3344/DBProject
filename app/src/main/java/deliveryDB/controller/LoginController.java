@@ -36,14 +36,9 @@ public class LoginController {
         //If username and password are correct in the UTENTI table in the database, then login is successful    
         if (this.model.login(username, password)) {
             loginView.displayMessage("Login successful");
-            //var boxFrame = loginView.getMainFrame();
-            //boxFrame.setLayout(new BoxLayout(boxFrame.getContentPane(), BoxLayout.PAGE_AXIS));
-            //var previewPage = new PreviewPage(boxFrame);
-            //this.resCtrl = Optional.of(new PreviewsController(previewPage, this.model));
-            //previewPage.setController(this.resCtrl.get());
             var boxFrame = loginView.getMainFrame();
             var view = new RestaurantsPage(boxFrame);
-            this.resCtrl = Optional.of(new ResController(view, this.model));
+            this.resCtrl = Optional.of(new ResController(this,view, this.model));
             view.setController(this.resCtrl.get());
             
         } else {
@@ -53,5 +48,9 @@ public class LoginController {
 
     public void handleBack(){
         this.firstCtrl.backToFirstPage();
+    }
+
+    public void show() {
+        this.loginView.setupComponents();
     }
 }
