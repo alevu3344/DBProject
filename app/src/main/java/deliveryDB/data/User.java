@@ -11,6 +11,7 @@ public class User {
     private final String street;
     private final String number;
     private final String city;
+    
 
     public enum USER_TYPE {
         CUSTOMER,
@@ -58,8 +59,45 @@ public class User {
                 ", city='" + city + '\'' +
                 '}';
     }
+
+    public USER_TYPE getType() {
+        return type;
+    }
     
+    public String getUsername() {
+        return username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getStreet() {
+        return street + " " + number + "," + city;
+    }
+
+
+
+
     public final class DAO {
+
+        public static float getBalanceFor(Connection connection, String username) {
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
+                var result = statement.executeQuery();
+                if (result.next()) {
+                    return result.getInt("Balance");
+                }
+                return -1;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return -1;
+            }
+        }
 
         public static boolean isUserNameAvailable(Connection connection, String username) {
             try {

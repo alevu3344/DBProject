@@ -89,4 +89,9 @@ public class DelModelImpl implements DelModel {
         return Restaurant.DAO.findRestaurant(connection, RestaurantID);
     }
 
+    @Override
+    public float getBalance() {
+        return User.DAO.getBalanceFor(connection, this.user.get().getUsername());
+    }
+
 }

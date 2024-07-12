@@ -28,6 +28,8 @@ public class ResMenuCtrl {
         this.prevctrl.showRestaurants();
     }
 
-
+    public float getBalance(){
+        return this.model.getBalance();
+    }
 
 }

@@ -6,11 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.swing.*;
 import java.awt.*;
+import java.util.function.Consumer;
 
 import deliveryDB.controller.ResMenuCtrl;
 import deliveryDB.data.Item;
@@ -22,6 +22,7 @@ public class ResMenu {
     private Map<Item, Integer> itemQuantityMap;
     private JTextArea orderSummaryArea;
     private JLabel totalCostLabel; // Label for total cost
+    private JLabel balanceLabel;   // Label for user balance
 
     public ResMenu(JFrame mainFrame) {
         this.controller = Optional.empty();
@@ -29,6 +30,7 @@ public class ResMenu {
         this.orderSummaryArea = new JTextArea();
         this.orderSummaryArea.setLineWrap(true);
         this.totalCostLabel = new JLabel("Total: $0.0"); // Initialize total cost label
+        this.balanceLabel = new JLabel(); // Initialize balance label
         orderSummaryArea.setEditable(false);
     }
 
@@ -40,6 +42,7 @@ public class ResMenu {
 
     public void setController(ResMenuCtrl ctrl) {
         this.controller = Optional.of(ctrl);
+        this.updateBalance(this.controller.get().getBalance());
     }
 
     private void freshPane(Consumer<Container> consumer) {
@@ -119,13 +122,22 @@ public class ResMenu {
         orderSummaryPanel.setLayout(new BoxLayout(orderSummaryPanel, BoxLayout.Y_AXIS));
         orderSummaryPanel.setPreferredSize(new Dimension(200, 200));
         orderSummaryPanel.setMaximumSize(new Dimension(200, 200));
+
+        // Add balance label to the top of the summary panel
+        orderSummaryPanel.add(balanceLabel);
+        
         orderSummaryPanel.add(new JLabel("Order Summary:"));
-        orderSummaryArea.setPreferredSize(new Dimension(200, 200));
-        var scrollPane = new JScrollPane(orderSummaryArea);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        orderSummaryPanel.add(scrollPane);
+
+        // Wrap JTextArea in a JScrollPane and set size constraints
+        orderSummaryArea.setPreferredSize(new Dimension(200, 100)); // Adjust the height for the scrollable area
+        var summaryScrollPane = new JScrollPane(orderSummaryArea);
+        summaryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        summaryScrollPane.setPreferredSize(new Dimension(200, 100)); // Ensure the scroll pane is shorter
+        orderSummaryPanel.add(summaryScrollPane);
+
         orderSummaryPanel.add(totalCostLabel); // Add total cost label to the panel
-        //locate the panel at the top right corner
+
+        // Align the panel to the top right corner
         orderSummaryPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
         orderSummaryPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         return orderSummaryPanel;
@@ -161,5 +173,10 @@ public class ResMenu {
         });
         logoutButton.setAlignmentX(Component.RIGHT_ALIGNMENT); // Center alignment
         cp.add(logoutButton);
+    }
+
+    // Method to update balance label
+    public void updateBalance(double balance) {
+        balanceLabel.setText("Balance: $" + balance);
     }
 }

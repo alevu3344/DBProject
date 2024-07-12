@@ -36,6 +36,8 @@ public interface DelModel {
 
     public boolean login(String username, String password);
 
+    public float getBalance();
+
     public void logout();
 
     public boolean userRegister(User.USER_TYPE type, String username, String name, String surname,String password, String street, String number, String city);
