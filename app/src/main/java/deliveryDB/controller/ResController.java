@@ -20,13 +20,10 @@ public class ResController {
         resView.setController(this);
         this.showRestaurants();
     }
-    /* 
-    public void handleBack(){
-        this.model.logout();
-    }
-    */
+
     public void showRestaurants(){
-        this.resView.displayRestaurants(this.model.getRestaurants());
+        var x = this.model.getRestaurants();
+        this.resView.displayRestaurants(x);
     }
 
     public void handleRestaurant(int restaurantID){
@@ -34,7 +31,6 @@ public class ResController {
         var view = new ResPreview(this.resView.getMainFrame());
         var resPrvCtrl = new ResPreviewCtrl(this, view , this.model, res);
         view.setController(resPrvCtrl);
-
     }
 
     public void handleLogOut(){

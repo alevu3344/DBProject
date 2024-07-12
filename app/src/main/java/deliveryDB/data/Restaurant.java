@@ -25,6 +25,25 @@ public class Restaurant {
         this.cuisineType = cuisineType;
     }
 
+    public int getRestaurantID() {
+        return restaurantID;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public String getAddress() {
+        return address;
+    }
+
+    public Pair<Date, Date> getOpeningHours() {
+        return openingHours;
+    }
+
+    public String getCuisineType() {
+        return cuisineType;
+    }
+
     public final class DAO {
 
         public static Optional<Restaurant> find(Connection connection, int restaurantID) {
@@ -53,7 +72,7 @@ public class Restaurant {
                 var statement = DAOUtils.prepare(connection, Queries.RESTAURANT_DETAILS, restaurantID);
                 var result = statement.executeQuery();
                 if (result.next()) {
-                    return new Restaurant(result.getInt("RistoranteID"),
+                    return new Restaurant(restaurantID,
                             result.getString("Nome"),
                             result.getString("IndirizzoCittà") + " " + result.getString("IndirizzoVia") + " "
                                     + result.getString("IndirizzoCivico"),

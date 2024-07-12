@@ -5,7 +5,6 @@ import javax.swing.BoxLayout;
 import deliveryDB.data.User;
 import deliveryDB.model.DelModel;
 import deliveryDB.view.LoginPage;
-import deliveryDB.view.PreviewPage;
 import deliveryDB.view.RestaurantsPage;
 
 import java.util.Optional;

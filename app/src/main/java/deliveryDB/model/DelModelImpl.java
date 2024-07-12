@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import deliveryDB.data.Item;
 import deliveryDB.data.Order;
-import deliveryDB.data.ProductPreview;
 import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
@@ -61,7 +60,7 @@ public class DelModelImpl implements DelModel {
 
     @Override
     public List<Item> getMenuFor(int RestaurantID) {
-        return null;
+        return Item.DAO.getMenuFor(connection, RestaurantID).orElse(List.of());
     }
 
     @Override
@@ -69,7 +68,6 @@ public class DelModelImpl implements DelModel {
         var tempUserName = username;
         if(User.DAO.userLogin(connection, username, password)){
             this.user = Optional.of(User.DAO.getUser(connection, username));
-            System.out.println(this.user.get().toString());
             return true;
         }
         return false;

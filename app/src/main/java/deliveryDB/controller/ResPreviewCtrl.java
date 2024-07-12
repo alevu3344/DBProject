@@ -17,7 +17,17 @@ public class ResPreviewCtrl {
         this.model = model;
         this.prevctrl = prevctrl;
         this.restaurant = restaurant;
+    
+        
+        view.setItemMap(this.model.getMenuFor(restaurant.getRestaurantID()));
+        view.displayMenu();
     }   
 
-    
+
+    public void handleBack(){
+        this.prevctrl.showRestaurants();
+    }
+
+
+
 }

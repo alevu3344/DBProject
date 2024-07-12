@@ -66,12 +66,12 @@ public class RestaurantsPage {
     
     private void freshPane(Consumer<Container> consumer) {
         var cp = this.mainFrame.getContentPane();
-        this.mainFrame.setLayout(new BoxLayout(this.mainFrame.getContentPane(), BoxLayout.PAGE_AXIS));
         cp.removeAll();
-        cp.validate();
+        cp.revalidate();
         cp.repaint();
+        this.mainFrame.setLayout(new BoxLayout(cp, BoxLayout.PAGE_AXIS));
         consumer.accept(cp);
-        //this.mainFrame.pack();
+        this.mainFrame.pack();
     }
 
     private JLabel clickableLabel(String labelText, Runnable action) {
