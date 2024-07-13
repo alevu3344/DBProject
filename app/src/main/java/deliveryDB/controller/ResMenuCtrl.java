@@ -3,6 +3,7 @@ package deliveryDB.controller;
 import deliveryDB.model.DelModel;
 import deliveryDB.utilities.Pair;
 import deliveryDB.view.ResMenu;
+import javafx.embed.swing.JFXPanel;
 
 import java.util.Map;
 import javax.swing.JFrame;
@@ -18,16 +19,24 @@ import java.util.Date;
 public class ResMenuCtrl {
     
     private final DelModel model;
-    private final ResMenu view;
+    private ResMenu view;
     private final ResController prevctrl;
     private Restaurant restaurant;
+    private final JFrame mainFrame;
+
+    
     public ResMenuCtrl(ResController prevctrl, JFrame mainFrame, DelModel model, Restaurant restaurant) {    
         this.model = model;
+        this.mainFrame = mainFrame;
         this.prevctrl = prevctrl;
         this.restaurant = restaurant;
-        this.view = new ResMenu(mainFrame, this);
+        this.view = new ResMenu(this.mainFrame, this);
     
     }   
+
+    public void showMenu(){
+        this.view = new ResMenu(this.mainFrame, this);
+    }
 
     public void handleBack(){
         this.prevctrl.showRestaurants();
@@ -63,6 +72,10 @@ public class ResMenuCtrl {
         menu.forEach(e -> itemQuantityMap.put(e, 0));
         itemQuantityMap.entrySet().forEach(e -> System.out.println(e.getKey().getName() + " " + e.getKey().getType()));
         return itemQuantityMap;
+    }
+
+    public void handleReviews(){
+        new ReviewController(this, this.mainFrame, this.model, this.restaurant.getRestaurantID());
     }
 
     

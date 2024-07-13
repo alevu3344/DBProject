@@ -19,7 +19,7 @@ public interface DelModel {
 
     public boolean sendOrder(Map<Item, Integer> order, int restaurantID);
 
-    public List<Pair<String, Integer>> getRestaurants();
+    public Map<Pair<String, Integer>, String> getRestaurants();
 
     public Restaurant onRestaurantID(int restaurantID);
 

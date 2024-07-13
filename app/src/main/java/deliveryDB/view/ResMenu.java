@@ -26,6 +26,7 @@ public class ResMenu {
     private JLabel restaurantInfoLabel; // Label to show restaurant info
     private JButton sendOrderButton; // Button to send the order
     private Map<Item, JSpinner> itemSpinners; // Map to track spinners for each item
+    private JButton reviewsButton; // Button to show reviews
 
     public ResMenu(JFrame mainFrame, ResMenuCtrl controller) {
         this.controller = Optional.of(controller);
@@ -40,6 +41,7 @@ public class ResMenu {
         this.sendOrderButton.setForeground(Color.WHITE);
         this.sendOrderButton.setEnabled(false); // Initially disabled
         this.itemSpinners = new LinkedHashMap<>(); // Initialize itemSpinners
+        this.reviewsButton = new JButton("Reviews"); // Initialize reviews button
 
         orderSummaryArea.setEditable(false);
 
@@ -120,7 +122,7 @@ public class ResMenu {
             var orderSummaryPanel = createOrderSummaryPanel();
             mainPanel.add(orderSummaryPanel);
 
-            // Add restaurant info to the panel
+            // Create and add the restaurant panel
             var restaurantPanel = createRestaurantPanel();
             mainPanel.add(restaurantPanel);
 
@@ -129,8 +131,6 @@ public class ResMenu {
             this.addBackButton(cp);
             // Add send order button
             this.addSendOrderButton(cp);
-            // Add the send order button to the panel
-            cp.add(sendOrderButton);
         });
     }
 
@@ -170,6 +170,18 @@ public class ResMenu {
         
         // Add restaurantInfoLabel with HTML content
         restaurantPanel.add(restaurantInfoLabel);
+
+        // Add reviews button under the restaurant info label
+        reviewsButton.setBackground(Color.BLUE);
+        reviewsButton.setForeground(Color.WHITE);
+        reviewsButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        reviewsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.ifPresent(ctrl -> ctrl.handleReviews());
+            }
+        });
+        restaurantPanel.add(reviewsButton);
     
         // Align the panel to the top left corner
         restaurantPanel.setAlignmentX(Component.LEFT_ALIGNMENT);

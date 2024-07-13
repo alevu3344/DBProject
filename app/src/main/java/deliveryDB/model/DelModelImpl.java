@@ -2,6 +2,7 @@ package deliveryDB.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedHashMap;
 import java.sql.Connection;
 import java.util.Objects;
 import java.util.Optional;
@@ -12,6 +13,9 @@ import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
 import deliveryDB.utilities.Pair;
+import deliveryDB.data.DAOUtils;
+import deliveryDB.data.Review;
+
 
 public class DelModelImpl implements DelModel {
 
@@ -30,13 +34,13 @@ public class DelModelImpl implements DelModel {
 
 
     @Override
-    public List<Pair<String, Integer>> getRestaurants() {
-        return Restaurant.DAO.listRestaurants(connection).orElse(List.of());
+    public LinkedHashMap<Pair<String, Integer>, String> getRestaurants() {
+        return Restaurant.DAO.listRestaurants(connection).get();
     }
 
     @Override
     public List<Review> getReviewsFor(int restaurantID) {
-        return null;
+        return Review.DAO.listReviews(connection, restaurantID).orElse(List.of());
     }
 
     @Override

@@ -25,7 +25,29 @@ public class Review {
         this.author = author;
     }
 
-    private final class DAO {
+
+    public int getRestaurantID() {
+        return restaurantID;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+
+    public final class DAO {
 
         public static boolean addReview(Connection connection, int restaurantID, int stars, String review) {
             try {
@@ -48,7 +70,7 @@ public class Review {
                             result.getInt("Voto"),
                             result.getString("Commento"),
                             result.getString("Username"),
-                            result.getDate("Data")));
+                            result.getDate("DataOra")));
                 }
                 return Optional.of(reviews);
             } catch (Exception e) {

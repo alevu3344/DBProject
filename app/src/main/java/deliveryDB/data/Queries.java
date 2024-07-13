@@ -3,9 +3,9 @@ package deliveryDB.data;
 public final class Queries {
 
         public static final String RESTAURANT_REVIEWS = """
-                        SELECT r.review
-                        FROM REVIEW r
-                        WHERE r.restaurant_id = ?
+                        SELECT *
+                        FROM RECENSIONI r
+                        WHERE r.RistoranteID = ?
                         """;
 
         public static final String RESTAURANT_MENU = """
@@ -53,8 +53,9 @@ public final class Queries {
 
         // Seleziona tutti i ristoranti e i relativi id
         public static final String RESTAURANT_LIST = """
-                        SELECT r.RistoranteID, r.Nome
+                        SELECT r.RistoranteID, r.Nome, r.TipologiaCucina
                         FROM RISTORANTI r
+                        ORDER BY r.TipologiaCucina
                         """;
 
         public static final String USER_BALANCE = """

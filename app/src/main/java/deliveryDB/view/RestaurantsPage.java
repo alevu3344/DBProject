@@ -1,6 +1,5 @@
 package deliveryDB.view;
 
-
 import deliveryDB.controller.ResController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,37 +10,45 @@ import java.util.Optional;
 import javax.swing.*;
 import java.util.function.Consumer;
 import deliveryDB.utilities.Pair;
-
-import java.util.List;
+import java.util.Map;
 
 public class RestaurantsPage {
-    
 
     private Optional<ResController> controller;
     private final JFrame mainFrame;
-
 
     public RestaurantsPage(JFrame mainFrame) {
         this.controller = Optional.empty();
         this.mainFrame = mainFrame;
         System.out.println("Constructor of Restaurants page");
-
     }
+
     public void setController(ResController resController) {
         this.controller = Optional.of(resController);
     }
 
-    public void displayRestaurants(List<Pair<String, Integer>> restaurants) {
+    public void displayRestaurants(Map<Pair<String, Integer>, String> restaurants) {
         freshPane(cp -> {
             var box = Box.createVerticalBox();
-            for (var restaurant : restaurants) {
-                var label = clickableLabel(restaurant.get1(), () -> {
+            for (var restaurant : restaurants.entrySet()) {
+                var restaurantBox = Box.createHorizontalBox();
+
+                var label = clickableLabel(restaurant.getKey().get1(), () -> {
                     this.controller.ifPresent(ctrl -> {
-                        ctrl.handleRestaurant(restaurant.get2());
+                        ctrl.handleRestaurant(restaurant.getKey().get2());
                     });
                 });
-                label.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
-                box.add(label);
+                label.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                var cuisineLabel = new JLabel(restaurant.getValue());
+                cuisineLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+                cuisineLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
+                restaurantBox.add(label);
+                restaurantBox.add(Box.createHorizontalGlue()); // To push cuisine label to the right
+                restaurantBox.add(cuisineLabel);
+
+                box.add(restaurantBox);
             }
             cp.add(box);
             this.addLogoutButton(cp); // Pass the container to addLogoutButton
@@ -51,7 +58,7 @@ public class RestaurantsPage {
     public JFrame getMainFrame() {
         return this.mainFrame;
     }
-    
+
     public void addLogoutButton(Container cp) {
         var logoutButton = new JButton("Logout");
         logoutButton.addActionListener(new ActionListener() {
@@ -63,7 +70,7 @@ public class RestaurantsPage {
         logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment
         cp.add(logoutButton);
     }
-    
+
     private void freshPane(Consumer<Container> consumer) {
         var cp = this.mainFrame.getContentPane();
         cp.removeAll();
@@ -78,19 +85,15 @@ public class RestaurantsPage {
         var label = new JLabel(labelText);
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         label.setFont(new Font("Arial", Font.PLAIN, 20));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.addMouseListener(
-                new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        SwingUtilities.invokeLater(() -> {
-                            action.run();
-                        });
-                    }
+        label.setHorizontalAlignment(SwingConstants.LEFT);
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SwingUtilities.invokeLater(() -> {
+                    action.run();
                 });
+            }
+        });
         return label;
     }
-
-
-   
 }

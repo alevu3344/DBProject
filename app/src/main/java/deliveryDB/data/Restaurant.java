@@ -6,6 +6,9 @@ import java.util.Optional;
 import java.sql.Connection;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import deliveryDB.utilities.Pair;
 
@@ -86,13 +89,13 @@ public class Restaurant {
             }
         }
 
-        public static Optional<List<Pair<String, Integer>>> listRestaurants(Connection connection) {
-            var restaurants = new LinkedList<Pair<String, Integer>>();
+        public static Optional<LinkedHashMap<Pair<String, Integer>, String>> listRestaurants(Connection connection) {
+            var restaurants = new LinkedHashMap<Pair<String, Integer>, String>();
             try {
                 var statement = DAOUtils.prepare(connection, Queries.RESTAURANT_LIST);
                 var result = statement.executeQuery();
                 while (result.next()) {
-                    restaurants.add(new Pair<>(result.getString("Nome"), result.getInt("RistoranteID")));
+                    restaurants.put(new Pair<>(result.getString("Nome"), result.getInt("RistoranteID")), result.getString("TipologiaCucina"));
                 }
                 return Optional.of(restaurants);
             } catch (Exception e) {

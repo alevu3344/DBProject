@@ -21,12 +21,10 @@ public class ResController {
     }
 
     public void showRestaurants(){
-        var x = this.model.getRestaurants();
-        this.resView.displayRestaurants(x);
+        this.resView.displayRestaurants(this.model.getRestaurants());
     }
 
     public void handleRestaurant(int restaurantID){
-        
         new ResMenuCtrl(this, this.resView.getMainFrame() , this.model, this.model.onRestaurantID(restaurantID));
     }
 
