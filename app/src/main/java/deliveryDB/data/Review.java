@@ -49,9 +49,9 @@ public class Review {
 
     public final class DAO {
 
-        public static boolean addReview(Connection connection, int restaurantID, int stars, String review) {
+        public static boolean addReview(Connection connection, int restaurantID, int stars, String review, String username) {
             try {
-                var statement = DAOUtils.prepare(connection, Queries.ADD_REVIEW, restaurantID, stars, review);
+                var statement = DAOUtils.prepare(connection, Queries.ADD_REVIEW, restaurantID, stars, review, username);
                 statement.executeUpdate();
                 return true;
             } catch (Exception e) {

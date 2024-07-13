@@ -30,6 +30,12 @@ public class ReviewController {
         return this.model.getReviewsFor(this.restaurantID);
     }
 
+    public void addReview(int stars, String review){
+
+        this.model.addReview(stars, review, this.restaurantID);
+        
+    }
+
 
 
     

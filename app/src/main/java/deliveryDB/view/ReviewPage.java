@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -32,8 +34,10 @@ public class ReviewPage {
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BorderLayout());
 
-            // Create a panel for the back button
+            // Create a panel for the buttons
             JPanel buttonPanel = new JPanel();
+            
+            // Back Button
             JButton backButton = new JButton("Back");
             backButton.addActionListener(new ActionListener() {
                 @Override
@@ -42,6 +46,16 @@ public class ReviewPage {
                 }
             });
             buttonPanel.add(backButton);
+
+            // Add Review Button
+            JButton addReviewButton = new JButton("Add Review");
+            addReviewButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    showAddReviewDialog();
+                }
+            });
+            buttonPanel.add(addReviewButton);
 
             // Create a panel to hold reviews
             JPanel reviewsPanel = new JPanel();
@@ -106,5 +120,68 @@ public class ReviewPage {
 
     private void handleBack() {
         this.controller.handleBack(); // Assuming handleBack() will manage navigation
+    }
+
+    private void showAddReviewDialog() {
+        // Create a dialog for adding a new review
+        JDialog dialog = new JDialog(mainFrame, "Add Review", true);
+        dialog.setLayout(new GridLayout(5, 2));
+        dialog.setSize(400, 300);
+
+       
+        JSpinner ratingSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1)); // Rating from 1 to 5
+        
+        JTextArea reviewArea = new JTextArea();
+        reviewArea.setLineWrap(true);
+        reviewArea.setWrapStyleWord(true);
+
+    
+        dialog.add(new JLabel("Rating (1-5):"));
+        dialog.add(ratingSpinner);
+        dialog.add(new JLabel("Review:"));
+        dialog.add(new JScrollPane(reviewArea));
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Validate input
+                try {
+                  
+                    int rating = (Integer) ratingSpinner.getValue();
+                    String reviewText = reviewArea.getText();
+    
+
+                    if (rating < 1 || rating > 5) {
+                        JOptionPane.showMessageDialog(dialog, "Rating must be between 1 and 5", "Invalid Rating", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    
+                    controller.addReview(rating, reviewText); // Add the review
+                    reviews = controller.getReviews(); // Refresh the reviews list
+                    initializeUI(); // Refresh the UI to show the new review
+                    dialog.dispose(); // Close the dialog
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(dialog, "Invalid input. Please check your data.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose(); // Close the dialog
+            }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(submitButton);
+        buttonPanel.add(cancelButton);
+
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        dialog.setVisible(true);
     }
 }

@@ -38,8 +38,8 @@ public final class Queries {
                         """;
 
         public static final String ADD_REVIEW = """
-                        INSERT INTO RECENSIONI (RistoranteID, Voto, Commento)
-                        VALUES (?, ?, ?)
+                        INSERT INTO RECENSIONI (RistoranteID, Voto, Commento, Username, DataOra)
+                        VALUES (?, ?, ?, ?, NOW())
                         """;
         public static final String DELETE_REVIEW = """
                         DELETE FROM RECENSIONI

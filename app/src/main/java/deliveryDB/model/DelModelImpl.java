@@ -43,10 +43,7 @@ public class DelModelImpl implements DelModel {
         return Review.DAO.listReviews(connection, restaurantID).orElse(List.of());
     }
 
-    @Override
-    public boolean addReview(Review review) {
-        return false;
-    }
+    
 
     @Override
     public boolean deliverOrder(Order order) {
@@ -91,6 +88,11 @@ public class DelModelImpl implements DelModel {
     @Override
     public float getBalance() {
         return User.DAO.getBalanceFor(connection, this.user.get().getUsername());
+    }
+
+    @Override
+    public boolean addReview(int stars, String review, int restaurantID) {
+        return Review.DAO.addReview(connection, restaurantID, stars, review, this.user.get().getUsername());
     }
 
 }
