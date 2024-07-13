@@ -3,8 +3,6 @@ package deliveryDB.data;
 import java.util.List;
 import java.util.Optional;
 
-import com.google.protobuf.Option;
-import com.mysql.cj.exceptions.OperationCancelledException;
 
 import java.util.LinkedList;
 import java.sql.Connection;

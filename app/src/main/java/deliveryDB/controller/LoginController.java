@@ -1,8 +1,5 @@
 package deliveryDB.controller;
 
-import javax.swing.BoxLayout;
-
-import deliveryDB.data.User;
 import deliveryDB.model.DelModel;
 import deliveryDB.view.LoginPage;
 import deliveryDB.view.RestaurantsPage;

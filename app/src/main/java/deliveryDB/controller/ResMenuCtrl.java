@@ -2,8 +2,11 @@ package deliveryDB.controller;
 
 import deliveryDB.model.DelModel;
 import deliveryDB.view.ResMenu;
+
+import java.util.Map;
+
+import deliveryDB.data.Item;
 import deliveryDB.data.Restaurant;
-import java.util.Optional;
 
 
 public class ResMenuCtrl {
@@ -30,6 +33,18 @@ public class ResMenuCtrl {
 
     public float getBalance(){
         return this.model.getBalance();
+    }
+
+    public void handleSendOrder(Map<Item, Integer> order){
+        if(this.model.sendOrder(order, this.restaurant.getRestaurantID())){
+            this.view.updateBalance(this.model.getBalance());
+            this.view.showOrderConfirmation();
+            return;
+        }
+        this.view.showOrderError();
+        return;
+
+
     }
 
 }

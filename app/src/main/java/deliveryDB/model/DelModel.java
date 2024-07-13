@@ -1,6 +1,7 @@
 package deliveryDB.model;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import deliveryDB.data.Item;
 import deliveryDB.data.Order;
@@ -16,17 +17,15 @@ public interface DelModel {
         return new DelModelImpl(connection);
     }
 
-    public boolean sendOrder(Order order);
-
-    public boolean acceptOrder(Order order);
+    public boolean sendOrder(Map<Item, Integer> order, int restaurantID);
 
     public List<Pair<String, Integer>> getRestaurants();
 
-    public Restaurant onRestaurantID(int RestaurantID);
+    public Restaurant onRestaurantID(int restaurantID);
 
-    public List<Item> getMenuFor(int RestaurantID);
+    public List<Item> getMenuFor(int restaurantID);
 
-    public List<Review> getReviewsFor(int RestaurantID);
+    public List<Review> getReviewsFor(int restaurantID);
 
     public boolean addReview(Review review);
 

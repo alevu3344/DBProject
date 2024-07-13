@@ -65,4 +65,18 @@ public final class Queries {
                         WHERE u.Username = ?
                         """;
 
+        public static final String SEND_ORDER = """
+                        INSERT INTO ORDINI (DataOra, Username, RistoranteID)
+                        VALUES (NOW(), ?, ?)
+                        """;
+
+        public static final String SEND_ORDER_DETAILS = """
+                        INSERT INTO DETTAGLI_ORDINI (OrdineID, ElementoMenuID, RistoranteID , Quantità)
+                        VALUES (?, ?, ? , ?)""";
+        public static final String UPDATE_USER_BALANCE = """
+                        UPDATE UTENTI
+                        SET Balance = ?
+                        WHERE Username = ?
+                        """;
+
 }

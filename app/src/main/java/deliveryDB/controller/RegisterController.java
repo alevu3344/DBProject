@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import deliveryDB.data.User;
-import deliveryDB.data.User.USER_TYPE;
 import deliveryDB.model.DelModel;
-import deliveryDB.view.FirstPage;
 import deliveryDB.view.RegisterPage;
 
 public class RegisterController {

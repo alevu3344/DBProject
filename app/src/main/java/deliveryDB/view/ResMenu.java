@@ -114,6 +114,8 @@ public class ResMenu {
             cp.add(mainPanel);
             // Add back button
             this.addBackButton(cp);
+            // Add send order button
+            this.addSendOrderButton(cp);
         });
     }
 
@@ -178,5 +180,30 @@ public class ResMenu {
     // Method to update balance label
     public void updateBalance(double balance) {
         balanceLabel.setText("Balance: $" + balance);
+    }
+
+    // Method to add send order button
+    public void addSendOrderButton(Container cp) {
+        var sendOrderButton = new JButton("Send Order");
+        sendOrderButton.setBackground(Color.RED);
+        sendOrderButton.setForeground(Color.WHITE);
+        sendOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.ifPresent(ctrl -> ctrl.handleSendOrder(itemQuantityMap));
+            }
+        });
+        sendOrderButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        cp.add(sendOrderButton);
+    }
+
+    //show a pop up to either confirm the order or cancel it
+    public void showOrderConfirmation() {
+        JOptionPane.showMessageDialog(mainFrame, "Order sent successfully!", "Order Confirmation", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    //show a pop up to inform the user that the order could not be sent
+    public void showOrderError() {
+        JOptionPane.showMessageDialog(mainFrame, "Order could not be sent. Please try again.", "Order Error", JOptionPane.ERROR_MESSAGE);
     }
 }

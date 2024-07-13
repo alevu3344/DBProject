@@ -3,7 +3,6 @@ package deliveryDB.controller;
 
 import java.sql.Connection;
 
-import java.util.Optional;
 
 import deliveryDB.model.DelModel;
 import deliveryDB.view.FirstPage;
@@ -15,14 +14,12 @@ import java.util.Objects;
 public class FirstController {
     private final DelModel model;
     private FirstPage firstPage;
-    private Optional<LoginController> loginCtrl;
-    private Optional<RegisterController> registerCtrl;
     private Runnable onClose;
 
     public FirstController(DelModel model, Connection connection) {
         Objects.requireNonNull(model, "MainController created with null model");
         Objects.requireNonNull(connection, "MainController created with null connection");
-        this.loginCtrl = Optional.empty();
+
         this.onClose = () -> {
             try{
                 connection.close();
@@ -41,13 +38,13 @@ public class FirstController {
 
     public void handleLoginButtonClick(){
         var loginView = new LoginPage(this.firstPage.getMainFrame());
-        this.loginCtrl = Optional.of(new LoginController(loginView, this.model, this));
+        new LoginController(loginView, this.model, this);
 
     }
 
     public void handleRegisterButtonClick(){
         var registerView = new RegisterPage(this.firstPage.getMainFrame());
-        this.registerCtrl = Optional.of(new RegisterController(registerView,this.model, this));
+        new RegisterController(registerView,this.model, this);
     }    
 
     public void backToFirstPage(){

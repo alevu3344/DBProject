@@ -1,8 +1,8 @@
 package deliveryDB.model;
 
 import java.util.List;
+import java.util.Map;
 import java.sql.Connection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,14 +24,10 @@ public class DelModelImpl implements DelModel {
     }
 
     @Override
-    public boolean sendOrder(Order order) {
-        return false;
+    public boolean sendOrder(Map <Item, Integer> order, int restaurantID) {
+        return Order.DAO.sendOrder(order, this.user.get().getUsername(), restaurantID, connection);
     }
 
-    @Override
-    public boolean acceptOrder(Order order) {
-        return false;
-    }
 
     @Override
     public List<Pair<String, Integer>> getRestaurants() {
@@ -39,7 +35,7 @@ public class DelModelImpl implements DelModel {
     }
 
     @Override
-    public List<Review> getReviewsFor(int RestaurantID) {
+    public List<Review> getReviewsFor(int restaurantID) {
         return null;
     }
 
@@ -59,13 +55,12 @@ public class DelModelImpl implements DelModel {
     }
 
     @Override
-    public List<Item> getMenuFor(int RestaurantID) {
-        return Item.DAO.getMenuFor(connection, RestaurantID).orElse(List.of());
+    public List<Item> getMenuFor(int restaurantID) {
+        return Item.DAO.getMenuFor(connection, restaurantID).orElse(List.of());
     }
 
     @Override
     public boolean login(String username, String password) {
-        var tempUserName = username;
         if(User.DAO.userLogin(connection, username, password)){
             this.user = Optional.of(User.DAO.getUser(connection, username));
             return true;
@@ -85,8 +80,8 @@ public class DelModelImpl implements DelModel {
     }
 
     @Override
-    public Restaurant onRestaurantID(int RestaurantID) {
-        return Restaurant.DAO.findRestaurant(connection, RestaurantID);
+    public Restaurant onRestaurantID(int restaurantID) {
+        return Restaurant.DAO.findRestaurant(connection, restaurantID);
     }
 
     @Override
