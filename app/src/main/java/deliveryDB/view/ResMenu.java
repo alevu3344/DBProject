@@ -2,7 +2,6 @@ package deliveryDB.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Optional;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -210,7 +209,6 @@ public class ResMenu {
     private void updateOrderSummary() {
         StringBuilder summary = new StringBuilder();
         double totalCost = 0.0;
-        boolean anySelected = false;
         for (var entry : itemQuantityMap.entrySet()) {
             if (entry.getValue() > 0) {
                 summary.append(entry.getKey().getName())
@@ -222,7 +220,6 @@ public class ResMenu {
                        .append(entry.getKey().getPrice())
                        .append("$\n");
                 totalCost += entry.getValue() * entry.getKey().getPrice();
-                anySelected = true;
             }
         }
         orderSummaryArea.setText(summary.toString());

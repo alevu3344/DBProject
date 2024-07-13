@@ -3,7 +3,6 @@ package deliveryDB.controller;
 import deliveryDB.model.DelModel;
 import deliveryDB.utilities.Pair;
 import deliveryDB.view.ResMenu;
-import javafx.embed.swing.JFXPanel;
 
 import java.util.Map;
 import javax.swing.JFrame;
@@ -24,7 +23,7 @@ public class ResMenuCtrl {
     private Restaurant restaurant;
     private final JFrame mainFrame;
 
-    
+
     public ResMenuCtrl(ResController prevctrl, JFrame mainFrame, DelModel model, Restaurant restaurant) {    
         this.model = model;
         this.mainFrame = mainFrame;

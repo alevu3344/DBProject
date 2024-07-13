@@ -2,7 +2,6 @@ package deliveryDB.controller;
 
 import deliveryDB.model.DelModel;
 import deliveryDB.view.RestaurantsPage;
-import deliveryDB.view.ResMenu;
 
 public class ResController {
     
