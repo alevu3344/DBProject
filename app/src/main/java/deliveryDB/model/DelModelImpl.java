@@ -13,8 +13,6 @@ import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
 import deliveryDB.utilities.Pair;
-import deliveryDB.data.DAOUtils;
-import deliveryDB.data.Review;
 
 
 public class DelModelImpl implements DelModel {

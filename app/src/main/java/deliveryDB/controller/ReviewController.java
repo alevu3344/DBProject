@@ -12,14 +12,13 @@ public class ReviewController {
     private final JFrame mainFrame;
     private final ResMenuCtrl prevCtrl;
     private final int restaurantID;
-    private ReviewPage view;
     
     public ReviewController(ResMenuCtrl resMenuCtrl, JFrame mainFrame, DelModel model, int restaurantID) {
         this.model = model;
         this.mainFrame = mainFrame;
         this.prevCtrl = resMenuCtrl;
         this.restaurantID = restaurantID;
-        this.view = new ReviewPage(this.mainFrame, this);
+        new ReviewPage(this.mainFrame, this);
     }
 
     public void handleBack(){
