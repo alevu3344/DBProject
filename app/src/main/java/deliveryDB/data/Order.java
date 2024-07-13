@@ -7,10 +7,79 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.HashMap;
 
 public class Order {
 
+    private int orderID;
+    private String username;
+    private int restaurantID;
+    private Map<Item, Integer> items;
+
+
+    public Order(int orderID, String username, int restaurantID, Map<Item, Integer> items) {
+        this.orderID = orderID;
+        this.username = username;
+        this.restaurantID = restaurantID;
+        this.items = items;
+    }
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public int getRestaurantID() {
+        return restaurantID;
+    }
+
+    public Map<Item, Integer> getItems() {
+        return items;
+    }
+
+
     public final class DAO {
+
+        private static Map<Item, Integer> buildMap(Connection connection, int orderID) {
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.ORDER_DETAILS, orderID);
+                var result = statement.executeQuery();
+                var map = new HashMap<Item, Integer>();
+                while (result.next()) {
+                    var item = new Item(result.getInt("ElementoMenuID"), result.getInt("RistoranteID"),
+                            result.getFloat("Prezzo"), result.getString("Nome"), result.getString("Tipo"));
+                    map.put(item, result.getInt("Quantity"));
+                }
+                return map;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyMap();
+            }
+        }
+
+        public static List<Order> getAvailableOrders(Connection connection) {
+            try {
+                LinkedList<Order> orders = new LinkedList<>();
+                var statement = DAOUtils.prepare(connection, Queries.AVAILABLE_ORDERS);
+                var result = statement.executeQuery();
+                while (result.next()) {
+                    var order = new Order(result.getInt("OrderID"), result.getString("Username"),
+                            result.getInt("RestaurantID"), buildMap(connection, result.getInt("OrderID")));
+
+                    orders.add(order);
+                }
+                return orders;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }
 
         public static boolean sendOrder(Map<Item, Integer> order, String username, int restaurant_id,
                 Connection connection) {

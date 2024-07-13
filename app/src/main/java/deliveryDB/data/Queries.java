@@ -77,5 +77,17 @@ public final class Queries {
                         SET Balance = ?
                         WHERE Username = ?
                         """;
+        public static final String AVAILABLE_ORDERS = """
+                        SELECT o.OrdineID, o.DataOra, o.Username, o.RistoranteID
+                        FROM ORDINI o
+                        WHERE o.Stato = 'Stallo'
+                        """;
+
+        public static final String ORDER_DETAILS = """
+                        SELECT d.ElementoMenuID, d.Quantità, m.Nome, m.Prezzo
+                        FROM DETTAGLI_ORDINI d
+                        JOIN ELEMENTI m ON d.ElementoMenuID = m.ElementoMenuID
+                        WHERE d.OrdineID = ?
+                        """;
 
 }
