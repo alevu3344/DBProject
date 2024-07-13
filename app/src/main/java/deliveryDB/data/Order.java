@@ -17,7 +17,7 @@ public class Order {
         public static boolean sendOrder(Map<Item, Integer> order, String username, int restaurant_id,
                 Connection connection) {
             try {
-                // 1. Verifica il saldo dell'utente
+                
                 var balanceStatement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
                 var balanceResult = balanceStatement.executeQuery();
                 if (balanceResult.next()) {
@@ -31,17 +31,17 @@ public class Order {
                         return false; // Saldo insufficiente
                     }
 
-                    // Inizio della transazione
+                    
                     connection.setAutoCommit(false);
 
-                    // 2. Inserimento nella tabella ORDINI con ritorno delle chiavi generate
+                    
                     var orderStatement = connection.prepareStatement(Queries.SEND_ORDER,
                             Statement.RETURN_GENERATED_KEYS);
                     orderStatement.setString(1, username);
                     orderStatement.setInt(2, restaurant_id);
                     orderStatement.executeUpdate();
 
-                    // 3. Recupera l'OrdineID generato
+                    
                     var orderIDResult = orderStatement.getGeneratedKeys();
                     if (!orderIDResult.next()) {
                         connection.rollback(); // Annulla tutte le operazioni
@@ -49,7 +49,7 @@ public class Order {
                     }
                     int ordineID = orderIDResult.getInt(1);
 
-                    // 4. Inserimento nei DETTAGLI_ORDINI
+                    
                     var detailStatement = connection.prepareStatement(Queries.SEND_ORDER_DETAILS);
                     for (Map.Entry<Item, Integer> entry : filteredOrder.entrySet()) {
                         detailStatement.setInt(1, ordineID);

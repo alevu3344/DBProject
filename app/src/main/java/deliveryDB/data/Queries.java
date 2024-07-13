@@ -7,9 +7,7 @@ public final class Queries {
                         FROM REVIEW r
                         WHERE r.restaurant_id = ?
                         """;
-        // ottiene il menu di un ristorante, ordinando per categoria (Cibo, Bevanda),
-        // quindi la query ottera una lista con prima tutti gli eelementi che sono
-        // bevanda, poi tutti quelli che sono cibo
+
         public static final String RESTAURANT_MENU = """
                         SELECT m.ElementoMenuID, m.Prezzo, m.Nome, m.Tipo
                         FROM ELEMENTI m

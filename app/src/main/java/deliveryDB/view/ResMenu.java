@@ -1,7 +1,5 @@
 package deliveryDB.view;
 
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -11,9 +9,11 @@ import java.util.Map;
 import javax.swing.*;
 import java.awt.*;
 import java.util.function.Consumer;
-
+import java.text.SimpleDateFormat;
 import deliveryDB.controller.ResMenuCtrl;
 import deliveryDB.data.Item;
+import deliveryDB.utilities.Pair; 
+import java.util.Date;
 
 public class ResMenu {
 
@@ -23,26 +23,31 @@ public class ResMenu {
     private JTextArea orderSummaryArea;
     private JLabel totalCostLabel; // Label for total cost
     private JLabel balanceLabel;   // Label for user balance
+    private JLabel restaurantInfoLabel; // Label to show restaurant info
+    private JButton sendOrderButton; // Button to send the order
+    private Map<Item, JSpinner> itemSpinners; // Map to track spinners for each item
 
-    public ResMenu(JFrame mainFrame) {
-        this.controller = Optional.empty();
+    public ResMenu(JFrame mainFrame, ResMenuCtrl controller) {
+        this.controller = Optional.of(controller);
         this.mainFrame = mainFrame;
         this.orderSummaryArea = new JTextArea();
         this.orderSummaryArea.setLineWrap(true);
         this.totalCostLabel = new JLabel("Total: $0.0"); // Initialize total cost label
         this.balanceLabel = new JLabel(); // Initialize balance label
+        this.restaurantInfoLabel = new JLabel(); // Initialize restaurant info label
+        this.sendOrderButton = new JButton("Send Order");
+        this.sendOrderButton.setBackground(Color.RED);
+        this.sendOrderButton.setForeground(Color.WHITE);
+        this.sendOrderButton.setEnabled(false); // Initially disabled
+        this.itemSpinners = new LinkedHashMap<>(); // Initialize itemSpinners
+
         orderSummaryArea.setEditable(false);
-    }
 
-    public void setItemMap(List<Item> list) {
-        this.itemQuantityMap = new LinkedHashMap<>();
-        list.forEach(e -> itemQuantityMap.put(e, 0));
-        itemQuantityMap.entrySet().forEach(e -> System.out.println(e.getKey().getName() + " " + e.getKey().getType()));
-    }
+        this.itemQuantityMap = this.controller.get().getItemMap();
 
-    public void setController(ResMenuCtrl ctrl) {
-        this.controller = Optional.of(ctrl);
+        this.displayMenu();
         this.updateBalance(this.controller.get().getBalance());
+        this.updateRestaurantInfo();
     }
 
     private void freshPane(Consumer<Container> consumer) {
@@ -81,6 +86,7 @@ public class ResMenu {
                 spinner.addChangeListener(e -> {
                     this.itemQuantityMap.put(item, (Integer) spinner.getValue());
                     updateOrderSummary();
+                    updateSendOrderButtonState(); // Update button state on quantity change
                 });
                 spinner.setAlignmentX(Component.LEFT_ALIGNMENT);
                 rowBox.add(Box.createHorizontalStrut(10));
@@ -96,6 +102,9 @@ public class ResMenu {
 
                 rowBox.setAlignmentX(Component.LEFT_ALIGNMENT);
                 mainBox.add(rowBox);
+
+                // Track the spinner for each item
+                itemSpinners.put(item, spinner);
             }
             mainBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -111,11 +120,17 @@ public class ResMenu {
             var orderSummaryPanel = createOrderSummaryPanel();
             mainPanel.add(orderSummaryPanel);
 
+            // Add restaurant info to the panel
+            var restaurantPanel = createRestaurantPanel();
+            mainPanel.add(restaurantPanel);
+
             cp.add(mainPanel);
             // Add back button
             this.addBackButton(cp);
             // Add send order button
             this.addSendOrderButton(cp);
+            // Add the send order button to the panel
+            cp.add(sendOrderButton);
         });
     }
 
@@ -145,9 +160,45 @@ public class ResMenu {
         return orderSummaryPanel;
     }
 
+    private JPanel createRestaurantPanel() {
+        var restaurantPanel = new JPanel();
+        restaurantPanel.setLayout(new BoxLayout(restaurantPanel, BoxLayout.Y_AXIS));
+        restaurantPanel.setPreferredSize(new Dimension(200, 100)); // Adjust size as needed
+        restaurantPanel.setMaximumSize(new Dimension(200, 100)); // Adjust size as needed
+    
+        restaurantPanel.add(new JLabel("Restaurant Info:"));
+        
+        // Add restaurantInfoLabel with HTML content
+        restaurantPanel.add(restaurantInfoLabel);
+    
+        // Align the panel to the top left corner
+        restaurantPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        restaurantPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+        return restaurantPanel;
+    }
+    
+    private void updateRestaurantInfo() {
+        if (controller.isPresent()) {
+            var ctrl = controller.get();
+            String restaurantName = ctrl.getRestaurantName();
+            Pair<Date, Date> openingHours = ctrl.getRestaurantTime();
+    
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            String openingTime = timeFormat.format(openingHours.get1());
+            String closingTime = timeFormat.format(openingHours.get2());
+    
+            // Use HTML to format the text with line breaks
+            String info = String.format("<html>Restaurant: %s<br>Opening Hours: %s - %s</html>", restaurantName, openingTime, closingTime);
+            restaurantInfoLabel.setText(info);
+        } else {
+            restaurantInfoLabel.setText("<html>No restaurant information available.</html>");
+        }
+    }
+
     private void updateOrderSummary() {
         StringBuilder summary = new StringBuilder();
         double totalCost = 0.0;
+        boolean anySelected = false;
         for (var entry : itemQuantityMap.entrySet()) {
             if (entry.getValue() > 0) {
                 summary.append(entry.getKey().getName())
@@ -159,10 +210,19 @@ public class ResMenu {
                        .append(entry.getKey().getPrice())
                        .append("$\n");
                 totalCost += entry.getValue() * entry.getKey().getPrice();
+                anySelected = true;
             }
         }
         orderSummaryArea.setText(summary.toString());
         totalCostLabel.setText("Total: $" + totalCost); // Update total cost label
+
+        // Update the send order button state
+        updateSendOrderButtonState();
+    }
+
+    private void updateSendOrderButtonState() {
+        boolean anySelected = itemQuantityMap.values().stream().anyMatch(quantity -> quantity > 0);
+        sendOrderButton.setEnabled(anySelected);
     }
 
     public void addBackButton(Container cp) {
@@ -177,32 +237,37 @@ public class ResMenu {
         cp.add(logoutButton);
     }
 
-    // Method to update balance label
     public void updateBalance(double balance) {
         balanceLabel.setText("Balance: $" + balance);
     }
 
-    // Method to add send order button
     public void addSendOrderButton(Container cp) {
-        var sendOrderButton = new JButton("Send Order");
-        sendOrderButton.setBackground(Color.RED);
-        sendOrderButton.setForeground(Color.WHITE);
         sendOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.ifPresent(ctrl -> ctrl.handleSendOrder(itemQuantityMap));
+                controller.ifPresent(ctrl -> {
+                    ctrl.handleSendOrder(itemQuantityMap);
+                    resetAllSpinners();
+                });
             }
         });
         sendOrderButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         cp.add(sendOrderButton);
     }
 
-    //show a pop up to either confirm the order or cancel it
+    private void resetAllSpinners() {
+        for (JSpinner spinner : itemSpinners.values()) {
+            spinner.setValue(0);
+        }
+        // Clear itemQuantityMap after resetting spinners
+        itemQuantityMap.replaceAll((item, oldValue) -> 0);
+        updateOrderSummary(); // Ensure the order summary is updated
+    }
+
     public void showOrderConfirmation() {
         JOptionPane.showMessageDialog(mainFrame, "Order sent successfully!", "Order Confirmation", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    //show a pop up to inform the user that the order could not be sent
     public void showOrderError() {
         JOptionPane.showMessageDialog(mainFrame, "Order could not be sent. Please try again.", "Order Error", JOptionPane.ERROR_MESSAGE);
     }

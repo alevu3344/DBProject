@@ -26,10 +26,8 @@ public class ResController {
     }
 
     public void handleRestaurant(int restaurantID){
-        var res = this.model.onRestaurantID(restaurantID);
-        var view = new ResMenu(this.resView.getMainFrame());
-        var resPrvCtrl = new ResMenuCtrl(this, view , this.model, res);
-        view.setController(resPrvCtrl);
+        
+        new ResMenuCtrl(this, this.resView.getMainFrame() , this.model, this.model.onRestaurantID(restaurantID));
     }
 
     public void handleLogOut(){
