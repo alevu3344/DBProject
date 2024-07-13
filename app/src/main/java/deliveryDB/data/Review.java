@@ -1,6 +1,6 @@
 package deliveryDB.data;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import java.util.Optional;
 
@@ -14,10 +14,10 @@ public class Review {
     private final int restaurantID;
     private final int stars;
     private final String review;
-    private final Date date;
+    private final Timestamp date;
     private final String author;
 
-    public Review(int restaurantID, int stars, String review, String author, Date date) {
+    public Review(int restaurantID, int stars, String review, String author, Timestamp date) {
         this.restaurantID = restaurantID;
         this.stars = stars;
         this.review = review;
@@ -38,7 +38,7 @@ public class Review {
         return review;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
@@ -70,7 +70,7 @@ public class Review {
                             result.getInt("Voto"),
                             result.getString("Commento"),
                             result.getString("Username"),
-                            result.getDate("DataOra")));
+                            result.getTimestamp("DataOra")));
                 }
                 return Optional.of(reviews);
             } catch (Exception e) {
@@ -79,14 +79,14 @@ public class Review {
             }
         }
 
-        public static boolean deleteReview(Connection connection, int restaurantID, String author, Date date) {
+        public static void deleteReview(Connection connection, Review review) {
             try {
-                var statement = DAOUtils.prepare(connection, Queries.DELETE_REVIEW, restaurantID, author, date);
+                var statement = DAOUtils.prepare(connection, Queries.DELETE_REVIEW, review.getRestaurantID(), review.getAuthor(), review.getDate());
                 statement.executeUpdate();
-                return true;
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
-                return false;
+                return;
             }
         }
     }

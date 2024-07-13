@@ -43,7 +43,7 @@ public final class Queries {
                         """;
         public static final String DELETE_REVIEW = """
                         DELETE FROM RECENSIONI
-                        WHERE RistoranteID = ? AND Username = ? AND Data = ?
+                        WHERE RistoranteID = ? AND Username = ? AND DataOra = ?
                         """;
         public static final String RESTAURANT_DETAILS = """
                         SELECT r.Nome, r.IndirizzoVia, r.IndirizzoCittà, r.IndirizzoCivico, r.TipologiaCucina, r.OraApertura, r.OraChiusura

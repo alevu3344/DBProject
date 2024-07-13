@@ -2,14 +2,13 @@ package deliveryDB.view;
 
 import deliveryDB.controller.ReviewController;
 import deliveryDB.data.Review;
+import deliveryDB.data.User;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -18,11 +17,13 @@ public class ReviewPage {
     private final JFrame mainFrame;
     private final ReviewController controller;
     private List<Review> reviews;
+    private User.USER_TYPE userType;
 
     public ReviewPage(JFrame mainFrame, ReviewController controller) {
         this.mainFrame = mainFrame;
         this.controller = controller;
         this.reviews = this.controller.getReviews(); // Load reviews initially
+        this.userType = controller.getUserType();
         this.initializeUI();
     }
 
@@ -37,22 +38,12 @@ public class ReviewPage {
             
             // Back Button
             JButton backButton = new JButton("Back");
-            backButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    handleBack();
-                }
-            });
+            backButton.addActionListener(e -> handleBack());
             buttonPanel.add(backButton);
 
             // Add Review Button
             JButton addReviewButton = new JButton("Add Review");
-            addReviewButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    showAddReviewDialog();
-                }
-            });
+            addReviewButton.addActionListener(e -> showAddReviewDialog());
             buttonPanel.add(addReviewButton);
 
             // Create a panel to hold reviews
@@ -101,6 +92,22 @@ public class ReviewPage {
         reviewPanel.add(new JLabel("Rating: " + review.getStars() + " stars"));
         reviewPanel.add(new JLabel("Date: " + review.getDate()));
         reviewPanel.add(new JLabel("Review: " + review.getReview()));
+        
+        if (userType == User.USER_TYPE.ADMIN) {
+            // Add a delete button for admin users
+            JButton deleteButton = new JButton("X");
+            deleteButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+            deleteButton.addActionListener(e -> {
+                int response = JOptionPane.showConfirmDialog(mainFrame, "Are you sure you want to delete this review?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+                if (response == JOptionPane.YES_OPTION) {
+                    controller.deleteReview(review);
+                    reviews = controller.getReviews(); // Refresh the reviews list
+                    initializeUI(); // Refresh the UI to show the updated reviews
+                }
+            });
+            reviewPanel.add(deleteButton);
+        }
+
         reviewPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Space between reviews
 
         return reviewPanel;
@@ -126,53 +133,39 @@ public class ReviewPage {
         dialog.setLayout(new GridLayout(5, 2));
         dialog.setSize(400, 300);
 
-       
         JSpinner ratingSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1)); // Rating from 1 to 5
-        
         JTextArea reviewArea = new JTextArea();
         reviewArea.setLineWrap(true);
         reviewArea.setWrapStyleWord(true);
 
-    
         dialog.add(new JLabel("Rating (1-5):"));
         dialog.add(ratingSpinner);
         dialog.add(new JLabel("Review:"));
         dialog.add(new JScrollPane(reviewArea));
 
         JButton submitButton = new JButton("Submit");
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Validate input
-                try {
-                  
-                    int rating = (Integer) ratingSpinner.getValue();
-                    String reviewText = reviewArea.getText();
-    
+        submitButton.addActionListener(e -> {
+            // Validate input
+            try {
+                int rating = (Integer) ratingSpinner.getValue();
+                String reviewText = reviewArea.getText();
 
-                    if (rating < 1 || rating > 5) {
-                        JOptionPane.showMessageDialog(dialog, "Rating must be between 1 and 5", "Invalid Rating", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    
-                    controller.addReview(rating, reviewText); // Add the review
-                    reviews = controller.getReviews(); // Refresh the reviews list
-                    initializeUI(); // Refresh the UI to show the new review
-                    dialog.dispose(); // Close the dialog
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(dialog, "Invalid input. Please check your data.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                if (rating < 1 || rating > 5) {
+                    JOptionPane.showMessageDialog(dialog, "Rating must be between 1 and 5", "Invalid Rating", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
+
+                controller.addReview(rating, reviewText); // Add the review
+                reviews = controller.getReviews(); // Refresh the reviews list
+                initializeUI(); // Refresh the UI to show the new review
+                dialog.dispose(); // Close the dialog
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(dialog, "Invalid input. Please check your data.", "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dialog.dispose(); // Close the dialog
-            }
-        });
+        cancelButton.addActionListener(e -> dialog.dispose()); // Close the dialog
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(submitButton);

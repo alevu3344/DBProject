@@ -7,11 +7,13 @@ import java.sql.Connection;
 import java.util.Objects;
 import java.util.Optional;
 
+
 import deliveryDB.data.Item;
 import deliveryDB.data.Order;
 import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
+import deliveryDB.data.User.USER_TYPE;
 import deliveryDB.utilities.Pair;
 
 
@@ -49,8 +51,9 @@ public class DelModelImpl implements DelModel {
     }
 
     @Override
-    public boolean deleteReview(int reviewID) {
-        return false;
+    public void deleteReview(Review review) {
+        Review.DAO.deleteReview(connection, review);
+        return;
     }
 
     @Override
@@ -59,12 +62,12 @@ public class DelModelImpl implements DelModel {
     }
 
     @Override
-    public boolean login(String username, String password) {
+    public Optional<User.USER_TYPE> login(String username, String password) {
         if(User.DAO.userLogin(connection, username, password)){
             this.user = Optional.of(User.DAO.getUser(connection, username));
-            return true;
+            return Optional.of(this.user.get().getType());
         }
-        return false;
+        return Optional.empty();
     }
 
     @Override
@@ -91,6 +94,11 @@ public class DelModelImpl implements DelModel {
     @Override
     public boolean addReview(int stars, String review, int restaurantID) {
         return Review.DAO.addReview(connection, restaurantID, stars, review, this.user.get().getUsername());
+    }
+
+    @Override
+    public USER_TYPE getUserType() {
+        return this.user.get().getType();
     }
 
 }

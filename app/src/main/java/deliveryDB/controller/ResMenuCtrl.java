@@ -15,7 +15,7 @@ import java.util.Date;
 
 
 
-public class ResMenuCtrl {
+public class ResMenuCtrl implements Controller {
     
     private final DelModel model;
     private ResMenu view;
@@ -33,9 +33,7 @@ public class ResMenuCtrl {
     
     }   
 
-    public void showMenu(){
-        this.view = new ResMenu(this.mainFrame, this);
-    }
+    
 
     public void handleBack(){
         this.prevctrl.showRestaurants();
@@ -77,8 +75,10 @@ public class ResMenuCtrl {
         new ReviewController(this, this.mainFrame, this.model, this.restaurant.getRestaurantID());
     }
 
-    
+    @Override
+    public void show() {
+        this.view = new ResMenu(this.mainFrame, this);
+    }
 
-
-
+ 
 }
