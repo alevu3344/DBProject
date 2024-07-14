@@ -52,8 +52,12 @@ public class OrdersCtrl implements Controller {
        return this.model.onRestaurantID(order.getRestaurantID());
     }
 
-    public void acceptOrder(Order order){
-        //this.model.acceptOrder(order);
+    public boolean acceptOrder(int orderID){
+        return this.model.acceptOrder(orderID);
+    }
+
+    public boolean deliverOrder(int orderID){
+        return this.model.deliverOrder(orderID);
     }
 
 

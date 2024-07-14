@@ -46,6 +46,26 @@ public class Order {
 
     public final class DAO {
 
+        public static boolean deliverOrder(Connection connection, int orderID) {
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.DELIVER_ORDER, orderID);
+                return statement.executeUpdate() > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        public static boolean acceptOrder(Connection connection, int orderID, String username) {
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.ACCEPT_ORDER, orderID, username);
+                return statement.executeUpdate() > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
         private static Map<Item, Integer> buildMap(Connection connection, int orderID) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.ORDER_DETAILS, orderID);
@@ -89,7 +109,7 @@ public class Order {
                 var result = statement.executeQuery();
                 while (result.next()) {
                     var order = new Order(result.getInt("OrdineID"), result.getString("Username"),
-                            result.getInt("RistorantteID"), buildMap(connection, result.getInt("OrdineID")));
+                            result.getInt("RistoranteID"), buildMap(connection, result.getInt("OrdineID")));
 
                     orders.add(order);
                     System.out.println(order.getItems());

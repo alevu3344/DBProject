@@ -105,4 +105,16 @@ public final class Queries {
                         WHERE d.OrdineID = ?
                         """;
 
+        public static final String ACCEPT_ORDER = """
+                        INSERT INTO ASSEGNAZIONI_CONSEGNE (OrdineID, FattorinoID)
+                        VALUES (?, ?)
+                        """;
+
+
+        public static final String DELIVER_ORDER = """
+                        UPDATE ASSEGNAZIONI_CONSEGNE
+                        SET DataOraConsegna = CURRENT_TIMESTAMP
+                        WHERE OrdineID = ?
+                        """;
+
 }

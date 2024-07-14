@@ -31,7 +31,9 @@ public interface DelModel {
 
     public boolean addReview(int stars, String review, int restaurantID);
 
-    public boolean deliverOrder(Order order);
+    public boolean acceptOrder(int orderID);
+
+    public boolean deliverOrder(int orderID);
 
     public void deleteReview(Review review);
 

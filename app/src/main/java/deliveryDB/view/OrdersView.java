@@ -96,8 +96,29 @@ public class OrdersView {
         // Accept Button (conditionally added if flag is AVAILABLE)
         if (flag == Flag.AVAILABLE) {
             JButton acceptButton = new JButton("Accept");
-            acceptButton.addActionListener(e -> ctrl.acceptOrder(order));
+            acceptButton.addActionListener(e -> {
+                if (ctrl.acceptOrder(order.getOrderID())) {
+                    JOptionPane.showMessageDialog(mainFrame, "Order accepted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    initializeUI();
+                } else {
+                    JOptionPane.showMessageDialog(mainFrame, "Failed to accept order.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            });
             panel.add(acceptButton);
+        }
+
+        // Deliver Button (conditionally added if flag is ACCEPTED)
+        if (flag == Flag.ACCEPTED) {
+            JButton deliverButton = new JButton("Consegna");
+            deliverButton.addActionListener(e -> {
+                if (ctrl.deliverOrder(order.getOrderID())) {
+                    JOptionPane.showMessageDialog(mainFrame, "Order delivered successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    initializeUI();
+                } else {
+                    JOptionPane.showMessageDialog(mainFrame, "Failed to deliver order.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+            panel.add(deliverButton);
         }
 
         return panel;
