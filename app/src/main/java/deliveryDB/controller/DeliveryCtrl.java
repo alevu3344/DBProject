@@ -3,8 +3,10 @@ package deliveryDB.controller;
 import javax.swing.JFrame;
 import deliveryDB.model.DelModel;
 import deliveryDB.view.DeliveryPanel;
+import deliveryDB.view.DeliveryPanel.Flag;
 
 public class DeliveryCtrl implements Controller {
+    
     
 
     private final DelModel model;
@@ -29,6 +31,9 @@ public class DeliveryCtrl implements Controller {
         this.prevCtrl.show();
     }
 
+    public void showOrders(Flag flag){
+        new OrdersCtrl(flag, this, this.mainFrame, this.model);
+    }
 
 
 }

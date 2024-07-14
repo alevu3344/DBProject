@@ -49,10 +49,9 @@ public class Restaurant {
             return Optional.empty();
         }
 
-        // add a review to the restaurant
-        public static boolean addReview(Connection connection, int restaurantID, int stars, String review) {
+        public static boolean addReview(Connection connection, int restaurantID, int stars, String review, String username) {
             try {
-                var statement = DAOUtils.prepare(connection, Queries.ADD_REVIEW, restaurantID, stars, review);
+                var statement = DAOUtils.prepare(connection, Queries.ADD_REVIEW, restaurantID, stars, review, username);
                 statement.executeUpdate();
                 return true;
             } catch (Exception e) {
@@ -60,7 +59,6 @@ public class Restaurant {
                 return false;
             }
         }
-
         // List all the reviews of a restaurant
         public static Optional<String> listReviews(Connection connection, int restaurantID) {
             return Optional.empty();

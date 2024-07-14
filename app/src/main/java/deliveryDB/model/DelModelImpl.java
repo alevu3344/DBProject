@@ -93,12 +93,22 @@ public class DelModelImpl implements DelModel {
 
     @Override
     public boolean addReview(int stars, String review, int restaurantID) {
-        return Review.DAO.addReview(connection, restaurantID, stars, review, this.user.get().getUsername());
+        return Restaurant.DAO.addReview(connection, restaurantID, stars, review, this.user.get().getUsername());
     }
 
     @Override
     public USER_TYPE getUserType() {
         return this.user.get().getType();
+    }
+
+    @Override
+    public List<Order> getAvailableOrders() {
+        return Order.DAO.getAvailableOrders(connection);
+    }
+
+    @Override
+    public List<Order> getAcceptedOrders() {
+        return Order.DAO.getAcceptedOrders(connection, this.user.get().getUsername());
     }
 
 }

@@ -54,7 +54,7 @@ public class Order {
                 while (result.next()) {
                     var item = new Item(result.getInt("ElementoMenuID"), result.getInt("RistoranteID"),
                             result.getFloat("Prezzo"), result.getString("Nome"), result.getString("Tipo"));
-                    map.put(item, result.getInt("Quantity"));
+                    map.put(item, result.getInt("Quantità"));
                 }
                 return map;
             } catch (SQLException e) {
@@ -69,10 +69,11 @@ public class Order {
                 var statement = DAOUtils.prepare(connection, Queries.AVAILABLE_ORDERS);
                 var result = statement.executeQuery();
                 while (result.next()) {
-                    var order = new Order(result.getInt("OrderID"), result.getString("Username"),
-                            result.getInt("RestaurantID"), buildMap(connection, result.getInt("OrderID")));
+                    var order = new Order(result.getInt("OrdineID"), result.getString("Username"),
+                            result.getInt("RistoranteID"), buildMap(connection, result.getInt("OrdineID")));
 
                     orders.add(order);
+
                 }
                 return orders;
             } catch (SQLException e) {
@@ -80,6 +81,26 @@ public class Order {
                 return Collections.emptyList();
             }
         }
+
+        public static List<Order> getAcceptedOrders(Connection connection, String username) {
+            try {
+                LinkedList<Order> orders = new LinkedList<>();
+                var statement = DAOUtils.prepare(connection, Queries.ACCEPTED_ORDERS, username);
+                var result = statement.executeQuery();
+                while (result.next()) {
+                    var order = new Order(result.getInt("OrdineID"), result.getString("Username"),
+                            result.getInt("RistorantteID"), buildMap(connection, result.getInt("OrdineID")));
+
+                    orders.add(order);
+                    System.out.println(order.getItems());
+                }
+                return orders;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }
+            
 
         public static boolean sendOrder(Map<Item, Integer> order, String username, int restaurant_id,
                 Connection connection) {

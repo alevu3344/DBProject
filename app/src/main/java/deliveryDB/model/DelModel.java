@@ -35,6 +35,10 @@ public interface DelModel {
 
     public void deleteReview(Review review);
 
+    public List<Order> getAvailableOrders();
+
+    public List<Order> getAcceptedOrders();
+
     public Optional<User.USER_TYPE> login(String username, String password);
 
     public float getBalance();
