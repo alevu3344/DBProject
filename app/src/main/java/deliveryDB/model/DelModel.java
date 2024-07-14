@@ -50,4 +50,6 @@ public interface DelModel {
     public boolean userRegister(User.USER_TYPE type, String username, String name, String surname,String password, String street, String number, String city);
 
     public User.USER_TYPE getUserType();
+
+    public String getAddress(String username);
 }

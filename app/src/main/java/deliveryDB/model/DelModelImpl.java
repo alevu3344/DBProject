@@ -47,7 +47,7 @@ public class DelModelImpl implements DelModel {
 
     @Override
     public boolean deliverOrder(int orderID) {
-        return false;
+        return Order.DAO.deliverOrder(connection, orderID);
     }
 
     @Override
@@ -114,6 +114,11 @@ public class DelModelImpl implements DelModel {
     @Override
     public boolean acceptOrder(int orderID) {
         return Order.DAO.acceptOrder(connection, orderID, this.user.get().getUsername());
+    }
+
+    @Override
+    public String getAddress(String username) {
+        return User.DAO.getAddress(connection, username);
     }
 
 }

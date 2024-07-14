@@ -85,6 +85,20 @@ public class User {
 
     public final class DAO {
 
+        public static String getAddress(Connection connection, String username) {
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.USER_ADDRESS, username);
+                var result = statement.executeQuery();
+                if (result.next()) {
+                    return result.getString("IndirizzoVia") + " " + result.getString("IndirizzoCivico") + ", " + result.getString("IndirizzoCittà");
+                }
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
         public static float getBalanceFor(Connection connection, String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);

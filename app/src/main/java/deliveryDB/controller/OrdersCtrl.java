@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import deliveryDB.data.Order;
 import deliveryDB.data.Restaurant;
 import deliveryDB.model.DelModel;
+import deliveryDB.utilities.Pair;
 import deliveryDB.view.DeliveryPanel.Flag;
 import deliveryDB.view.OrdersView;
 
@@ -48,8 +49,8 @@ public class OrdersCtrl implements Controller {
         }
     }
 
-    public Restaurant restaurantDetails(Order order){
-       return this.model.onRestaurantID(order.getRestaurantID());
+    public Pair<Restaurant, String> restaurantDetails(Order order){
+       return new Pair<>(this.model.onRestaurantID(order.getRestaurantID()), this.model.getAddress(order.getUsername()));
     }
 
     public boolean acceptOrder(int orderID){

@@ -117,4 +117,10 @@ public final class Queries {
                         WHERE OrdineID = ?
                         """;
 
+        public static final String USER_ADDRESS = """
+                        SELECT u.IndirizzoVia, u.IndirizzoCivico, u.IndirizzoCittà
+                        FROM UTENTI u
+                        WHERE u.Username = ?
+                        """;
+
 }

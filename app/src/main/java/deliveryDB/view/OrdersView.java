@@ -125,41 +125,55 @@ public class OrdersView {
     }
 
     private void displayOrderDetails(Order order) {
-        Restaurant restaurant = this.ctrl.restaurantDetails(order);
-
+        var details = ctrl.restaurantDetails(order);
+        Restaurant restaurant = details.get1();
+        String deliveryAddress = details.get2();  // Get the delivery address
+    
         if (restaurant == null) {
             JOptionPane.showMessageDialog(mainFrame, "Restaurant details not found.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        // Create panels for the restaurant name, address, and ordered items
+    
+        // Create panels for the restaurant name, address, delivery address, and ordered items
         JPanel detailsPanel = new JPanel();
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-
+    
+        // Restaurant Name Panel
         JPanel namePanel = new JPanel();
         namePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
         namePanel.add(new JLabel("Restaurant Name: "));
         namePanel.add(new JLabel(restaurant.getName()));
-
+    
+        // Restaurant Address Panel
         JPanel addressPanel = new JPanel();
         addressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         addressPanel.setLayout(new BoxLayout(addressPanel, BoxLayout.X_AXIS));
         addressPanel.add(new JLabel("Restaurant Address: "));
         addressPanel.add(new JLabel(restaurant.getAddress()));
-
+    
+        // Delivery Address Panel
+        JPanel deliveryAddressPanel = new JPanel();
+        deliveryAddressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        deliveryAddressPanel.setLayout(new BoxLayout(deliveryAddressPanel, BoxLayout.X_AXIS));
+        deliveryAddressPanel.add(new JLabel("Delivery Address: "));
+        deliveryAddressPanel.add(new JLabel(deliveryAddress));
+    
+        // Ordered Items Panel
         JPanel itemsPanel = new JPanel();
         itemsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
         itemsPanel.add(new JLabel("Ordered Items:"));
-        order.getItems().forEach((item, quantity) -> itemsPanel.add(new JLabel("- " + item.getName())));
-
+        order.getItems().forEach((item, quantity) -> itemsPanel.add(new JLabel("- " + item.getName() + " x " + quantity)));
+    
         // Add all panels to the detailsPanel
         detailsPanel.add(namePanel);
         detailsPanel.add(addressPanel);
+        detailsPanel.add(deliveryAddressPanel);
         detailsPanel.add(itemsPanel);
-
+    
         // Show details in a JOptionPane
         JOptionPane.showMessageDialog(mainFrame, detailsPanel, "Order Details", JOptionPane.INFORMATION_MESSAGE);
     }
+    
 }
