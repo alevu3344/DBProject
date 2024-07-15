@@ -7,10 +7,8 @@ import java.sql.Connection;
 import java.util.Objects;
 import java.util.Optional;
 
-import deliveryDB.data.DAOUtils;
 import deliveryDB.data.Item;
 import deliveryDB.data.Order;
-import deliveryDB.data.Queries;
 import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
