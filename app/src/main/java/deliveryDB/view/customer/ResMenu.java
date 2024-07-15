@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 
 import deliveryDB.controller.customer.ResMenuCtrl;
 import deliveryDB.data.Item;
-import deliveryDB.utilities.Pair; 
+import deliveryDB.utilities.Pair;
 import java.util.Date;
 
 public class ResMenu {
@@ -256,8 +256,42 @@ public class ResMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.ifPresent(ctrl -> {
-                    ctrl.handleSendOrder(itemQuantityMap);
-                    resetAllSpinners();
+                    // Gather order details
+                    StringBuilder orderDetails = new StringBuilder("Order Details:\n");
+                    double totalCost = 0.0;
+                    for (var entry : itemQuantityMap.entrySet()) {
+                        if (entry.getValue() > 0) {
+                            orderDetails.append(entry.getKey().getName())
+                                        .append(" (")
+                                        .append(entry.getKey().getType())
+                                        .append("): ")
+                                        .append(entry.getValue())
+                                        .append(" x ")
+                                        .append(entry.getKey().getPrice())
+                                        .append("$\n");
+                            totalCost += entry.getValue() * entry.getKey().getPrice();
+                        }
+                    }
+                    // Calculate commission
+                    
+                    double commission = controller.get().getCommission(totalCost);
+                    var formattedCommission = String.format("%.2f", commission);
+
+                    // Add total cost and commission details
+                    orderDetails.append("\nTotal: $").append(totalCost)
+                                .append("\nCommission: $").append(formattedCommission)
+                                .append("\nTotal + Commission: $").append(String.format("%.2f" , (totalCost + Float.parseFloat(formattedCommission))));
+
+                    // Show order confirmation dialog
+                    int confirmation = JOptionPane.showConfirmDialog(mainFrame, orderDetails.toString(),
+                            "Confirm Order", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+                    // If user confirms the order, send it
+                    if (confirmation == JOptionPane.OK_OPTION) {
+                        ctrl.handleSendOrder(itemQuantityMap);
+                        resetAllSpinners();
+                        showOrderConfirmation();
+                    }
                 });
             }
         });
@@ -274,7 +308,8 @@ public class ResMenu {
         updateOrderSummary(); // Ensure the order summary is updated
     }
 
-    public void showOrderConfirmation() {
+    private void showOrderConfirmation() {
+
         JOptionPane.showMessageDialog(mainFrame, "Order sent successfully!", "Order Confirmation", JOptionPane.INFORMATION_MESSAGE);
     }
 

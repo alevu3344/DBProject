@@ -98,11 +98,19 @@ public class OrdersView {
         if (flag == Flag.AVAILABLE) {
             JButton acceptButton = new JButton("Accept");
             acceptButton.addActionListener(e -> {
-                if (ctrl.acceptOrder(order.getOrderID())) {
-                    JOptionPane.showMessageDialog(mainFrame, "Order accepted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    initializeUI();
-                } else {
-                    JOptionPane.showMessageDialog(mainFrame, "Failed to accept order.", "Error", JOptionPane.ERROR_MESSAGE);
+                int response = JOptionPane.showConfirmDialog(
+                    mainFrame,
+                    "Are you sure you want to accept this order?",
+                    "Confirm Accept",
+                    JOptionPane.YES_NO_OPTION
+                );
+                if (response == JOptionPane.YES_OPTION) {
+                    if (ctrl.acceptOrder(order.getOrderID())) {
+                        JOptionPane.showMessageDialog(mainFrame, "Order accepted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        initializeUI();
+                    } else {
+                        JOptionPane.showMessageDialog(mainFrame, "Failed to accept order.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             });
             panel.add(acceptButton);
@@ -112,11 +120,19 @@ public class OrdersView {
         if (flag == Flag.ACCEPTED) {
             JButton deliverButton = new JButton("Consegna");
             deliverButton.addActionListener(e -> {
-                if (ctrl.deliverOrder(order.getOrderID())) {
-                    JOptionPane.showMessageDialog(mainFrame, "Order delivered successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    initializeUI();
-                } else {
-                    JOptionPane.showMessageDialog(mainFrame, "Failed to deliver order.", "Error", JOptionPane.ERROR_MESSAGE);
+                int response = JOptionPane.showConfirmDialog(
+                    mainFrame,
+                    "Are you sure you want to deliver this order?",
+                    "Confirm Deliver",
+                    JOptionPane.YES_NO_OPTION
+                );
+                if (response == JOptionPane.YES_OPTION) {
+                    if (ctrl.deliverOrder(order.getOrderID())) {
+                        JOptionPane.showMessageDialog(mainFrame, "Order delivered successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        initializeUI();
+                    } else {
+                        JOptionPane.showMessageDialog(mainFrame, "Failed to deliver order.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             });
             panel.add(deliverButton);
@@ -128,53 +144,55 @@ public class OrdersView {
     private void displayOrderDetails(Order order) {
         var details = ctrl.restaurantDetails(order);
         Restaurant restaurant = details.get1();
-        String deliveryAddress = details.get2();  // Get the delivery address
-    
+        String deliveryAddress = details.get2();
+
         if (restaurant == null) {
             JOptionPane.showMessageDialog(mainFrame, "Restaurant details not found.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-    
-        // Create panels for the restaurant name, address, delivery address, and ordered items
+
+        float compensation = ctrl.getCompensation(order); // Retrieve the compensation value
+        String formattedCompensation = String.format("%.2f", compensation); // Format the compensation
+
         JPanel detailsPanel = new JPanel();
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-    
-        // Restaurant Name Panel
+
         JPanel namePanel = new JPanel();
         namePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
         namePanel.add(new JLabel("Restaurant Name: "));
         namePanel.add(new JLabel(restaurant.getName()));
-    
-        // Restaurant Address Panel
+
         JPanel addressPanel = new JPanel();
         addressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         addressPanel.setLayout(new BoxLayout(addressPanel, BoxLayout.X_AXIS));
         addressPanel.add(new JLabel("Restaurant Address: "));
         addressPanel.add(new JLabel(restaurant.getAddress()));
-    
-        // Delivery Address Panel
+
         JPanel deliveryAddressPanel = new JPanel();
         deliveryAddressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         deliveryAddressPanel.setLayout(new BoxLayout(deliveryAddressPanel, BoxLayout.X_AXIS));
         deliveryAddressPanel.add(new JLabel("Delivery Address: "));
         deliveryAddressPanel.add(new JLabel(deliveryAddress));
-    
-        // Ordered Items Panel
+
         JPanel itemsPanel = new JPanel();
         itemsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
         itemsPanel.add(new JLabel("Ordered Items:"));
         order.getItems().forEach((item, quantity) -> itemsPanel.add(new JLabel("- " + item.getName() + " x " + quantity)));
-    
-        // Add all panels to the detailsPanel
+
+        JPanel compensationPanel = new JPanel();
+        compensationPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        compensationPanel.setLayout(new BoxLayout(compensationPanel, BoxLayout.X_AXIS));
+        compensationPanel.add(new JLabel("Compensation: $"));
+        compensationPanel.add(new JLabel(formattedCompensation));
+
         detailsPanel.add(namePanel);
         detailsPanel.add(addressPanel);
         detailsPanel.add(deliveryAddressPanel);
         detailsPanel.add(itemsPanel);
-    
-        // Show details in a JOptionPane
+        detailsPanel.add(compensationPanel); // Add the compensation panel
+
         JOptionPane.showMessageDialog(mainFrame, detailsPanel, "Order Details", JOptionPane.INFORMATION_MESSAGE);
     }
-    
 }

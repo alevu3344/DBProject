@@ -19,6 +19,9 @@ public interface Model {
         return new ModelImpl(connection);
     }
 
+    public float getCommission();
+
+    public float getCompensation(Order order);
 
     public Pair<String, Integer> worstRestaurant();
 

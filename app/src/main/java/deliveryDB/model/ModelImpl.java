@@ -7,9 +7,10 @@ import java.sql.Connection;
 import java.util.Objects;
 import java.util.Optional;
 
-
+import deliveryDB.data.DAOUtils;
 import deliveryDB.data.Item;
 import deliveryDB.data.Order;
+import deliveryDB.data.Queries;
 import deliveryDB.data.Restaurant;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
@@ -21,6 +22,7 @@ public class ModelImpl implements Model {
 
     private final Connection connection;
     private Optional<User> user = Optional.empty();
+    private float commission = 0.2f;
 
     public ModelImpl(Connection connection) {
         Objects.requireNonNull(connection, "Model created with null connection");
@@ -29,7 +31,7 @@ public class ModelImpl implements Model {
 
     @Override
     public boolean sendOrder(Map <Item, Integer> order, int restaurantID) {
-        return Order.DAO.sendOrder(order, this.user.get().getUsername(), restaurantID, connection);
+        return Order.DAO.sendOrder(order, this.user.get().getUsername(), restaurantID, connection, this.commission);
     }
 
 
@@ -144,6 +146,19 @@ public class ModelImpl implements Model {
     @Override
     public List<Pair<String, Integer>> top5Deliverers() {
         return User.DAO.top5Deliverers(connection);
+    }
+
+    @Override
+    public float getCommission() {
+        return this.commission;
+    }
+
+    @Override
+    public float getCompensation(Order order) {
+        return order.getItems().entrySet().stream()
+        .map(e -> e.getKey().getPrice() * e.getValue())
+        .reduce(0f, Float::sum) * 
+        Order.DAO.getCommission(connection, order.getOrderID());
     }
 
 }

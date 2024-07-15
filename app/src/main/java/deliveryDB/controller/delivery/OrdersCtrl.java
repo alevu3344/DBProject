@@ -61,5 +61,9 @@ public class OrdersCtrl implements Controller {
         return this.model.deliverOrder(orderID);
     }
 
+    public float getCompensation(Order order){
+        return this.model.getCompensation(order);
+    }
+
 
 }

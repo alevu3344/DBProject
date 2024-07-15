@@ -46,6 +46,22 @@ public class Order {
 
     public final class DAO {
 
+        public static float getCommission(Connection connection, int orderID) {
+            try {
+                var statement = DAOUtils.prepare(connection,Queries.GET_COMMISSION, orderID);
+                var result = statement.executeQuery();
+                if (result.next()) {
+                    return result.getFloat("Commissione");
+                }
+                throw new SQLException("Commissione non trovata");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return 0.2f;
+            }
+        }
+
+
+
         public static boolean deliverOrder(Connection connection, int orderID) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.DELIVER_ORDER, orderID);
@@ -123,7 +139,7 @@ public class Order {
             
 
         public static boolean sendOrder(Map<Item, Integer> order, String username, int restaurant_id,
-                Connection connection) {
+                Connection connection, float commission) {
             try {
                 
                 var balanceStatement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
@@ -147,6 +163,7 @@ public class Order {
                             Statement.RETURN_GENERATED_KEYS);
                     orderStatement.setString(1, username);
                     orderStatement.setInt(2, restaurant_id);
+                    orderStatement.setFloat(3, commission);
                     orderStatement.executeUpdate();
 
                     
@@ -160,6 +177,7 @@ public class Order {
                     
                     var detailStatement = connection.prepareStatement(Queries.SEND_ORDER_DETAILS);
                     for (Map.Entry<Item, Integer> entry : filteredOrder.entrySet()) {
+                        System.out.println(entry);
                         detailStatement.setInt(1, ordineID);
                         detailStatement.setInt(2, entry.getKey().getItemID());
                         detailStatement.setInt(3, restaurant_id);
@@ -169,8 +187,10 @@ public class Order {
                     detailStatement.executeBatch();
 
                     // 5. Aggiorna il saldo dell'utente
+
+
                     var updateBalanceStatement = DAOUtils.prepare(connection, Queries.UPDATE_USER_BALANCE,
-                            balance - total, username);
+                            balance - (total+((total)*commission)), username);
                     updateBalanceStatement.executeUpdate();
 
                     // Commit della transazione

@@ -24,6 +24,7 @@ public class ResMenuCtrl implements Controller {
     private final ResController prevctrl;
     private Restaurant restaurant;
     private final JFrame mainFrame;
+    private float commission;
 
 
     public ResMenuCtrl(ResController prevctrl, JFrame mainFrame, Model model, Restaurant restaurant) {    
@@ -32,6 +33,7 @@ public class ResMenuCtrl implements Controller {
         this.prevctrl = prevctrl;
         this.restaurant = restaurant;
         this.view = new ResMenu(this.mainFrame, this);
+        this.commission = this.model.getCommission();
     
     }   
 
@@ -49,7 +51,6 @@ public class ResMenuCtrl implements Controller {
         
         if(this.model.sendOrder(order, this.restaurant.getRestaurantID())){
             this.view.updateBalance(this.model.getBalance());
-            this.view.showOrderConfirmation();
             return;
         }
         this.view.showOrderError();
@@ -80,6 +81,10 @@ public class ResMenuCtrl implements Controller {
     @Override
     public void show() {
         this.view = new ResMenu(this.mainFrame, this);
+    }
+
+    public float getCommission(double total){
+        return this.commission * (float)total;
     }
 
  
