@@ -19,8 +19,6 @@ public class LoginController implements Controller {
     private final Model model;
     private final LoginPage loginView;
     private Optional<ResController> resCtrl;
-    private Optional<AdminController> adminCtrl;
-    private Optional<DeliveryCtrl> delCtrl;
     private FirstController firstCtrl;
 
     public LoginController(LoginPage loginView, Model model, FirstController firstCtrl) {
@@ -50,14 +48,14 @@ public class LoginController implements Controller {
 
         } else if (userType.equals(Optional.of(User.USER_TYPE.DELIVERY_PERSON))) {
             loginView.displayMessage("Login successful");
-            this.delCtrl = Optional.of(new DeliveryCtrl(this, loginView.getMainFrame(), this.model));
+            new DeliveryCtrl(this, loginView.getMainFrame(), this.model);
         }
 
         else if (userType.equals(Optional.of(User.USER_TYPE.ADMIN))) {
 
             loginView.displayMessage("Login successful");
             var boxFrame = loginView.getMainFrame();
-            this.adminCtrl = Optional.of(new AdminController(this, boxFrame, this.model));
+            new AdminController(this, boxFrame, this.model);
         }
 
         else {

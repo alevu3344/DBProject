@@ -1,6 +1,5 @@
 package deliveryDB.data;
 
-import com.mysql.cj.jdbc.ha.BestResponseTimeBalanceStrategy;
 
 public final class Queries {
 

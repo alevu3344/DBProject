@@ -12,7 +12,6 @@ public class DeliveryCtrl implements Controller {
     
 
     private final Model model;
-    private DeliveryPanel view;
     private final JFrame mainFrame;
     private final Controller prevCtrl;
 
@@ -20,12 +19,12 @@ public class DeliveryCtrl implements Controller {
         this.prevCtrl = prevCtrl;
         this.model = model;
         this.mainFrame = mainFrame;
-        this.view = new DeliveryPanel(this.mainFrame, this);
+        new DeliveryPanel(this.mainFrame, this);
     }
 
     @Override
     public void show() {
-        this.view = new DeliveryPanel(this.mainFrame, this);
+        new DeliveryPanel(this.mainFrame, this);
     }
 
     public void handleLogOut(){

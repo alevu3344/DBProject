@@ -16,7 +16,6 @@ import java.util.List;
 
 public class OrdersCtrl implements Controller {
     
-    private OrdersView view;
     private final Model model;
     private final JFrame mainFrame;
     private final Controller prevCtrl;
@@ -27,12 +26,12 @@ public class OrdersCtrl implements Controller {
         this.model = model;
         this.mainFrame = mainFrame;
         this.flag = flag;
-        this.view = new OrdersView(flag, this.mainFrame, this);
+        new OrdersView(flag, this.mainFrame, this);
         
     }
     @Override
     public void show() {
-        this.view = new OrdersView(this.flag ,this.mainFrame, this);
+        new OrdersView(this.flag ,this.mainFrame, this);
     }
 
     public void handleBack(){
