@@ -160,8 +160,8 @@ public final class Queries {
                                 SELECT r.RistoranteID, (SUM(r.Voto) + 1) / (COUNT(*) + 1) AS adjusted_average
                                 FROM RECENSIONI r
                                 GROUP BY r.RistoranteID
-                                ORDER BY adjusted_average DESC
-                        ) subquery ON r.RistoranteID = subquery.RistoranteID;
+                        ) subquery ON r.RistoranteID = subquery.RistoranteID
+                         ORDER BY subquery.adjusted_average ASC;
 
                          """;
 

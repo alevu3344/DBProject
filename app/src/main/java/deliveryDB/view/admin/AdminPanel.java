@@ -134,7 +134,7 @@ public class AdminPanel {
 
     private void showTopDishes() {
         Pair<String, Integer> topDish = this.adminController.topDish();
-        showPopup("Top 5 Dishes", "Top Dish: " + topDish.get1() + " with " + topDish.get2() + " orders.");
+        showPopup("Top dish", "Top Dish: " + topDish.get1() + " with " + topDish.get2() + " orders.");
     }
 
     private void showPopularCuisine() {
@@ -162,6 +162,6 @@ public class AdminPanel {
         for (Pair<String, Integer> fattorino : topFattorini) {
             message.append(fattorino.get1()).append(": ").append(fattorino.get2()).append(" deliveries\n");
         }
-        showPopup("Top 5 Fattorini", message.toString());
+        showPopup("Miglior fattorino", message.toString());
     }
 }
