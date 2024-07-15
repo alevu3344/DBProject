@@ -1,20 +1,21 @@
-package deliveryDB.controller;
+package deliveryDB.controller.authentication;
 
 import java.util.List;
 
 import java.util.Objects;
 
+import deliveryDB.controller.FirstController;
 import deliveryDB.data.User;
-import deliveryDB.model.DelModel;
-import deliveryDB.view.RegisterPage;
+import deliveryDB.model.Model;
+import deliveryDB.view.authentication.RegisterPage;
 
 public class RegisterController {
 
-    private final DelModel model;
+    private final Model model;
     private final RegisterPage registerView;
     private FirstController firstCtrl;
 
-    public RegisterController(RegisterPage registerView, DelModel model, FirstController firstCtrl) {
+    public RegisterController(RegisterPage registerView, Model model, FirstController firstCtrl) {
         Objects.requireNonNull(model, "RegisterController created with null model");
         Objects.requireNonNull(registerView, "RegisterController created with null registerView");
         this.model = model;

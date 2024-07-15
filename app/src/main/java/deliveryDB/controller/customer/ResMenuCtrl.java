@@ -1,12 +1,14 @@
-package deliveryDB.controller;
+package deliveryDB.controller.customer;
 
-import deliveryDB.model.DelModel;
+import deliveryDB.model.Model;
 import deliveryDB.utilities.Pair;
-import deliveryDB.view.ResMenu;
+import deliveryDB.view.customer.ResMenu;
 
 import java.util.Map;
 import javax.swing.JFrame;
 
+import deliveryDB.controller.Controller;
+import deliveryDB.controller.ReviewController;
 import deliveryDB.data.Item;
 import deliveryDB.data.Restaurant;
 import java.util.LinkedHashMap;
@@ -17,14 +19,14 @@ import java.util.Date;
 
 public class ResMenuCtrl implements Controller {
     
-    private final DelModel model;
+    private final Model model;
     private ResMenu view;
     private final ResController prevctrl;
     private Restaurant restaurant;
     private final JFrame mainFrame;
 
 
-    public ResMenuCtrl(ResController prevctrl, JFrame mainFrame, DelModel model, Restaurant restaurant) {    
+    public ResMenuCtrl(ResController prevctrl, JFrame mainFrame, Model model, Restaurant restaurant) {    
         this.model = model;
         this.mainFrame = mainFrame;
         this.prevctrl = prevctrl;

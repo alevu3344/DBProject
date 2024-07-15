@@ -12,11 +12,11 @@ import deliveryDB.data.User;
 import deliveryDB.utilities.Pair;
 import java.util.LinkedHashMap;
 
-public interface DelModel {
+public interface Model {
     // Create a model that connects to a database using the given connection.
     //
-    public static DelModel fromConnection(Connection connection) {
-        return new DelModelImpl(connection);
+    public static Model fromConnection(Connection connection) {
+        return new ModelImpl(connection);
     }
 
 

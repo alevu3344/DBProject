@@ -1,4 +1,4 @@
-package deliveryDB.view;
+package deliveryDB.view.delivery;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,10 +17,11 @@ import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import deliveryDB.controller.OrdersCtrl;
+
+import deliveryDB.controller.delivery.OrdersCtrl;
 import deliveryDB.data.Order;
 import deliveryDB.data.Restaurant;
-import deliveryDB.view.DeliveryPanel.Flag;
+import deliveryDB.view.delivery.DeliveryPanel.Flag;
 
 public class OrdersView {
 

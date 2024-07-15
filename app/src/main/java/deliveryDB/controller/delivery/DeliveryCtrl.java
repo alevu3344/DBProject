@@ -1,20 +1,22 @@
-package deliveryDB.controller;
+package deliveryDB.controller.delivery;
 
 import javax.swing.JFrame;
-import deliveryDB.model.DelModel;
-import deliveryDB.view.DeliveryPanel;
-import deliveryDB.view.DeliveryPanel.Flag;
+
+import deliveryDB.controller.Controller;
+import deliveryDB.model.Model;
+import deliveryDB.view.delivery.DeliveryPanel;
+import deliveryDB.view.delivery.DeliveryPanel.Flag;
 
 public class DeliveryCtrl implements Controller {
     
     
 
-    private final DelModel model;
+    private final Model model;
     private DeliveryPanel view;
     private final JFrame mainFrame;
     private final Controller prevCtrl;
 
-    public DeliveryCtrl(Controller prevCtrl, JFrame mainFrame, DelModel model) {
+    public DeliveryCtrl(Controller prevCtrl, JFrame mainFrame, Model model) {
         this.prevCtrl = prevCtrl;
         this.model = model;
         this.mainFrame = mainFrame;

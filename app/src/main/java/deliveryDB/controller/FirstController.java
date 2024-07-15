@@ -3,20 +3,21 @@ package deliveryDB.controller;
 
 import java.sql.Connection;
 
-
-import deliveryDB.model.DelModel;
+import deliveryDB.controller.authentication.LoginController;
+import deliveryDB.controller.authentication.RegisterController;
+import deliveryDB.model.Model;
 import deliveryDB.view.FirstPage;
-import deliveryDB.view.LoginPage;
-import deliveryDB.view.RegisterPage;
+import deliveryDB.view.authentication.LoginPage;
+import deliveryDB.view.authentication.RegisterPage;
 
 import java.util.Objects;
 
 public class FirstController {
-    private final DelModel model;
+    private final Model model;
     private FirstPage firstPage;
     private Runnable onClose;
 
-    public FirstController(DelModel model, Connection connection) {
+    public FirstController(Model model, Connection connection) {
         Objects.requireNonNull(model, "MainController created with null model");
         Objects.requireNonNull(connection, "MainController created with null connection");
 

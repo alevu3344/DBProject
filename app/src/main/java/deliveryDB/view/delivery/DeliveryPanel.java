@@ -1,12 +1,14 @@
-package deliveryDB.view;
+package deliveryDB.view.delivery;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import deliveryDB.controller.delivery.DeliveryCtrl;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.util.function.Consumer;
-import deliveryDB.controller.DeliveryCtrl;
 
 import javax.swing.BoxLayout;
 import java.awt.Component;

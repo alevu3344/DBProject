@@ -1,21 +1,25 @@
-package deliveryDB.controller;
+package deliveryDB.controller.admin;
 
-import deliveryDB.model.DelModel;
-import deliveryDB.view.AdminPanel;
+import deliveryDB.controller.Controller;
+import deliveryDB.controller.ReviewController;
+import deliveryDB.controller.authentication.LoginController;
+import deliveryDB.model.Model;
+
 import javax.swing.JFrame;
 import java.util.List;
 import deliveryDB.utilities.Pair;
+import deliveryDB.view.admin.AdminPanel;
 
 
 
 public class AdminController implements Controller {
     
 
-    private final DelModel model;
+    private final Model model;
     private final LoginController prevctrl;
     private final JFrame mainFrame;
 
-    public AdminController(LoginController prevctrl,JFrame mainFrame, DelModel model ) {
+    public AdminController(LoginController prevctrl,JFrame mainFrame, Model model ) {
         this.mainFrame = mainFrame;
         this.model = model;
         this.prevctrl = prevctrl;

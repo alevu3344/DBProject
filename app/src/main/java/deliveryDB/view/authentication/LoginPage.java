@@ -1,8 +1,8 @@
-package deliveryDB.view;
+package deliveryDB.view.authentication;
 
 import javax.swing.*;
 
-import deliveryDB.controller.LoginController;
+import deliveryDB.controller.authentication.LoginController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

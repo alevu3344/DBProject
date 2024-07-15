@@ -1,17 +1,18 @@
-package deliveryDB.controller;
+package deliveryDB.controller.customer;
 
-import deliveryDB.model.DelModel;
-import deliveryDB.view.RestaurantsPage;
+import deliveryDB.controller.authentication.LoginController;
+import deliveryDB.model.Model;
+import deliveryDB.view.customer.RestaurantsPage;
 
 public class ResController {
     
 
-    private final DelModel model;
+    private final Model model;
     private final RestaurantsPage resView;
     private final LoginController prevCtrl;
 
 
-    public ResController(LoginController prevCtrl,RestaurantsPage resView, DelModel model) {
+    public ResController(LoginController prevCtrl,RestaurantsPage resView, Model model) {
         this.resView = resView;
         this.model = model;
         this.prevCtrl = prevCtrl;

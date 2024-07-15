@@ -1,9 +1,14 @@
-package deliveryDB.controller;
+package deliveryDB.controller.authentication;
 
+import deliveryDB.controller.Controller;
+import deliveryDB.controller.FirstController;
+import deliveryDB.controller.admin.AdminController;
+import deliveryDB.controller.customer.ResController;
+import deliveryDB.controller.delivery.DeliveryCtrl;
 import deliveryDB.data.User;
-import deliveryDB.model.DelModel;
-import deliveryDB.view.LoginPage;
-import deliveryDB.view.RestaurantsPage;
+import deliveryDB.model.Model;
+import deliveryDB.view.authentication.LoginPage;
+import deliveryDB.view.customer.RestaurantsPage;
 
 import java.util.Optional;
 
@@ -11,14 +16,14 @@ import java.util.Objects;
 
 public class LoginController implements Controller {
 
-    private final DelModel model;
+    private final Model model;
     private final LoginPage loginView;
     private Optional<ResController> resCtrl;
     private Optional<AdminController> adminCtrl;
     private Optional<DeliveryCtrl> delCtrl;
     private FirstController firstCtrl;
 
-    public LoginController(LoginPage loginView, DelModel model, FirstController firstCtrl) {
+    public LoginController(LoginPage loginView, Model model, FirstController firstCtrl) {
         Objects.requireNonNull(model, "MainController created with null model");
         Objects.requireNonNull(loginView, "MainController created with null loginView");
         this.resCtrl = Optional.empty();

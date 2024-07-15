@@ -17,12 +17,12 @@ import deliveryDB.data.User.USER_TYPE;
 import deliveryDB.utilities.Pair;
 
 
-public class DelModelImpl implements DelModel {
+public class ModelImpl implements Model {
 
     private final Connection connection;
     private Optional<User> user = Optional.empty();
 
-    public DelModelImpl(Connection connection) {
+    public ModelImpl(Connection connection) {
         Objects.requireNonNull(connection, "Model created with null connection");
         this.connection = connection;
     }

@@ -1,6 +1,6 @@
 package deliveryDB.controller;
 
-import deliveryDB.model.DelModel;
+import deliveryDB.model.Model;
 import javax.swing.JFrame;
 import deliveryDB.data.Review;
 import deliveryDB.data.User;
@@ -10,12 +10,12 @@ import deliveryDB.view.ReviewPage;
 
 public class ReviewController {
 
-    private final DelModel model;
+    private final Model model;
     private final JFrame mainFrame;
     private final Controller prevCtrl;
     private final int restaurantID;
     
-    public ReviewController(Controller resMenuCtrl, JFrame mainFrame, DelModel model, int restaurantID) {
+    public ReviewController(Controller resMenuCtrl, JFrame mainFrame, Model model, int restaurantID) {
         this.model = model;
         this.mainFrame = mainFrame;
         this.prevCtrl = resMenuCtrl;

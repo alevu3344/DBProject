@@ -1,6 +1,6 @@
-package deliveryDB.view;
+package deliveryDB.view.admin;
 
-import deliveryDB.controller.AdminController;
+import deliveryDB.controller.admin.AdminController;
 import deliveryDB.utilities.Pair;
 
 import javax.swing.*;

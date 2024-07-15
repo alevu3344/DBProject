@@ -1,4 +1,4 @@
-package deliveryDB.view;
+package deliveryDB.view.customer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.function.Consumer;
 import java.text.SimpleDateFormat;
-import deliveryDB.controller.ResMenuCtrl;
+
+import deliveryDB.controller.customer.ResMenuCtrl;
 import deliveryDB.data.Item;
 import deliveryDB.utilities.Pair; 
 import java.util.Date;

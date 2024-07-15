@@ -1,13 +1,14 @@
-package deliveryDB.controller;
+package deliveryDB.controller.delivery;
 
 import javax.swing.JFrame;
 
+import deliveryDB.controller.Controller;
 import deliveryDB.data.Order;
 import deliveryDB.data.Restaurant;
-import deliveryDB.model.DelModel;
+import deliveryDB.model.Model;
 import deliveryDB.utilities.Pair;
-import deliveryDB.view.DeliveryPanel.Flag;
-import deliveryDB.view.OrdersView;
+import deliveryDB.view.delivery.OrdersView;
+import deliveryDB.view.delivery.DeliveryPanel.Flag;
 
 import java.util.List;
 
@@ -16,12 +17,12 @@ import java.util.List;
 public class OrdersCtrl implements Controller {
     
     private OrdersView view;
-    private final DelModel model;
+    private final Model model;
     private final JFrame mainFrame;
     private final Controller prevCtrl;
     private Flag flag;
 
-    public OrdersCtrl( Flag flag, Controller prevCtrl, JFrame mainFrame, DelModel model) {
+    public OrdersCtrl( Flag flag, Controller prevCtrl, JFrame mainFrame, Model model) {
         this.prevCtrl = prevCtrl;
         this.model = model;
         this.mainFrame = mainFrame;

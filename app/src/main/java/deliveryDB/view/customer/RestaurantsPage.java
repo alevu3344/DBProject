@@ -1,6 +1,5 @@
-package deliveryDB.view;
+package deliveryDB.view.customer;
 
-import deliveryDB.controller.ResController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.util.Optional;
 import javax.swing.*;
 import java.util.function.Consumer;
+
+import deliveryDB.controller.customer.ResController;
 import deliveryDB.utilities.Pair;
 import java.util.Map;
 
