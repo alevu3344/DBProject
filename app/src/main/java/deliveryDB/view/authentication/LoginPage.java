@@ -37,8 +37,7 @@ public class LoginPage implements ActionListener {
         this.mainFrame.getContentPane().validate();
         this.mainFrame.getContentPane().repaint();
         Container container = mainFrame.getContentPane();
-        container.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
         userLabel = new JLabel("Username:");
         passwordLabel = new JLabel("Password:");
@@ -52,54 +51,69 @@ public class LoginPage implements ActionListener {
 
         messageLabel = new JLabel("");
 
-        // Set the preferred sizes for the components
-        userTextField.setPreferredSize(new Dimension(150, 25));
-        passwordField.setPreferredSize(new Dimension(150, 25));
-        loginButton.setPreferredSize(new Dimension(80, 30));
-        resetButton.setPreferredSize(new Dimension(80, 30));
-        backButton.setPreferredSize(new Dimension(80, 30));
+        // Set the preferred sizes and maximum sizes for the components
+        Dimension textFieldSize = new Dimension(150, 25);
+        userTextField.setPreferredSize(textFieldSize);
+        userTextField.setMaximumSize(textFieldSize);
+        passwordField.setPreferredSize(textFieldSize);
+        passwordField.setMaximumSize(textFieldSize);
+
+        Dimension buttonSize = new Dimension(80, 30);
+        loginButton.setPreferredSize(buttonSize);
+        resetButton.setPreferredSize(buttonSize);
+        backButton.setPreferredSize(buttonSize);
 
         loginButton.addActionListener(this);
         resetButton.addActionListener(this);
         backButton.addActionListener(this);
 
-        // Add components to container with GridBagConstraints
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        container.add(userLabel, gbc);
+        // Create horizontal boxes for each row and center them
+        Box userBox = Box.createHorizontalBox();
+        userBox.add(Box.createHorizontalGlue()); // Center horizontally
+        userBox.add(userLabel);
+        userBox.add(Box.createHorizontalStrut(10));
+        userBox.add(userTextField);
+        userBox.add(Box.createHorizontalGlue()); // Center horizontally
 
-        gbc.gridx = 1;
-        container.add(userTextField, gbc);
+        Box passwordBox = Box.createHorizontalBox();
+        passwordBox.add(Box.createHorizontalGlue()); // Center horizontally
+        passwordBox.add(passwordLabel);
+        passwordBox.add(Box.createHorizontalStrut(10));
+        passwordBox.add(passwordField);
+        passwordBox.add(Box.createHorizontalGlue()); // Center horizontally
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        container.add(passwordLabel, gbc);
+        // Center the userBox and passwordBox horizontally in a vertical box
+        Box centerBox = Box.createVerticalBox();
+        centerBox.add(Box.createVerticalStrut(20)); // Add some vertical space at the top
+        centerBox.add(userBox);
+        centerBox.add(Box.createVerticalStrut(10));
+        centerBox.add(passwordBox);
+        centerBox.add(Box.createVerticalStrut(10));
 
-        gbc.gridx = 1;
-        container.add(passwordField, gbc);
+        // Create a horizontal box for buttons and center it
+        Box buttonBox = Box.createHorizontalBox();
+        buttonBox.add(Box.createHorizontalGlue()); // Center horizontally
+        buttonBox.add(loginButton);
+        buttonBox.add(Box.createHorizontalStrut(10));
+        buttonBox.add(resetButton);
+        buttonBox.add(Box.createHorizontalGlue()); // Center horizontally
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        container.add(loginButton, gbc);
-
-        gbc.gridx = 1;
-        container.add(resetButton, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        container.add(backButton, gbc);
-
-        gbc.gridy = 4;
-        container.add(messageLabel, gbc);
+        // Add components to the container with vertical spacing
+        container.add(Box.createVerticalGlue()); // Center the content vertically
+        container.add(centerBox);
+        container.add(Box.createVerticalStrut(10));
+        container.add(buttonBox);
+        container.add(Box.createVerticalStrut(10));
+        container.add(backButton);
+        container.add(Box.createVerticalStrut(10));
+        container.add(messageLabel);
+        container.add(Box.createVerticalGlue()); // Fill remaining space
 
         this.mainFrame.pack();
     }
 
     public JFrame getMainFrame() {
-        return this.mainFrame; 
+        return this.mainFrame;
     }
 
     // Action event handler
@@ -115,7 +129,7 @@ public class LoginPage implements ActionListener {
             passwordField.setText("");
             messageLabel.setText("");
         } else if (e.getSource() == backButton) {
-            this.controller.get().handleBack();
+            this.controller.ifPresent(LoginController::handleBack);
         }
     }
 
