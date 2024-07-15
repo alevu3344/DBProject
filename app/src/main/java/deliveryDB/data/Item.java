@@ -3,6 +3,7 @@ package deliveryDB.data;
 import java.util.List;
 import java.util.Optional;
 
+import deliveryDB.utilities.Pair;
 
 import java.util.LinkedList;
 import java.sql.Connection;
@@ -44,6 +45,20 @@ public class Item {
     }
 
     public final class DAO {
+
+        public static Pair<String, Integer> topDish(Connection connection) {
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.TOP_DISH);
+                var result = statement.executeQuery();
+                if (result.next()) {
+                    return new Pair<>(result.getString("Nome"), result.getInt("QuantitàTotale"));
+                }
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
 
         public static Optional<List<Item>> getMenuFor(Connection connection, int restaurantID) {
             var items = new LinkedList<Item>();

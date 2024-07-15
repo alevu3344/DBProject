@@ -1,5 +1,7 @@
 package deliveryDB.data;
 
+import com.mysql.cj.jdbc.ha.BestResponseTimeBalanceStrategy;
+
 public final class Queries {
 
         public static final String RESTAURANT_REVIEWS = """
@@ -77,13 +79,15 @@ public final class Queries {
                         SET Balance = ?
                         WHERE Username = ?
                         """;
-        // Seleziona tutti gli ordini disponibili (che non si trovano in ASSEGNAZIONI_CONSEGNE)
+        // Seleziona tutti gli ordini disponibili (che non si trovano in
+        // ASSEGNAZIONI_CONSEGNE)
         public static final String AVAILABLE_ORDERS = """
                         SELECT o.OrdineID, o.Username, o.RistoranteID
                         FROM ORDINI o
                         WHERE o.OrdineID NOT IN (SELECT ao.OrdineID FROM ASSEGNAZIONI_CONSEGNE ao)
                         """;
-        // Seleziona tutti gli ordini in ORDINI accettati da un certo username, e che abbianol'attributo DataOraConsegna = null in ASSEGNAZIONI_CONSEGNE
+        // Seleziona tutti gli ordini in ORDINI accettati da un certo username, e che
+        // abbianol'attributo DataOraConsegna = null in ASSEGNAZIONI_CONSEGNE
         public static final String ACCEPTED_ORDERS = """
                         SELECT o.OrdineID, o.Username, o.RistoranteID
                         FROM ORDINI o
@@ -97,7 +101,7 @@ public final class Queries {
                         WHERE d.OrdineID = ?
                         """;
 
-        //query per visualizzare il prezzo totale di un ordine
+        // query per visualizzare il prezzo totale di un ordine
         public static final String ORDER_TOTAL_PRICE = """
                         SELECT SUM(m.Prezzo * d.Quantità) AS PrezzoTotale
                         FROM DETTAGLI_ORDINI d
@@ -110,7 +114,6 @@ public final class Queries {
                         VALUES (?, ?)
                         """;
 
-
         public static final String DELIVER_ORDER = """
                         UPDATE ASSEGNAZIONI_CONSEGNE
                         SET DataOraConsegna = CURRENT_TIMESTAMP
@@ -122,5 +125,52 @@ public final class Queries {
                         FROM UTENTI u
                         WHERE u.Username = ?
                         """;
+        public static final String TOP_DISH = """
+                        SELECT e.Nome, SUM(d.Quantità) AS QuantitàTotale
+                        FROM DETTAGLI_ORDINI d
+                        JOIN ELEMENTI e ON d.ElementoMenuID = e.ElementoMenuID
+                        WHERE e.Tipo = 'Cibo'
+                        GROUP BY e.Nome
+                        ORDER BY QuantitàTotale DESC
+                        LIMIT 1
+                        """;
 
+        public static final String TOP5_RESTAURANT = """
+                        SELECT r.RistoranteID, r.Nome, COUNT(r.RistoranteID) AS NumeroOrdini
+                        FROM ORDINI o
+                        JOIN RISTORANTI r ON o.RistoranteID = r.RistoranteID
+                        GROUP BY r.RistoranteID
+                        ORDER BY NumeroOrdini DESC
+                        LIMIT 5
+                        """;
+        public static final String TOP5_DELIVERER = """
+                        SELECT ac.FattorinoID, COUNT(ac.FattorinoID) AS NumeroConsegne
+                        FROM ASSEGNAZIONI_CONSEGNE ac
+                        GROUP BY ac.FattorinoID
+                        ORDER BY NumeroConsegne DESC
+                        LIMIT 5
+                        """;
+
+        public static final String WORST_RATING = """
+                        SELECT r.Nome, subquery.adjusted_average
+                        FROM RISTORANTI r
+                        JOIN
+                        (
+                                SELECT r.RistoranteID, (SUM(r.Voto) + 1) / (COUNT(*) + 1) AS adjusted_average
+                                FROM RECENSIONI r
+                                GROUP BY r.RistoranteID
+                                ORDER BY adjusted_average DESC
+                        ) subquery ON r.RistoranteID = subquery.RistoranteID;
+
+                         """;
+
+        // Migliore tipoligia cucina in base alla piu ordinata
+        public static final String BEST_CUISINE = """
+                        SELECT r.TipologiaCucina, COUNT(r.TipologiaCucina) AS NumeroOrdini
+                        FROM ORDINI o
+                        JOIN RISTORANTI r ON o.RistoranteID = r.RistoranteID
+                        GROUP BY r.TipologiaCucina
+                        ORDER BY NumeroOrdini DESC
+                        LIMIT 1
+                        """;
 }

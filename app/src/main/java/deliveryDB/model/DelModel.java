@@ -19,6 +19,17 @@ public interface DelModel {
         return new DelModelImpl(connection);
     }
 
+
+    public Pair<String, Integer> worstRestaurant();
+
+    public Pair<String, Integer> topDish();
+
+    public String mostPopularCuisine();
+
+    public List<Pair<String, Integer>> mostChosen5Restaurants();
+
+    public List<Pair<String, Integer>> top5Deliverers();
+
     public boolean sendOrder(Map<Item, Integer> order, int restaurantID);
 
     public LinkedHashMap<Pair<String, Integer>, String> getRestaurants();

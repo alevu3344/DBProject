@@ -35,16 +35,18 @@ public class ReviewPage {
 
             // Create a panel for the buttons
             JPanel buttonPanel = new JPanel();
-            
+
             // Back Button
             JButton backButton = new JButton("Back");
             backButton.addActionListener(e -> handleBack());
             buttonPanel.add(backButton);
 
-            // Add Review Button
-            JButton addReviewButton = new JButton("Add Review");
-            addReviewButton.addActionListener(e -> showAddReviewDialog());
-            buttonPanel.add(addReviewButton);
+            // Add Review Button (only for CUSTOMER)
+            if (userType == User.USER_TYPE.CUSTOMER) {
+                JButton addReviewButton = new JButton("Add Review");
+                addReviewButton.addActionListener(e -> showAddReviewDialog());
+                buttonPanel.add(addReviewButton);
+            }
 
             // Create a panel to hold reviews
             JPanel reviewsPanel = new JPanel();

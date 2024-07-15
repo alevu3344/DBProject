@@ -1,6 +1,11 @@
 package deliveryDB.data;
 
 import java.sql.Connection;
+import java.util.LinkedList;
+import java.util.List;
+
+import deliveryDB.utilities.Pair;
+
 
 public class User {
 
@@ -11,6 +16,7 @@ public class User {
     private final String street;
     private final String number;
     private final String city;
+
     
 
     public enum USER_TYPE {
@@ -84,6 +90,21 @@ public class User {
 
 
     public final class DAO {
+
+        public static List<Pair<String, Integer>> top5Deliverers(Connection connection) {
+            var deliverers = new LinkedList<Pair<String, Integer>>();
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.TOP5_DELIVERER);
+                var result = statement.executeQuery();
+                while (result.next()) {
+                    deliverers.add(new Pair<>(result.getString("FattorinoID"), result.getInt("NumeroConsegne")));
+                }
+                return deliverers;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
 
         public static String getAddress(Connection connection, String username) {
             try {

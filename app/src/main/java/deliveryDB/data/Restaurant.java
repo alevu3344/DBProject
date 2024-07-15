@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Optional;
 import java.sql.Connection;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.LinkedList;
 
 import deliveryDB.utilities.Pair;
 
@@ -14,6 +16,7 @@ public class Restaurant {
     private final String address;
     private final Pair<Date, Date> openingHours;
     private final String cuisineType;
+
 
     public Restaurant(int restaurantID, String name, String address, Pair<Date, Date> openingHours,
             String cuisineType) {
@@ -44,6 +47,37 @@ public class Restaurant {
     }
 
     public final class DAO {
+
+        public static String mostPopularCuisine(Connection connection) {
+
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.BEST_CUISINE);
+                var result = statement.executeQuery();
+                if (result.next()) {
+                    return result.getString("TipologiaCucina");
+                }
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+
+        public static List<Pair<String, Integer>> mostChosen5Restaurants(Connection connection) {
+            var restaurants = new LinkedList<Pair<String, Integer>>();
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.TOP5_RESTAURANT);
+                var result = statement.executeQuery();
+                while (result.next()) {
+                    restaurants.add(new Pair<>(result.getString("Nome"), result.getInt("NumeroOrdini")));
+                }
+                return restaurants;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
 
         public static Optional<Restaurant> find(Connection connection, int restaurantID) {
             return Optional.empty();

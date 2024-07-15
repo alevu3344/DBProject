@@ -121,4 +121,29 @@ public class DelModelImpl implements DelModel {
         return User.DAO.getAddress(connection, username);
     }
 
+    @Override
+    public Pair<String, Integer> worstRestaurant() {
+        return Review.DAO.worstRestaurant(connection);
+    }
+
+    @Override
+    public Pair<String, Integer> topDish() {
+        return Item.DAO.topDish(connection);
+    }
+
+    @Override
+    public String mostPopularCuisine() {
+        return Restaurant.DAO.mostPopularCuisine(connection);
+    }
+
+    @Override
+    public List<Pair<String, Integer>> mostChosen5Restaurants() {
+        return Restaurant.DAO.mostChosen5Restaurants(connection);
+    }
+
+    @Override
+    public List<Pair<String, Integer>> top5Deliverers() {
+        return User.DAO.top5Deliverers(connection);
+    }
+
 }

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import java.util.Optional;
 
-
+import deliveryDB.utilities.Pair;
 
 import java.sql.Connection;
 import java.util.List;
@@ -49,6 +49,20 @@ public class Review {
 
     public final class DAO {
 
+
+        public static Pair<String, Integer> worstRestaurant(Connection connection) {
+            try {
+                var statement = DAOUtils.prepare(connection, Queries.WORST_RATING);
+                var result = statement.executeQuery();
+                if (result.next()) {
+                    return new Pair<>(result.getString("Nome"), result.getInt("adjusted_average"));
+                }
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
         
 
         public static Optional<List<Review>> listReviews(Connection connection, int restaurantID) {

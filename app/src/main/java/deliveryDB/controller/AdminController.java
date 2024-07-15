@@ -25,6 +25,7 @@ public class AdminController implements Controller {
     }
 
     public void handleBack(){
+        this.model.logout();
         this.prevctrl.show();
     }
 
@@ -43,5 +44,29 @@ public class AdminController implements Controller {
     public void show() {
         new AdminPanel(this.mainFrame, this);
     }
+
+    public Pair<String, Integer> worstRestaurant(){
+        return this.model.worstRestaurant();
+    }
+
+    public Pair<String, Integer> topDish(){
+        return this.model.topDish();
+    }
+
+    public String mostPopularCuisine(){
+        return this.model.mostPopularCuisine();
+    }
+
+    public List<Pair<String, Integer>> mostChosen5Rest(){
+        return this.model.mostChosen5Restaurants();
+    }
+
+    public List<Pair<String, Integer>> top5Deliverers(){
+        return this.model.top5Deliverers();
+    }
+
+
+
+
 
 }
