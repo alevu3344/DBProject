@@ -1,56 +1,61 @@
 package deliveryDB.controller;
 
-
+import java.awt.Dimension;
 import java.sql.Connection;
 
 import deliveryDB.controller.authentication.LoginController;
 import deliveryDB.controller.authentication.RegisterController;
 import deliveryDB.model.Model;
 import deliveryDB.view.FirstPage;
-import deliveryDB.view.authentication.LoginPage;
-import deliveryDB.view.authentication.RegisterPage;
 
-import java.util.Objects;
+import javax.swing.JFrame;
 
-public class FirstController {
+public class FirstController implements Controller {
     private final Model model;
-    private FirstPage firstPage;
+
+    private JFrame mainFrame;
     private Runnable onClose;
 
     public FirstController(Model model, Connection connection) {
-        Objects.requireNonNull(model, "MainController created with null model");
-        Objects.requireNonNull(connection, "MainController created with null connection");
+        
 
         this.onClose = () -> {
-            try{
+            try {
                 connection.close();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
 
             }
         };
 
-        this.firstPage = new FirstPage(this.onClose);
+        this.mainFrame = new JFrame("DeliveryDB");
+        this.mainFrame.setMinimumSize(new Dimension(600, 600));
+        this.mainFrame.setResizable(false);
+        this.mainFrame.setLocationRelativeTo(null); // Center the frame on the screen
+        this.mainFrame.setVisible(true);
+        this.mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                onClose.run();
+                System.exit(0);
+            }
+        });
+        new FirstPage(this, mainFrame);
         this.model = model;
 
         // Set this controller as the loginView's controller
-        this.firstPage.setController(this);
-    }
-
-    public void handleLoginButtonClick(){
-        var loginView = new LoginPage(this.firstPage.getMainFrame());
-        new LoginController(loginView, this.model, this);
 
     }
 
-    public void handleRegisterButtonClick(){
-        var registerView = new RegisterPage(this.firstPage.getMainFrame());
-        new RegisterController(registerView,this.model, this);
-    }    
-
-    public void backToFirstPage(){
-        this.firstPage.redraw();
+    public void handleLoginButtonClick() {
+        new LoginController(this.mainFrame, this.model, this);
     }
 
-    
+    public void handleRegisterButtonClick() {
+        new RegisterController(this.mainFrame, this.model, this);
+    }
+
+    @Override
+    public void show() {
+        new FirstPage(this, mainFrame);
+    }
 }

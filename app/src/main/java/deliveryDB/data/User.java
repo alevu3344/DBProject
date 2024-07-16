@@ -125,7 +125,7 @@ public class User {
                 var statement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
                 var result = statement.executeQuery();
                 if (result.next()) {
-                    return result.getInt("Balance");
+                    return result.getFloat("Balance");
                 }
                 return -1;
             } catch (Exception e) {

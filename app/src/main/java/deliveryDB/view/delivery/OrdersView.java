@@ -127,7 +127,7 @@ public class OrdersView {
                     JOptionPane.YES_NO_OPTION
                 );
                 if (response == JOptionPane.YES_OPTION) {
-                    if (ctrl.deliverOrder(order.getOrderID())) {
+                    if (ctrl.deliverOrder(order)) {
                         JOptionPane.showMessageDialog(mainFrame, "Order delivered successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                         initializeUI();
                     } else {

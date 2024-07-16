@@ -8,10 +8,10 @@ import deliveryDB.data.User;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Optional;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.function.Consumer;
 
 public class RegisterPage implements ActionListener {
 
@@ -20,116 +20,120 @@ public class RegisterPage implements ActionListener {
     private JButton resetButton;
     private JButton backButton;
     private JLabel messageLabel;
-    private JCheckBox deliveryManCheckBox;  // Add the checkbox
+    private JCheckBox deliveryManCheckBox; // Add the checkbox
 
-    private Optional<RegisterController> controller;
+    private RegisterController controller;
     private final JFrame mainFrame;
     // a hashmap that maps each text field to the corresponding label
     private HashMap<JLabel, JTextField> textFieldsMap;
 
     // Constructor to set up the GUI components
-    public RegisterPage(JFrame mainFrame) {
-        this.controller = Optional.empty();
+    public RegisterPage(JFrame mainFrame, RegisterController controller) {
+        this.controller = controller;
         this.mainFrame = mainFrame;
         this.setupComponents();
-        System.out.println("Constructor of register page");
+    }
+
+    private void freshPane(Consumer<Container> consumer) {
+        Container cp = this.mainFrame.getContentPane();
+        cp.removeAll();
+        cp.validate();
+        cp.repaint();
+        consumer.accept(cp);
+        this.mainFrame.pack();
     }
 
     private void setupComponents() {
-        this.mainFrame.getContentPane().removeAll();
-        this.mainFrame.getContentPane().validate();
-        this.mainFrame.getContentPane().repaint();
-        Container container = mainFrame.getContentPane();
-        container.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        freshPane(container -> {
+            container.setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
 
-        // add the labels and text fields to the hashmap
-        this.textFieldsMap = new LinkedHashMap<>();
+            // add the labels and text fields to the hashmap
+            this.textFieldsMap = new LinkedHashMap<>();
 
-        // Adding entries to the map
-        textFieldsMap.put(new JLabel("Username:"), new JTextField());
-        textFieldsMap.put(new JLabel("Nome:"), new JTextField());
-        textFieldsMap.put(new JLabel("Cognome:"), new JTextField());
-        textFieldsMap.put(new JLabel("Password:"), new JPasswordField());
-        textFieldsMap.put(new JLabel("Via:"), new JTextField());
-        //textFieldsMap.put(new JLabel("Email:"), new JTextField()); // Add email field
-        textFieldsMap.put(new JLabel("Civico:"), new JTextField());
-        textFieldsMap.put(new JLabel("Città:"), new JTextField());
+            // Adding entries to the map
+            textFieldsMap.put(new JLabel("Username:"), new JTextField());
+            textFieldsMap.put(new JLabel("Nome:"), new JTextField());
+            textFieldsMap.put(new JLabel("Cognome:"), new JTextField());
+            textFieldsMap.put(new JLabel("Password:"), new JPasswordField());
+            textFieldsMap.put(new JLabel("Via:"), new JTextField());
+            textFieldsMap.put(new JLabel("Civico:"), new JTextField());
+            textFieldsMap.put(new JLabel("Città:"), new JTextField());
 
-        registerButton = new JButton("Register");
-        resetButton = new JButton("Reset");
-        backButton = new JButton("Back");
+            registerButton = new JButton("Register");
+            resetButton = new JButton("Reset");
+            backButton = new JButton("Back");
 
-        deliveryManCheckBox = new JCheckBox("Register as a delivery man"); // Initialize the checkbox
+            deliveryManCheckBox = new JCheckBox("Register as a delivery man"); // Initialize the checkbox
 
-        messageLabel = new JLabel("");
+            messageLabel = new JLabel("");
 
-        // Set the preferred sizes for the components
-        Dimension fieldDimension = new Dimension(200, 25);
-        this.textFieldsMap.values().forEach(textField -> textField.setPreferredSize(fieldDimension));
-        registerButton.setPreferredSize(new Dimension(100, 30));
-        resetButton.setPreferredSize(new Dimension(100, 30));
-        backButton.setPreferredSize(new Dimension(100, 30));
+            // Set the preferred sizes for the components
+            Dimension fieldDimension = new Dimension(200, 25);
+            this.textFieldsMap.values().forEach(textField -> textField.setPreferredSize(fieldDimension));
+            registerButton.setPreferredSize(new Dimension(100, 30));
+            resetButton.setPreferredSize(new Dimension(100, 30));
+            backButton.setPreferredSize(new Dimension(100, 30));
 
-        registerButton.addActionListener(this);
-        resetButton.addActionListener(this);
-        backButton.addActionListener(this);
+            registerButton.addActionListener(this);
+            resetButton.addActionListener(this);
+            backButton.addActionListener(this);
 
-        // Add components to container with GridBagConstraints
-        gbc.insets = new Insets(5, 5, 5, 5);
+            // Add components to container with GridBagConstraints
+            gbc.insets = new Insets(5, 5, 5, 5);
 
-        int row = 0; // Initial row index
+            int row = 0; // Initial row index
 
-        for (var entry : textFieldsMap.entrySet()) {
-            JLabel lab = entry.getKey();
-            JTextField txt = entry.getValue();
+            for (var entry : textFieldsMap.entrySet()) {
+                JLabel lab = entry.getKey();
+                JTextField txt = entry.getValue();
 
+                gbc.gridx = 0;
+                gbc.gridy = row;
+                gbc.anchor = GridBagConstraints.LINE_END;
+                container.add(lab, gbc);
+
+                gbc.gridx = 1;
+                gbc.anchor = GridBagConstraints.LINE_START;
+                container.add(txt, gbc);
+
+                row++;
+            }
+
+            // Add the checkbox
             gbc.gridx = 0;
             gbc.gridy = row;
-            gbc.anchor = GridBagConstraints.LINE_END;
-            container.add(lab, gbc);
-
-            gbc.gridx = 1;
-            gbc.anchor = GridBagConstraints.LINE_START;
-            container.add(txt, gbc);
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.gridwidth = 2;
+            container.add(deliveryManCheckBox, gbc);
 
             row++;
-        }
 
-        // Add the checkbox
-        gbc.gridx = 0;
-        gbc.gridy = row;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridwidth = 2;
-        container.add(deliveryManCheckBox, gbc);
+            // Add buttons and message label
+            gbc.gridx = 0;
+            gbc.gridy = row;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.gridwidth = 2;
+            gbc.insets = new Insets(15, 0, 0, 0); // Larger top inset for spacing
 
-        row++;
+            container.add(registerButton, gbc);
 
-        // Add buttons and message label
-        gbc.gridx = 0;
-        gbc.gridy = row;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(15, 0, 0, 0); // Larger top inset for spacing
+            row++;
 
-        container.add(registerButton, gbc);
+            gbc.gridy = row;
+            container.add(resetButton, gbc);
 
-        row++;
+            row++;
 
-        gbc.gridy = row;
-        container.add(resetButton, gbc);
+            gbc.gridy = row;
+            container.add(backButton, gbc);
 
-        row++;
+            row++;
 
-        gbc.gridy = row;
-        container.add(backButton, gbc);
+            gbc.gridy = row;
+            container.add(messageLabel, gbc);
 
-        row++;
-
-        gbc.gridy = row;
-        container.add(messageLabel, gbc);
-
-        this.mainFrame.pack();
+        });
     }
 
     public JFrame getMainFrame() {
@@ -144,21 +148,17 @@ public class RegisterPage implements ActionListener {
 
             // get the text from the text fields and put in the fields list using a stream
             this.textFieldsMap.forEach((label, textField) -> fields.add(textField.getText()));
-            
-    
-            
-            controller.ifPresent(ctrl -> ctrl.handleRegistration( deliveryManCheckBox.isSelected() ? User.USER_TYPE.DELIVERY_PERSON : User.USER_TYPE.CUSTOMER , fields));
+
+            controller.handleRegistration(
+                    deliveryManCheckBox.isSelected() ? User.USER_TYPE.DELIVERY_PERSON : User.USER_TYPE.CUSTOMER,
+                    fields);
         } else if (e.getSource() == resetButton) {
             this.textFieldsMap.forEach((label, textField) -> textField.setText(""));
-            deliveryManCheckBox.setSelected(false);  // Reset the checkbox
+            deliveryManCheckBox.setSelected(false); // Reset the checkbox
             messageLabel.setText("");
         } else if (e.getSource() == backButton) {
-            controller.ifPresent(ctrl -> ctrl.handleBack());
+            controller.handleBack();
         }
-    }
-
-    public void setController(RegisterController controller) {
-        this.controller = Optional.of(controller);
     }
 
     public void displayMessage(String message) {

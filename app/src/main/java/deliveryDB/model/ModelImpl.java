@@ -46,8 +46,8 @@ public class ModelImpl implements Model {
     
 
     @Override
-    public boolean deliverOrder(int orderID) {
-        return Order.DAO.deliverOrder(connection, orderID);
+    public boolean deliverOrder(Order order) {
+        return Order.DAO.deliverOrder(connection, order.getOrderID(), this.user.get().getUsername(), this.getCompensation(order));
     }
 
     @Override
@@ -88,7 +88,8 @@ public class ModelImpl implements Model {
 
     @Override
     public float getBalance() {
-        return User.DAO.getBalanceFor(connection, this.user.get().getUsername());
+        var x = User.DAO.getBalanceFor(connection, this.user.get().getUsername());
+        return x;
     }
 
     @Override

@@ -62,10 +62,23 @@ public class Order {
 
 
 
-        public static boolean deliverOrder(Connection connection, int orderID) {
+        public static boolean deliverOrder(Connection connection, int orderID, String username, float compensation) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.DELIVER_ORDER, orderID);
-                return statement.executeUpdate() > 0;
+                if(statement.executeUpdate() > 0){
+                    var actualBalanceStatement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
+                    var actualBalanceResult = actualBalanceStatement.executeQuery();
+                    float balance;
+                    if(actualBalanceResult.next()){
+                        balance = actualBalanceResult.getFloat("Balance");
+                    }
+                    else{
+                        return false;
+                    }
+                    var updateBalanceStatement = DAOUtils.prepare(connection, Queries.UPDATE_USER_BALANCE, Float.valueOf(String.format("%.2f",compensation+balance)), username);
+                    return updateBalanceStatement.executeUpdate() > 0;
+                }
+                return false;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -128,7 +141,6 @@ public class Order {
                             result.getInt("RistoranteID"), buildMap(connection, result.getInt("OrdineID")));
 
                     orders.add(order);
-                    System.out.println(order.getItems());
                 }
                 return orders;
             } catch (SQLException e) {
@@ -177,7 +189,7 @@ public class Order {
                     
                     var detailStatement = connection.prepareStatement(Queries.SEND_ORDER_DETAILS);
                     for (Map.Entry<Item, Integer> entry : filteredOrder.entrySet()) {
-                        System.out.println(entry);
+                       
                         detailStatement.setInt(1, ordineID);
                         detailStatement.setInt(2, entry.getKey().getItemID());
                         detailStatement.setInt(3, restaurant_id);

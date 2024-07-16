@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Optional;
 import javax.swing.*;
 import java.util.function.Consumer;
 
@@ -15,18 +14,15 @@ import java.util.Map;
 
 public class RestaurantsPage {
 
-    private Optional<ResController> controller;
+    private ResController controller;
     private final JFrame mainFrame;
 
-    public RestaurantsPage(JFrame mainFrame) {
-        this.controller = Optional.empty();
+
+    public RestaurantsPage(JFrame mainFrame, ResController controller) {
+        this.controller = controller;
         this.mainFrame = mainFrame;
-        System.out.println("Constructor of Restaurants page");
     }
 
-    public void setController(ResController resController) {
-        this.controller = Optional.of(resController);
-    }
 
     public void displayRestaurants(Map<Pair<String, Integer>, String> restaurants) {
         freshPane(cp -> {
@@ -35,9 +31,7 @@ public class RestaurantsPage {
                 var restaurantBox = Box.createHorizontalBox();
 
                 var label = clickableLabel(restaurant.getKey().get1(), () -> {
-                    this.controller.ifPresent(ctrl -> {
-                        ctrl.handleRestaurant(restaurant.getKey().get2());
-                    });
+                    this.controller.handleRestaurant(restaurant.getKey().get2());
                 });
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -65,7 +59,7 @@ public class RestaurantsPage {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.ifPresent(ctrl -> ctrl.handleLogOut());
+                controller.handleLogOut();
             }
         });
         logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center alignment

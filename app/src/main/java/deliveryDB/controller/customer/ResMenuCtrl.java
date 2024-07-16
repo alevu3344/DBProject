@@ -70,7 +70,6 @@ public class ResMenuCtrl implements Controller {
         var menu = this.model.getMenuFor(this.restaurant.getRestaurantID());
         Map<Item, Integer> itemQuantityMap = new LinkedHashMap<>();
         menu.forEach(e -> itemQuantityMap.put(e, 0));
-        itemQuantityMap.entrySet().forEach(e -> System.out.println(e.getKey().getName() + " " + e.getKey().getType()));
         return itemQuantityMap;
     }
 

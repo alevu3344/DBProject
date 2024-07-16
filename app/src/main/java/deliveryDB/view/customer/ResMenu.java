@@ -248,7 +248,7 @@ public class ResMenu {
     }
 
     public void updateBalance(double balance) {
-        balanceLabel.setText("Balance: $" + balance);
+        balanceLabel.setText("Balance: $" + String.format("%.2f",balance));
     }
 
     public void addSendOrderButton(Container cp) {

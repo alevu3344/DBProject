@@ -1,6 +1,7 @@
 package deliveryDB.view;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -12,80 +13,55 @@ import deliveryDB.controller.FirstController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.util.Optional;
+import java.util.function.Consumer;
 
 public class FirstPage {
 
     private JButton loginButton;
     private JButton registerButton;
-
-    private Optional<FirstController> controller;
     private final JFrame mainFrame;
+    private FirstController controller;
 
     // Constructor to set up the GUI components
-    public FirstPage(Runnable onClose) {
-        this.controller = Optional.empty();
-        this.mainFrame = this.setupMainFrame(onClose);
-        this.setupComponents();
-        System.out.println("Constructor of First page");
+    public FirstPage(FirstController controller, JFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        this.controller = controller;
+        this.initializeUI();
     }
 
-    private JFrame setupMainFrame(Runnable onClose) {
-        JFrame frame = new JFrame("Consegne_Db");
-        var padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-        ((JComponent) frame.getContentPane()).setBorder(padding);
-        frame.setMinimumSize(new Dimension(600, 600));
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onClose.run();
-                System.exit(0);
-            }
+    private void initializeUI() {
+        freshPane(container -> {
+            var padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+            ((JComponent) container).setBorder(padding);
+            container.setLayout(new BorderLayout());
+            container.setBackground(Color.WHITE); // Optional: Set background color
+
+            // Create a panel for the buttons
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+            buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            loginButton = createButton("Login");
+            registerButton = createButton("Register");
+
+            buttonPanel.add(Box.createVerticalGlue()); // Add vertical glue to push buttons to the center
+            buttonPanel.add(createAlignedButtonPanel(loginButton));
+            buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some space between buttons
+            buttonPanel.add(createAlignedButtonPanel(registerButton));
+            buttonPanel.add(Box.createVerticalGlue()); // Add vertical glue to push buttons to the center
+
+            // Add the button panel to the center of the main frame
+            container.add(buttonPanel, BorderLayout.CENTER);
         });
-        
-        return frame;
     }
 
-    public JFrame getMainFrame() {
-        return this.mainFrame;
-    }
-
-    public void setController(FirstController controller) {
-        this.controller = Optional.of(controller);
-    }
-
-    private void setupComponents() {
-        this.mainFrame.getContentPane().removeAll();
-        this.mainFrame.getContentPane().validate();
-        this.mainFrame.getContentPane().repaint();
-        this.mainFrame.setLayout(new BorderLayout());
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around buttons
-
-        loginButton = createButton("Login");
-        registerButton = createButton("Register");
-
-        buttonPanel.add(loginButton, gbc);
-
-        gbc.gridy++;
-        buttonPanel.add(registerButton, gbc);
-
-        // Add the buttonPanel to the center of the main frame
-        mainFrame.add(buttonPanel, BorderLayout.CENTER);
-        mainFrame.pack();
-        mainFrame.setLocationRelativeTo(null); // Center the frame on the screen
-    }
-
-    public void redraw() {
-        this.setupComponents();
+    private void freshPane(Consumer<Container> consumer) {
+        Container cp = this.mainFrame.getContentPane();
+        cp.removeAll();
+        cp.validate();
+        cp.repaint();
+        consumer.accept(cp);
+        this.mainFrame.pack();
     }
 
     private JButton createButton(String text) {
@@ -96,7 +72,7 @@ public class FirstPage {
         button.setFocusPainted(false); // Remove focus border
         button.setBorderPainted(false); // Remove border
         button.setOpaque(true); // Make the button opaque for background color to show
-        button.setPreferredSize(new Dimension(150, 40)); // Set a smaller preferred size for the buttons
+        button.setPreferredSize(new Dimension(200, 50)); // Set a larger preferred size for the buttons
 
         // Add hover effect - change background color when mouse enters
         button.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -113,13 +89,22 @@ public class FirstPage {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (text.equals("Login")) {
-                    controller.ifPresent(ctrl -> ctrl.handleLoginButtonClick());
+                    controller.handleLoginButtonClick();
                 } else if (text.equals("Register")) {
-                    controller.ifPresent(ctrl -> ctrl.handleRegisterButtonClick());
+                    controller.handleRegisterButtonClick();
                 }
             }
         });
 
         return button;
+    }
+
+    private JPanel createAlignedButtonPanel(JButton button) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(Box.createHorizontalGlue()); // Add horizontal glue to center the button
+        panel.add(button);
+        panel.add(Box.createHorizontalGlue()); // Add horizontal glue to center the button
+        return panel;
     }
 }

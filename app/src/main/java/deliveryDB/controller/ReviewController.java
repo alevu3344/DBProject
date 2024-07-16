@@ -42,7 +42,6 @@ public class ReviewController {
     }
 
     public void deleteReview(Review review){
-        System.out.println(review.getDate());
         this.model.deleteReview(review);
     }
 

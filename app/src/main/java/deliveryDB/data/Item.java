@@ -70,7 +70,6 @@ public class Item {
                             new Item(result.getInt("ElementoMenuID"), restaurantID, result.getFloat("Prezzo"),
                                     result.getString("Nome"), result.getString("Tipo")));
                 }
-                //items.stream().forEach(i -> System.out.println(i.getName()+i.getType()));
                 return Optional.of(items);
             } catch (Exception e) {
                 e.printStackTrace();

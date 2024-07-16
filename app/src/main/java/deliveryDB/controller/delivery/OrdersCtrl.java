@@ -57,8 +57,8 @@ public class OrdersCtrl implements Controller {
         return this.model.acceptOrder(orderID);
     }
 
-    public boolean deliverOrder(int orderID){
-        return this.model.deliverOrder(orderID);
+    public boolean deliverOrder(Order order){
+        return this.model.deliverOrder(order);
     }
 
     public float getCompensation(Order order){

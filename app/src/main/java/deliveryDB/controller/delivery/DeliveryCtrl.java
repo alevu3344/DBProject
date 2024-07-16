@@ -36,5 +36,9 @@ public class DeliveryCtrl implements Controller {
         new OrdersCtrl(flag, this, this.mainFrame, this.model);
     }
 
+    public float getBalance(){
+        return this.model.getBalance();
+    }
+
 
 }

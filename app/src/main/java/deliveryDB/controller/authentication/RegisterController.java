@@ -2,51 +2,51 @@ package deliveryDB.controller.authentication;
 
 import java.util.List;
 
-import java.util.Objects;
+import javax.swing.JFrame;
 
-import deliveryDB.controller.FirstController;
+import deliveryDB.controller.Controller;
 import deliveryDB.data.User;
 import deliveryDB.model.Model;
 import deliveryDB.view.authentication.RegisterPage;
 
-public class RegisterController {
+public class RegisterController implements Controller {
 
     private final Model model;
-    private final RegisterPage registerView;
-    private FirstController firstCtrl;
+    private RegisterPage registerView;
+    private Controller firstCtrl;
+    private JFrame mainFrame;
 
-    public RegisterController(RegisterPage registerView, Model model, FirstController firstCtrl) {
-        Objects.requireNonNull(model, "RegisterController created with null model");
-        Objects.requireNonNull(registerView, "RegisterController created with null registerView");
+    public RegisterController(JFrame mainFrame, Model model, Controller firstCtrl) {
         this.model = model;
-        this.registerView = registerView;
+        this.mainFrame = mainFrame;
+        this.registerView = new RegisterPage(mainFrame, this);
         this.firstCtrl = firstCtrl;
-
-        // Set this controller as the registerView's controller
-        registerView.setController(this);
     }
-
-
 
     public void handleRegistration(User.USER_TYPE type, List<String> list) {
 
-        var success = this.model.userRegister(type, list.get(0), 
-                                                    list.get(1), 
-                                                    list.get(2), 
-                                                    list.get(3), 
-                                                    list.get(4), 
-                                                    list.get(5), 
-                                                    list.get(6)); 
-                                                                        
+        var success = this.model.userRegister(type, list.get(0),
+                list.get(1),
+                list.get(2),
+                list.get(3),
+                list.get(4),
+                list.get(5),
+                list.get(6));
+
         if (success) {
-            this.firstCtrl.backToFirstPage();
+            this.firstCtrl.show();
         } else {
             this.registerView.displayMessage("Username already exists!");
         }
-                
+
     }
 
-    public void handleBack(){
-        this.firstCtrl.backToFirstPage();
+    public void handleBack() {
+        this.firstCtrl.show();
+    }
+
+    @Override
+    public void show() {
+        this.registerView = new RegisterPage(mainFrame, this);
     }
 }

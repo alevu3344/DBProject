@@ -1,22 +1,25 @@
 package deliveryDB.controller.customer;
 
-import deliveryDB.controller.authentication.LoginController;
+import javax.swing.JFrame;
+
+import deliveryDB.controller.Controller;
 import deliveryDB.model.Model;
 import deliveryDB.view.customer.RestaurantsPage;
 
-public class ResController {
+public class ResController implements Controller {
     
 
     private final Model model;
-    private final RestaurantsPage resView;
-    private final LoginController prevCtrl;
+    private RestaurantsPage resView;
+    private final Controller prevCtrl;
+    private JFrame mainFrame;
 
 
-    public ResController(LoginController prevCtrl,RestaurantsPage resView, Model model) {
-        this.resView = resView;
+    public ResController(Controller prevCtrl,JFrame mainFrame, Model model) {
+        this.mainFrame = mainFrame;
         this.model = model;
         this.prevCtrl = prevCtrl;
-        resView.setController(this);
+        this.resView = new RestaurantsPage(this.mainFrame, this);
         this.showRestaurants();
     }
 
@@ -25,12 +28,17 @@ public class ResController {
     }
 
     public void handleRestaurant(int restaurantID){
-        new ResMenuCtrl(this, this.resView.getMainFrame() , this.model, this.model.onRestaurantID(restaurantID));
+        new ResMenuCtrl(this, this.mainFrame, this.model, this.model.onRestaurantID(restaurantID));
     }
 
     public void handleLogOut(){
         this.model.logout();
         this.prevCtrl.show();
+    }
+
+    @Override
+    public void show() {
+        this.resView = new RestaurantsPage(this.mainFrame, this);
     }
 
 

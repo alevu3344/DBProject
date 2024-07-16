@@ -47,7 +47,7 @@ public interface Model {
 
     public boolean acceptOrder(int orderID);
 
-    public boolean deliverOrder(int orderID);
+    public boolean deliverOrder(Order order);
 
     public void deleteReview(Review review);
 
