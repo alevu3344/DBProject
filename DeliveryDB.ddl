@@ -1,31 +1,5 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Creato il: Lug 16, 2024 alle 02:56
--- Versione del server: 10.4.28-MariaDB
--- Versione PHP: 8.2.4
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `DEL_DB4_SenzaStatoOrdine`
---
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `ASSEGNAZIONI_CONSEGNE`
---
+create database DeliveryDB;
+use DeliveryDB;
 
 CREATE TABLE `ASSEGNAZIONI_CONSEGNE` (
   `OrdineID` int(11) NOT NULL,
@@ -34,19 +8,9 @@ CREATE TABLE `ASSEGNAZIONI_CONSEGNE` (
   `DataOraConsegna` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `ASSEGNAZIONI_CONSEGNE`
---
+
 
 INSERT INTO `ASSEGNAZIONI_CONSEGNE` (`OrdineID`, `FattorinoID`, `DataOraAssegnazione`, `DataOraConsegna`) VALUES
-(4, 'sir', '2024-07-14 19:43:14', '2024-07-14 19:43:22'),
-(5, 'sir', '2024-07-14 18:56:01', '2024-07-14 19:43:24'),
-(7, 'sir', '2024-07-14 20:15:25', '2024-07-14 20:15:38'),
-(10, 'sir', '2024-07-15 15:16:01', '2024-07-15 15:16:08'),
-(11, 'sir', '2024-07-14 20:15:28', '2024-07-14 20:15:40'),
-(12, 'sir', '2024-07-14 18:54:20', '2024-07-14 19:43:19'),
-(19, 'sir', '2024-07-14 20:15:30', '2024-07-14 20:15:42'),
-(20, 'sir', '2024-07-14 18:55:51', '2024-07-14 19:43:25'),
 (41, 'sir', '2024-07-16 02:25:48', '2024-07-16 02:25:52'),
 (42, 'sir', '2024-07-16 02:17:08', '2024-07-16 02:17:12'),
 (43, 'sir', '2024-07-16 02:25:27', '2024-07-16 02:25:33'),
@@ -56,11 +20,6 @@ INSERT INTO `ASSEGNAZIONI_CONSEGNE` (`OrdineID`, `FattorinoID`, `DataOraAssegnaz
 (47, 'sir', '2024-07-16 01:58:48', '2024-07-16 01:58:59'),
 (48, 'sir', '2024-07-15 18:21:07', '2024-07-15 18:21:17');
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `DETTAGLI_ORDINI`
---
 
 CREATE TABLE `DETTAGLI_ORDINI` (
   `OrdineID` int(11) NOT NULL,
@@ -69,9 +28,6 @@ CREATE TABLE `DETTAGLI_ORDINI` (
   `Quantità` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `DETTAGLI_ORDINI`
---
 
 INSERT INTO `DETTAGLI_ORDINI` (`OrdineID`, `ElementoMenuID`, `RistoranteID`, `Quantità`) VALUES
 (25, 4, 10, 1),
@@ -108,15 +64,8 @@ INSERT INTO `DETTAGLI_ORDINI` (`OrdineID`, `ElementoMenuID`, `RistoranteID`, `Qu
 (45, 11, 16, 3),
 (46, 5, 16, 1),
 (47, 7, 1, 1),
-(48, 6, 7, 1),
-(49, 16, 9, 2),
-(50, 14, 9, 2);
+(48, 6, 7, 1);
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `ELEMENTI`
---
 
 CREATE TABLE `ELEMENTI` (
   `ElementoMenuID` int(11) NOT NULL,
@@ -126,9 +75,6 @@ CREATE TABLE `ELEMENTI` (
   `RistoranteID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `ELEMENTI`
---
 
 INSERT INTO `ELEMENTI` (`ElementoMenuID`, `Nome`, `Prezzo`, `Tipo`, `RistoranteID`) VALUES
 (1, 'Pizza Margherita', 8.50, 'Cibo', 1),
@@ -448,11 +394,7 @@ INSERT INTO `ELEMENTI` (`ElementoMenuID`, `Nome`, `Prezzo`, `Tipo`, `RistoranteI
 (31, 'Ruchè di Castagnole Monferrato', 25.00, 'Bevanda', 9),
 (32, 'Terre Alfieri', 23.00, 'Bevanda', 9);
 
--- --------------------------------------------------------
 
---
--- Struttura della tabella `ORDINI`
---
 
 CREATE TABLE `ORDINI` (
   `OrdineID` int(11) NOT NULL,
@@ -462,33 +404,10 @@ CREATE TABLE `ORDINI` (
   `Commissione` decimal(5,2) NOT NULL DEFAULT 0.20
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `ORDINI`
---
+
 
 INSERT INTO `ORDINI` (`OrdineID`, `DataOra`, `Username`, `RistoranteID`, `Commissione`) VALUES
-(1, '2024-07-10 12:30:00', 'luca.verdi', 2, 0.20),
-(2, '2024-07-09 19:00:00', 'francesca.bianchi', 1, 0.20),
-(3, '2024-07-11 13:45:00', 'andrea.gallo', 3, 0.20),
-(4, '2024-07-08 20:15:00', 'paolo.bianchi', 4, 0.20),
-(5, '2024-07-07 21:30:00', 'giuseppe.ferrari', 2, 0.20),
-(6, '2024-07-10 18:00:00', 'simone.rizzo', 5, 0.20),
-(7, '2024-07-09 14:30:00', 'maria.ferraro', 6, 0.20),
-(8, '2024-07-11 19:30:00', 'laura.galli', 8, 0.20),
-(9, '2024-07-10 21:00:00', 'giovanna.romano', 10, 0.20),
-(10, '2024-07-09 12:00:00', 'andrea.vitali', 6, 0.20),
-(11, '2024-07-08 20:30:00', 'sara.longo', 9, 0.20),
-(12, '2024-07-07 19:15:00', 'lorenzo.leone', 11, 0.20),
-(13, '2024-07-10 13:45:00', 'rita.pellegrini', 12, 0.20),
-(14, '2024-07-11 14:00:00', 'fabio.gallo', 13, 0.20),
-(15, '2024-07-09 22:15:00', 'elisa.gatti', 14, 0.20),
-(16, '2024-07-10 20:30:00', 'roberto.marini', 8, 0.20),
-(17, '2024-07-11 18:45:00', 'serena.conti', 15, 0.20),
-(18, '2024-07-09 16:30:00', 'giulia.marini', 10, 0.20),
-(19, '2024-07-08 21:15:00', 'marco.conti', 12, 0.20),
-(20, '2024-07-07 19:30:00', 'giulia.marini', 2, 0.20),
 (25, '2024-07-13 13:04:49', 'elisa.gatti', 10, 0.20),
-(26, '2024-07-13 14:13:01', 'elisa.gatti', 14, 0.20),
 (27, '2024-07-13 14:32:53', 'elisa.gatti', 10, 0.20),
 (28, '2024-07-13 14:32:58', 'elisa.gatti', 10, 0.20),
 (29, '2024-07-13 14:33:04', 'elisa.gatti', 10, 0.20),
@@ -510,15 +429,9 @@ INSERT INTO `ORDINI` (`OrdineID`, `DataOra`, `Username`, `RistoranteID`, `Commis
 (45, '2024-07-15 17:28:59', 'elisa.gatti', 16, 0.20),
 (46, '2024-07-15 17:39:45', 'elisa.gatti', 16, 0.20),
 (47, '2024-07-15 17:49:10', 'elisa.gatti', 1, 0.20),
-(48, '2024-07-15 17:50:35', 'elisa.gatti', 7, 0.20),
-(49, '2024-07-16 02:30:36', 'elisa.gatti', 9, 0.20),
-(50, '2024-07-16 02:31:05', 'elisa.gatti', 9, 0.20);
+(48, '2024-07-15 17:50:35', 'elisa.gatti', 7, 0.20);
 
--- --------------------------------------------------------
 
---
--- Struttura della tabella `RECENSIONI`
---
 
 CREATE TABLE `RECENSIONI` (
   `Username` varchar(50) NOT NULL,
@@ -528,9 +441,6 @@ CREATE TABLE `RECENSIONI` (
   `Commento` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `RECENSIONI`
---
 
 INSERT INTO `RECENSIONI` (`Username`, `DataOra`, `RistoranteID`, `Voto`, `Commento`) VALUES
 ('aiden.sanders', '2024-07-13 19:45:00', 1, 5, 'Ottimo cibo e servizio eccellente!'),
@@ -727,11 +637,7 @@ INSERT INTO `RECENSIONI` (`Username`, `DataOra`, `RistoranteID`, `Voto`, `Commen
 ('zoe.green', '2024-08-13 13:00:00', 9, 4, 'Ottima cucina, ma il servizio potrebbe essere più veloce.'),
 ('zoe.green', '2024-08-21 19:00:00', 17, 5, 'Sushi fresco e ben preparato.');
 
--- --------------------------------------------------------
 
---
--- Struttura della tabella `RISTORANTI`
---
 
 CREATE TABLE `RISTORANTI` (
   `RistoranteID` int(11) NOT NULL,
@@ -744,9 +650,7 @@ CREATE TABLE `RISTORANTI` (
   `IndirizzoCittà` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `RISTORANTI`
---
+
 
 INSERT INTO `RISTORANTI` (`RistoranteID`, `Nome`, `OraApertura`, `OraChiusura`, `TipologiaCucina`, `IndirizzoVia`, `IndirizzoCivico`, `IndirizzoCittà`) VALUES
 (1, 'Trattoria da Mario', '12:00:00', '22:00:00', 'Italiana', 'Via Roma', '10', 'Roma'),
@@ -769,11 +673,6 @@ INSERT INTO `RISTORANTI` (`RistoranteID`, `Nome`, `OraApertura`, `OraChiusura`, 
 (18, 'Eccomi Kebab', '12:30:00', '22:30:00', 'Turca', 'Via Garibaldi', '10', 'Torino'),
 (19, 'Ramen Bar', '18:00:00', '23:30:00', 'Giapponese', 'Via Roma', '15', 'Napoli');
 
--- --------------------------------------------------------
-
---
--- Struttura della tabella `UTENTI`
---
 
 CREATE TABLE `UTENTI` (
   `Username` varchar(50) NOT NULL,
@@ -787,9 +686,7 @@ CREATE TABLE `UTENTI` (
   `Balance` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `UTENTI`
---
+
 
 INSERT INTO `UTENTI` (`Username`, `Nome`, `Cognome`, `Password`, `IndirizzoVia`, `IndirizzoCivico`, `IndirizzoCittà`, `Ruolo`, `Balance`) VALUES
 ('admin', 'Alessandro', 'Valmori', '123', 'Via Roma', '10', 'Roma', 'Amministratore', 0.00),
@@ -901,114 +798,62 @@ INSERT INTO `UTENTI` (`Username`, `Nome`, `Cognome`, `Password`, `IndirizzoVia`,
 ('zachary.garcia', 'Zachary', 'Garcia', 'garcia789', 'Sunset Drive', '22', 'Edinburgh', 'Consumatore', 310.00),
 ('zoe.green', 'Zoe', 'Green', 'green123', 'Spring Lane', '5454', 'Winston-Salem', 'Consumatore', 270.00);
 
---
--- Indici per le tabelle scaricate
---
 
---
--- Indici per le tabelle `ASSEGNAZIONI_CONSEGNE`
---
 ALTER TABLE `ASSEGNAZIONI_CONSEGNE`
   ADD PRIMARY KEY (`OrdineID`,`FattorinoID`),
   ADD KEY `FattorinoID` (`FattorinoID`);
 
---
--- Indici per le tabelle `DETTAGLI_ORDINI`
---
+
 ALTER TABLE `DETTAGLI_ORDINI`
   ADD PRIMARY KEY (`OrdineID`,`ElementoMenuID`,`RistoranteID`),
   ADD KEY `ElementoMenuID` (`ElementoMenuID`,`RistoranteID`);
 
---
--- Indici per le tabelle `ELEMENTI`
---
+
 ALTER TABLE `ELEMENTI`
   ADD PRIMARY KEY (`ElementoMenuID`,`RistoranteID`),
   ADD KEY `RistoranteID` (`RistoranteID`);
 
---
--- Indici per le tabelle `ORDINI`
---
+
 ALTER TABLE `ORDINI`
   ADD PRIMARY KEY (`OrdineID`),
   ADD UNIQUE KEY `UniqueOrder` (`DataOra`,`Username`,`RistoranteID`),
   ADD KEY `ORDINI_ibfk_1` (`Username`),
   ADD KEY `ORDINI_ibfk_2` (`RistoranteID`);
 
---
--- Indici per le tabelle `RECENSIONI`
---
+
 ALTER TABLE `RECENSIONI`
   ADD PRIMARY KEY (`Username`,`DataOra`,`RistoranteID`),
   ADD KEY `RistoranteID` (`RistoranteID`);
 
---
--- Indici per le tabelle `RISTORANTI`
---
 ALTER TABLE `RISTORANTI`
   ADD PRIMARY KEY (`RistoranteID`);
 
---
--- Indici per le tabelle `UTENTI`
---
+
 ALTER TABLE `UTENTI`
   ADD PRIMARY KEY (`Username`);
 
---
--- AUTO_INCREMENT per le tabelle scaricate
---
-
---
--- AUTO_INCREMENT per la tabella `ORDINI`
---
 ALTER TABLE `ORDINI`
   MODIFY `OrdineID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
---
--- AUTO_INCREMENT per la tabella `RISTORANTI`
---
 ALTER TABLE `RISTORANTI`
   MODIFY `RistoranteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
---
--- Limiti per le tabelle scaricate
---
 
---
--- Limiti per la tabella `ASSEGNAZIONI_CONSEGNE`
---
 ALTER TABLE `ASSEGNAZIONI_CONSEGNE`
-  ADD CONSTRAINT `ASSEGNAZIONI_CONSEGNE_ibfk_1` FOREIGN KEY (`OrdineID`) REFERENCES `ORDINI` (`OrdineID`),
+  ADD CONSTRAINT `ASSEGNAZIONI_CONSEGNE_ibfk_1` FOREIGN KEY (`OrdineID`) REFERENCES `ORDINI` (`OrdineID`) ON DELETE CASCADE,
   ADD CONSTRAINT `ASSEGNAZIONI_CONSEGNE_ibfk_2` FOREIGN KEY (`FattorinoID`) REFERENCES `UTENTI` (`Username`);
 
---
--- Limiti per la tabella `DETTAGLI_ORDINI`
---
 ALTER TABLE `DETTAGLI_ORDINI`
-  ADD CONSTRAINT `DETTAGLI_ORDINI_ibfk_1` FOREIGN KEY (`OrdineID`) REFERENCES `ORDINI` (`OrdineID`),
+  ADD CONSTRAINT `DETTAGLI_ORDINI_ibfk_1` FOREIGN KEY (`OrdineID`) REFERENCES `ORDINI` (`OrdineID`) ON DELETE CASCADE,
   ADD CONSTRAINT `DETTAGLI_ORDINI_ibfk_2` FOREIGN KEY (`ElementoMenuID`,`RistoranteID`) REFERENCES `ELEMENTI` (`ElementoMenuID`, `RistoranteID`);
 
---
--- Limiti per la tabella `ELEMENTI`
---
 ALTER TABLE `ELEMENTI`
   ADD CONSTRAINT `ELEMENTI_ibfk_1` FOREIGN KEY (`RistoranteID`) REFERENCES `RISTORANTI` (`RistoranteID`);
 
---
--- Limiti per la tabella `ORDINI`
---
 ALTER TABLE `ORDINI`
   ADD CONSTRAINT `ORDINI_ibfk_1` FOREIGN KEY (`Username`) REFERENCES `UTENTI` (`Username`),
   ADD CONSTRAINT `ORDINI_ibfk_2` FOREIGN KEY (`RistoranteID`) REFERENCES `RISTORANTI` (`RistoranteID`);
 
---
--- Limiti per la tabella `RECENSIONI`
---
 ALTER TABLE `RECENSIONI`
   ADD CONSTRAINT `RECENSIONI_ibfk_1` FOREIGN KEY (`Username`) REFERENCES `UTENTI` (`Username`),
   ADD CONSTRAINT `RECENSIONI_ibfk_2` FOREIGN KEY (`RistoranteID`) REFERENCES `RISTORANTI` (`RistoranteID`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
