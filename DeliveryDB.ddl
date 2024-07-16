@@ -6,7 +6,7 @@ CREATE TABLE `ASSEGNAZIONI_CONSEGNE` (
   `FattorinoID` varchar(50) NOT NULL,
   `DataOraAssegnazione` datetime DEFAULT current_timestamp(),
   `DataOraConsegna` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 
 
@@ -26,7 +26,7 @@ CREATE TABLE `DETTAGLI_ORDINI` (
   `ElementoMenuID` int(11) NOT NULL,
   `RistoranteID` int(11) NOT NULL,
   `Quantità` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 
 INSERT INTO `DETTAGLI_ORDINI` (`OrdineID`, `ElementoMenuID`, `RistoranteID`, `Quantità`) VALUES
@@ -73,7 +73,7 @@ CREATE TABLE `ELEMENTI` (
   `Prezzo` decimal(10,2) NOT NULL,
   `Tipo` varchar(20) NOT NULL CHECK (`Tipo` in ('Cibo','Bevanda')),
   `RistoranteID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 
 INSERT INTO `ELEMENTI` (`ElementoMenuID`, `Nome`, `Prezzo`, `Tipo`, `RistoranteID`) VALUES
@@ -402,7 +402,7 @@ CREATE TABLE `ORDINI` (
   `Username` varchar(50) NOT NULL,
   `RistoranteID` int(11) NOT NULL,
   `Commissione` decimal(5,2) NOT NULL DEFAULT 0.20
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 
 
@@ -439,7 +439,7 @@ CREATE TABLE `RECENSIONI` (
   `RistoranteID` int(11) NOT NULL,
   `Voto` int(11) NOT NULL CHECK (`Voto` between 1 and 5),
   `Commento` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 
 INSERT INTO `RECENSIONI` (`Username`, `DataOra`, `RistoranteID`, `Voto`, `Commento`) VALUES
@@ -648,7 +648,7 @@ CREATE TABLE `RISTORANTI` (
   `IndirizzoVia` varchar(100) NOT NULL,
   `IndirizzoCivico` varchar(20) NOT NULL,
   `IndirizzoCittà` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 
 
@@ -684,7 +684,7 @@ CREATE TABLE `UTENTI` (
   `IndirizzoCittà` varchar(50) NOT NULL,
   `Ruolo` enum('Amministratore','Consumatore','Fattorino') NOT NULL DEFAULT 'Consumatore',
   `Balance` decimal(10,2) DEFAULT 0.00
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 
 
