@@ -81,13 +81,20 @@ public final class Queries {
                         SELECT o.OrdineID, o.Username, o.RistoranteID
                         FROM ORDINI o
                         WHERE o.OrdineID NOT IN (SELECT ao.OrdineID FROM ASSEGNAZIONI_CONSEGNE ao)
+                        AND o.DataOra BETWEEN DATE_SUB(NOW(), INTERVAL 1 HOUR) AND NOW()
                         ORDER BY o.DataOra DESC
                         """;
 
         public static final String ACCEPTED_ORDERS = """
                         SELECT o.OrdineID, o.Username, o.RistoranteID
                         FROM ORDINI o
-                        WHERE o.OrdineID IN (SELECT ao.OrdineID FROM ASSEGNAZIONI_CONSEGNE ao WHERE ao.FattorinoID = ? AND ao.DataOraConsegna IS NULL)
+                        WHERE o.OrdineID IN (
+                            SELECT ao.OrdineID
+                            FROM ASSEGNAZIONI_CONSEGNE ao
+                            WHERE ao.FattorinoID = ?
+                            AND ao.DataOraConsegna IS NULL
+                            AND ao.DataOraAssegnazione BETWEEN DATE_SUB(NOW(), INTERVAL 1 HOUR) AND NOW()
+                        )
                         ORDER BY o.DataOra DESC
                         """;
 
