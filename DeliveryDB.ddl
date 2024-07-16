@@ -859,3 +859,47 @@ ALTER TABLE `ORDINI`
 ALTER TABLE `RECENSIONI`
   ADD CONSTRAINT `RECENSIONI_ibfk_1` FOREIGN KEY (`Username`) REFERENCES `UTENTI` (`Username`),
   ADD CONSTRAINT `RECENSIONI_ibfk_2` FOREIGN KEY (`RistoranteID`) REFERENCES `RISTORANTI` (`RistoranteID`);
+
+  -- Creazione dei trigger
+DELIMITER //
+
+CREATE TRIGGER check_accept_order
+BEFORE INSERT ON ASSEGNAZIONI_CONSEGNE
+FOR EACH ROW
+BEGIN
+    DECLARE valid_assignment BOOLEAN;
+
+    SET valid_assignment = (
+        SELECT COUNT(*) = 0
+        FROM ASSEGNAZIONI_CONSEGNE ao
+        WHERE ao.OrdineID = NEW.OrdineID
+        AND ao.FattorinoID = NEW.FattorinoID
+        AND ao.DataOraAssegnazione BETWEEN DATE_SUB(NOW(), INTERVAL 1 HOUR) AND NOW()
+    );
+
+    IF NOT valid_assignment THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Order assignment time exceeds 1 hour';
+    END IF;
+END;
+//
+
+CREATE TRIGGER check_deliver_order
+BEFORE UPDATE ON ASSEGNAZIONI_CONSEGNE
+FOR EACH ROW
+BEGIN
+    DECLARE valid_delivery BOOLEAN;
+
+    SET valid_delivery = (
+        SELECT COUNT(*)
+        FROM ASSEGNAZIONI_CONSEGNE ao
+        WHERE ao.OrdineID = NEW.OrdineID
+        AND ao.DataOraAssegnazione BETWEEN DATE_SUB(NOW(), INTERVAL 1 HOUR) AND NOW()
+    ) > 0;
+
+    IF NOT valid_delivery THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Order delivery time exceeds 1 hour from assignment';
+    END IF;
+END;
+//
+
+DELIMITER ;
