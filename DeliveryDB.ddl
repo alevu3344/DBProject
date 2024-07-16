@@ -689,7 +689,9 @@ CREATE TABLE `UTENTI` (
 
 
 INSERT INTO `UTENTI` (`Username`, `Nome`, `Cognome`, `Password`, `IndirizzoVia`, `IndirizzoCivico`, `IndirizzoCittà`, `Ruolo`, `Balance`) VALUES
-('admin', 'Alessandro', 'Valmori', '123', 'Via Roma', '10', 'Roma', 'Amministratore', 0.00),
+('admin', 'Alessandro', 'Valmori', '123', 'Via Ungaretti', '10', 'Milano', 'Amministratore', 0.00),
+('fattorino1', 'Mark', 'Cuban', '123', 'Via Lambrate', '44', 'Lucca', 'Fattorino', 20.50),
+('consumatore1', 'Luke', 'Skywalker', '123', 'Via Brombeis', '55', 'Napoli', 'Consumatore', 20000.00),
 ('aiden.sanders', 'Aiden', 'Sanders', 'sanders456', 'Palm Street', '4040', 'Oakland', 'Consumatore', 280.00),
 ('amanda.jones', 'Amanda', 'Jones', 'jones432', 'Elm Street', '21', 'Florence', 'Consumatore', 320.00),
 ('amelia.hall', 'Amelia', 'Hall', 'hall567', 'Pecan Drive', '2525', 'Milwaukee', 'Consumatore', 250.00),
