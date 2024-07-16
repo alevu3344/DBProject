@@ -802,8 +802,8 @@ INSERT INTO `UTENTI` (`Username`, `Nome`, `Cognome`, `Password`, `IndirizzoVia`,
 
 
 ALTER TABLE `ASSEGNAZIONI_CONSEGNE`
-  ADD PRIMARY KEY (`OrdineID`,`FattorinoID`),
-  ADD KEY `FattorinoID` (`FattorinoID`);
+  ADD PRIMARY KEY (`OrdineID`),
+  ADD UNIQUE KEY `UniqueAccept` (`DataOraAssegnazione`,`FattorinoID`);
 
 
 ALTER TABLE `DETTAGLI_ORDINI`
