@@ -17,7 +17,6 @@ public class FirstController implements Controller {
     private Runnable onClose;
 
     public FirstController(Model model, Connection connection) {
-        
 
         this.onClose = () -> {
             try {

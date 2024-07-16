@@ -85,8 +85,8 @@ public class ReviewPage {
 
         // Set border to make the panel stand out
         reviewPanel.setBorder(new CompoundBorder(
-            new EmptyBorder(10, 10, 10, 10), // Padding inside the border
-            new EtchedBorder() // Outline border
+                new EmptyBorder(10, 10, 10, 10), // Padding inside the border
+                new EtchedBorder() // Outline border
         ));
 
         // Add review details
@@ -94,13 +94,14 @@ public class ReviewPage {
         reviewPanel.add(new JLabel("Rating: " + review.getStars() + " stars"));
         reviewPanel.add(new JLabel("Date: " + review.getDate()));
         reviewPanel.add(new JLabel("Review: " + review.getReview()));
-        
+
         if (userType == User.USER_TYPE.ADMIN) {
             // Add a delete button for admin users
             JButton deleteButton = new JButton("X");
             deleteButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
             deleteButton.addActionListener(e -> {
-                int response = JOptionPane.showConfirmDialog(mainFrame, "Are you sure you want to delete this review?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+                int response = JOptionPane.showConfirmDialog(mainFrame, "Are you sure you want to delete this review?",
+                        "Confirm Deletion", JOptionPane.YES_NO_OPTION);
                 if (response == JOptionPane.YES_OPTION) {
                     controller.deleteReview(review);
                     reviews = controller.getReviews(); // Refresh the reviews list
@@ -153,7 +154,8 @@ public class ReviewPage {
                 String reviewText = reviewArea.getText();
 
                 if (rating < 1 || rating > 5) {
-                    JOptionPane.showMessageDialog(dialog, "Rating must be between 1 and 5", "Invalid Rating", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(dialog, "Rating must be between 1 and 5", "Invalid Rating",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -162,7 +164,8 @@ public class ReviewPage {
                 initializeUI(); // Refresh the UI to show the new review
                 dialog.dispose(); // Close the dialog
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(dialog, "Invalid input. Please check your data.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(dialog, "Invalid input. Please check your data.", "Input Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 

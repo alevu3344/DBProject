@@ -1,6 +1,5 @@
 package deliveryDB.data;
 
-
 public final class Queries {
 
         public static final String RESTAURANT_REVIEWS = """
@@ -52,7 +51,6 @@ public final class Queries {
                         WHERE r.RistoranteID = ?
                         """;
 
-        // Seleziona tutti i ristoranti e i relativi id
         public static final String RESTAURANT_LIST = """
                         SELECT r.RistoranteID, r.Nome, r.TipologiaCucina
                         FROM RISTORANTI r
@@ -78,16 +76,14 @@ public final class Queries {
                         SET Balance = ?
                         WHERE Username = ?
                         """;
-        // Seleziona tutti gli ordini disponibili (che non si trovano in
-        // ASSEGNAZIONI_CONSEGNE)
+
         public static final String AVAILABLE_ORDERS = """
                         SELECT o.OrdineID, o.Username, o.RistoranteID
                         FROM ORDINI o
                         WHERE o.OrdineID NOT IN (SELECT ao.OrdineID FROM ASSEGNAZIONI_CONSEGNE ao)
                         ORDER BY o.DataOra DESC
                         """;
-        // Seleziona tutti gli ordini in ORDINI accettati da un certo username, e che
-        // abbianol'attributo DataOraConsegna = null in ASSEGNAZIONI_CONSEGNE
+
         public static final String ACCEPTED_ORDERS = """
                         SELECT o.OrdineID, o.Username, o.RistoranteID
                         FROM ORDINI o
@@ -102,7 +98,6 @@ public final class Queries {
                         WHERE d.OrdineID = ?
                         """;
 
-        // query per visualizzare il prezzo totale di un ordine
         public static final String ORDER_TOTAL_PRICE = """
                         SELECT SUM(m.Prezzo * d.Quantità) AS PrezzoTotale
                         FROM DETTAGLI_ORDINI d
@@ -165,7 +160,6 @@ public final class Queries {
 
                          """;
 
-        // Migliore tipoligia cucina in base alla piu ordinata
         public static final String BEST_CUISINE = """
                         SELECT r.TipologiaCucina, COUNT(r.TipologiaCucina) AS NumeroOrdini
                         FROM ORDINI o
@@ -180,7 +174,4 @@ public final class Queries {
                         WHERE o.OrdineID = ?
                         """;
 
-        
-                        
-      
 }

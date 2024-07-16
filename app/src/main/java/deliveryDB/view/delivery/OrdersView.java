@@ -53,9 +53,11 @@ public class OrdersView {
             JPanel titlePanel = new JPanel();
             titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
             titlePanel.add(Box.createHorizontalGlue());
-            titlePanel.add(new JButton("Back") {{
-                addActionListener(e -> ctrl.handleBack());
-            }});
+            titlePanel.add(new JButton("Back") {
+                {
+                    addActionListener(e -> ctrl.handleBack());
+                }
+            });
             cp.add(titlePanel, BorderLayout.NORTH);
 
             // Orders Panel
@@ -99,17 +101,18 @@ public class OrdersView {
             JButton acceptButton = new JButton("Accept");
             acceptButton.addActionListener(e -> {
                 int response = JOptionPane.showConfirmDialog(
-                    mainFrame,
-                    "Are you sure you want to accept this order?",
-                    "Confirm Accept",
-                    JOptionPane.YES_NO_OPTION
-                );
+                        mainFrame,
+                        "Are you sure you want to accept this order?",
+                        "Confirm Accept",
+                        JOptionPane.YES_NO_OPTION);
                 if (response == JOptionPane.YES_OPTION) {
                     if (ctrl.acceptOrder(order.getOrderID())) {
-                        JOptionPane.showMessageDialog(mainFrame, "Order accepted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(mainFrame, "Order accepted successfully.", "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
                         initializeUI();
                     } else {
-                        JOptionPane.showMessageDialog(mainFrame, "Failed to accept order.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(mainFrame, "Failed to accept order.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
@@ -121,17 +124,18 @@ public class OrdersView {
             JButton deliverButton = new JButton("Consegna");
             deliverButton.addActionListener(e -> {
                 int response = JOptionPane.showConfirmDialog(
-                    mainFrame,
-                    "Are you sure you want to deliver this order?",
-                    "Confirm Deliver",
-                    JOptionPane.YES_NO_OPTION
-                );
+                        mainFrame,
+                        "Are you sure you want to deliver this order?",
+                        "Confirm Deliver",
+                        JOptionPane.YES_NO_OPTION);
                 if (response == JOptionPane.YES_OPTION) {
                     if (ctrl.deliverOrder(order)) {
-                        JOptionPane.showMessageDialog(mainFrame, "Order delivered successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(mainFrame, "Order delivered successfully.", "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
                         initializeUI();
                     } else {
-                        JOptionPane.showMessageDialog(mainFrame, "Failed to deliver order.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(mainFrame, "Failed to deliver order.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
@@ -147,7 +151,8 @@ public class OrdersView {
         String deliveryAddress = details.get2();
 
         if (restaurant == null) {
-            JOptionPane.showMessageDialog(mainFrame, "Restaurant details not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(mainFrame, "Restaurant details not found.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -179,7 +184,8 @@ public class OrdersView {
         itemsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
         itemsPanel.add(new JLabel("Ordered Items:"));
-        order.getItems().forEach((item, quantity) -> itemsPanel.add(new JLabel("- " + item.getName() + " x " + quantity)));
+        order.getItems()
+                .forEach((item, quantity) -> itemsPanel.add(new JLabel("- " + item.getName() + " x " + quantity)));
 
         JPanel compensationPanel = new JPanel();
         compensationPanel.setBorder(new EmptyBorder(10, 10, 10, 10));

@@ -25,7 +25,6 @@ public class Review {
         this.author = author;
     }
 
-
     public int getRestaurantID() {
         return restaurantID;
     }
@@ -46,9 +45,7 @@ public class Review {
         return author;
     }
 
-
     public final class DAO {
-
 
         public static Pair<String, Integer> worstRestaurant(Connection connection) {
             try {
@@ -63,7 +60,6 @@ public class Review {
                 return null;
             }
         }
-        
 
         public static Optional<List<Review>> listReviews(Connection connection, int restaurantID) {
             try {
@@ -86,7 +82,8 @@ public class Review {
 
         public static void deleteReview(Connection connection, Review review) {
             try {
-                var statement = DAOUtils.prepare(connection, Queries.DELETE_REVIEW, review.getRestaurantID(), review.getAuthor(), review.getDate());
+                var statement = DAOUtils.prepare(connection, Queries.DELETE_REVIEW, review.getRestaurantID(),
+                        review.getAuthor(), review.getDate());
                 statement.executeUpdate();
                 return;
             } catch (Exception e) {

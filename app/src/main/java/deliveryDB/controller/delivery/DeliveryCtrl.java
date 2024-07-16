@@ -8,8 +8,6 @@ import deliveryDB.view.delivery.DeliveryPanel;
 import deliveryDB.view.delivery.DeliveryPanel.Flag;
 
 public class DeliveryCtrl implements Controller {
-    
-    
 
     private final Model model;
     private final JFrame mainFrame;
@@ -27,18 +25,17 @@ public class DeliveryCtrl implements Controller {
         new DeliveryPanel(this.mainFrame, this);
     }
 
-    public void handleLogOut(){
+    public void handleLogOut() {
         this.model.logout();
         this.prevCtrl.show();
     }
 
-    public void showOrders(Flag flag){
+    public void showOrders(Flag flag) {
         new OrdersCtrl(flag, this, this.mainFrame, this.model);
     }
 
-    public float getBalance(){
+    public float getBalance() {
         return this.model.getBalance();
     }
-
 
 }

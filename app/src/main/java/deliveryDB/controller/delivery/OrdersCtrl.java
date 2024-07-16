@@ -12,34 +12,33 @@ import deliveryDB.view.delivery.DeliveryPanel.Flag;
 
 import java.util.List;
 
-
-
 public class OrdersCtrl implements Controller {
-    
+
     private final Model model;
     private final JFrame mainFrame;
     private final Controller prevCtrl;
     private Flag flag;
 
-    public OrdersCtrl( Flag flag, Controller prevCtrl, JFrame mainFrame, Model model) {
+    public OrdersCtrl(Flag flag, Controller prevCtrl, JFrame mainFrame, Model model) {
         this.prevCtrl = prevCtrl;
         this.model = model;
         this.mainFrame = mainFrame;
         this.flag = flag;
         new OrdersView(flag, this.mainFrame, this);
-        
-    }
-    @Override
-    public void show() {
-        new OrdersView(this.flag ,this.mainFrame, this);
+
     }
 
-    public void handleBack(){
+    @Override
+    public void show() {
+        new OrdersView(this.flag, this.mainFrame, this);
+    }
+
+    public void handleBack() {
         this.prevCtrl.show();
     }
 
-    public List<Order> getOrdersOnFlag(Flag flag){
-        switch(flag){
+    public List<Order> getOrdersOnFlag(Flag flag) {
+        switch (flag) {
             case AVAILABLE:
                 return this.model.getAvailableOrders();
             case ACCEPTED:
@@ -49,21 +48,21 @@ public class OrdersCtrl implements Controller {
         }
     }
 
-    public Pair<Restaurant, String> restaurantDetails(Order order){
-       return new Pair<>(this.model.onRestaurantID(order.getRestaurantID()), this.model.getAddress(order.getUsername()));
+    public Pair<Restaurant, String> restaurantDetails(Order order) {
+        return new Pair<>(this.model.onRestaurantID(order.getRestaurantID()),
+                this.model.getAddress(order.getUsername()));
     }
 
-    public boolean acceptOrder(int orderID){
+    public boolean acceptOrder(int orderID) {
         return this.model.acceptOrder(orderID);
     }
 
-    public boolean deliverOrder(Order order){
+    public boolean deliverOrder(Order order) {
         return this.model.deliverOrder(order);
     }
 
-    public float getCompensation(Order order){
+    public float getCompensation(Order order) {
         return this.model.getCompensation(order);
     }
-
 
 }

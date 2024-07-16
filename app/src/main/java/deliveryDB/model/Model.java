@@ -1,4 +1,5 @@
 package deliveryDB.model;
+
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,8 @@ public interface Model {
 
     public void logout();
 
-    public boolean userRegister(User.USER_TYPE type, String username, String name, String surname,String password, String street, String number, String city);
+    public boolean userRegister(User.USER_TYPE type, String username, String name, String surname, String password,
+            String street, String number, String city);
 
     public User.USER_TYPE getUserType();
 

@@ -13,7 +13,7 @@ import java.util.Optional;
 import javax.swing.JFrame;
 
 public class LoginController implements Controller {
-
+    
     private final Model model;
     private final LoginPage loginView;
     private Controller firstCtrl;

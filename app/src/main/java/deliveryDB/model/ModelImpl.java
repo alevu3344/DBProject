@@ -15,7 +15,6 @@ import deliveryDB.data.User;
 import deliveryDB.data.User.USER_TYPE;
 import deliveryDB.utilities.Pair;
 
-
 public class ModelImpl implements Model {
 
     private final Connection connection;
@@ -28,10 +27,9 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public boolean sendOrder(Map <Item, Integer> order, int restaurantID) {
+    public boolean sendOrder(Map<Item, Integer> order, int restaurantID) {
         return Order.DAO.sendOrder(order, this.user.get().getUsername(), restaurantID, connection, this.commission);
     }
-
 
     @Override
     public LinkedHashMap<Pair<String, Integer>, String> getRestaurants() {
@@ -43,11 +41,10 @@ public class ModelImpl implements Model {
         return Review.DAO.listReviews(connection, restaurantID).orElse(List.of());
     }
 
-    
-
     @Override
     public boolean deliverOrder(Order order) {
-        return Order.DAO.deliverOrder(connection, order.getOrderID(), this.user.get().getUsername(), this.getCompensation(order));
+        return Order.DAO.deliverOrder(connection, order.getOrderID(), this.user.get().getUsername(),
+                this.getCompensation(order));
     }
 
     @Override
@@ -63,7 +60,7 @@ public class ModelImpl implements Model {
 
     @Override
     public Optional<User.USER_TYPE> login(String username, String password) {
-        if(User.DAO.userLogin(connection, username, password)){
+        if (User.DAO.userLogin(connection, username, password)) {
             this.user = Optional.of(User.DAO.getUser(connection, username));
             return Optional.of(this.user.get().getType());
         }
@@ -71,9 +68,10 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public boolean userRegister(User.USER_TYPE type, String username, String name, String surname, String password, String street,
+    public boolean userRegister(User.USER_TYPE type, String username, String name, String surname, String password,
+            String street,
             String number, String city) {
-        return User.DAO.userRegister(connection,type, username, password, name, surname, street, number, city);
+        return User.DAO.userRegister(connection, type, username, password, name, surname, street, number, city);
     }
 
     @Override
@@ -155,9 +153,9 @@ public class ModelImpl implements Model {
     @Override
     public float getCompensation(Order order) {
         return order.getItems().entrySet().stream()
-        .map(e -> e.getKey().getPrice() * e.getValue())
-        .reduce(0f, Float::sum) * 
-        Order.DAO.getCommission(connection, order.getOrderID());
+                .map(e -> e.getKey().getPrice() * e.getValue())
+                .reduce(0f, Float::sum) *
+                Order.DAO.getCommission(connection, order.getOrderID());
     }
 
 }

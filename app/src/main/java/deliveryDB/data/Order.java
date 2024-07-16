@@ -1,7 +1,5 @@
 package deliveryDB.data;
 
-
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,7 +16,6 @@ public class Order {
     private String username;
     private int restaurantID;
     private Map<Item, Integer> items;
-
 
     public Order(int orderID, String username, int restaurantID, Map<Item, Integer> items) {
         this.orderID = orderID;
@@ -43,12 +40,11 @@ public class Order {
         return items;
     }
 
-
     public final class DAO {
 
         public static float getCommission(Connection connection, int orderID) {
             try {
-                var statement = DAOUtils.prepare(connection,Queries.GET_COMMISSION, orderID);
+                var statement = DAOUtils.prepare(connection, Queries.GET_COMMISSION, orderID);
                 var result = statement.executeQuery();
                 if (result.next()) {
                     return result.getFloat("Commissione");
@@ -60,22 +56,20 @@ public class Order {
             }
         }
 
-
-
         public static boolean deliverOrder(Connection connection, int orderID, String username, float compensation) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.DELIVER_ORDER, orderID);
-                if(statement.executeUpdate() > 0){
+                if (statement.executeUpdate() > 0) {
                     var actualBalanceStatement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
                     var actualBalanceResult = actualBalanceStatement.executeQuery();
                     float balance;
-                    if(actualBalanceResult.next()){
+                    if (actualBalanceResult.next()) {
                         balance = actualBalanceResult.getFloat("Balance");
-                    }
-                    else{
+                    } else {
                         return false;
                     }
-                    var updateBalanceStatement = DAOUtils.prepare(connection, Queries.UPDATE_USER_BALANCE, Float.valueOf(String.format("%.2f",compensation+balance)), username);
+                    var updateBalanceStatement = DAOUtils.prepare(connection, Queries.UPDATE_USER_BALANCE,
+                            Float.valueOf(String.format("%.2f", compensation + balance)), username);
                     return updateBalanceStatement.executeUpdate() > 0;
                 }
                 return false;
@@ -148,29 +142,26 @@ public class Order {
                 return Collections.emptyList();
             }
         }
-            
 
         public static boolean sendOrder(Map<Item, Integer> order, String username, int restaurant_id,
                 Connection connection, float commission) {
             try {
-                
+
                 var balanceStatement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
                 var balanceResult = balanceStatement.executeQuery();
                 if (balanceResult.next()) {
                     var balance = balanceResult.getInt("Balance");
                     var filteredOrder = order.entrySet().stream()
-                    .filter(e -> e.getValue() > 0)
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                            .filter(e -> e.getValue() > 0)
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                     var total = filteredOrder.entrySet().stream()
-                    .mapToDouble(e -> e.getKey().getPrice() * e.getValue()).sum();
+                            .mapToDouble(e -> e.getKey().getPrice() * e.getValue()).sum();
                     if (balance < total) {
                         return false; // Saldo insufficiente
                     }
 
-                    
                     connection.setAutoCommit(false);
 
-                    
                     var orderStatement = connection.prepareStatement(Queries.SEND_ORDER,
                             Statement.RETURN_GENERATED_KEYS);
                     orderStatement.setString(1, username);
@@ -178,7 +169,6 @@ public class Order {
                     orderStatement.setFloat(3, commission);
                     orderStatement.executeUpdate();
 
-                    
                     var orderIDResult = orderStatement.getGeneratedKeys();
                     if (!orderIDResult.next()) {
                         connection.rollback(); // Annulla tutte le operazioni
@@ -186,10 +176,9 @@ public class Order {
                     }
                     int ordineID = orderIDResult.getInt(1);
 
-                    
                     var detailStatement = connection.prepareStatement(Queries.SEND_ORDER_DETAILS);
                     for (Map.Entry<Item, Integer> entry : filteredOrder.entrySet()) {
-                       
+
                         detailStatement.setInt(1, ordineID);
                         detailStatement.setInt(2, entry.getKey().getItemID());
                         detailStatement.setInt(3, restaurant_id);
@@ -200,9 +189,8 @@ public class Order {
 
                     // 5. Aggiorna il saldo dell'utente
 
-
                     var updateBalanceStatement = DAOUtils.prepare(connection, Queries.UPDATE_USER_BALANCE,
-                            balance - (total+((total)*commission)), username);
+                            balance - (total + ((total) * commission)), username);
                     updateBalanceStatement.executeUpdate();
 
                     // Commit della transazione

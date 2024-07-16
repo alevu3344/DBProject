@@ -117,7 +117,6 @@ public class LoginPage implements ActionListener {
         });
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
@@ -133,7 +132,6 @@ public class LoginPage implements ActionListener {
             this.controller.handleBack();
         }
     }
-
 
     public void displayMessage(String message) {
         messageLabel.setText(message);

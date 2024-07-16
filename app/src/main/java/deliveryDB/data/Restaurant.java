@@ -17,7 +17,6 @@ public class Restaurant {
     private final Pair<Date, Date> openingHours;
     private final String cuisineType;
 
-
     public Restaurant(int restaurantID, String name, String address, Pair<Date, Date> openingHours,
             String cuisineType) {
         this.restaurantID = restaurantID;
@@ -34,6 +33,7 @@ public class Restaurant {
     public String getName() {
         return name;
     }
+
     public String getAddress() {
         return address;
     }
@@ -83,7 +83,8 @@ public class Restaurant {
             return Optional.empty();
         }
 
-        public static boolean addReview(Connection connection, int restaurantID, int stars, String review, String username) {
+        public static boolean addReview(Connection connection, int restaurantID, int stars, String review,
+                String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.ADD_REVIEW, restaurantID, stars, review, username);
                 statement.executeUpdate();
@@ -93,6 +94,7 @@ public class Restaurant {
                 return false;
             }
         }
+
         // List all the reviews of a restaurant
         public static Optional<String> listReviews(Connection connection, int restaurantID) {
             return Optional.empty();
@@ -123,7 +125,8 @@ public class Restaurant {
                 var statement = DAOUtils.prepare(connection, Queries.RESTAURANT_LIST);
                 var result = statement.executeQuery();
                 while (result.next()) {
-                    restaurants.put(new Pair<>(result.getString("Nome"), result.getInt("RistoranteID")), result.getString("TipologiaCucina"));
+                    restaurants.put(new Pair<>(result.getString("Nome"), result.getInt("RistoranteID")),
+                            result.getString("TipologiaCucina"));
                 }
                 return Optional.of(restaurants);
             } catch (Exception e) {

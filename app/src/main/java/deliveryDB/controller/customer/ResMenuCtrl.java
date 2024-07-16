@@ -15,10 +15,8 @@ import java.util.LinkedHashMap;
 
 import java.util.Date;
 
-
-
 public class ResMenuCtrl implements Controller {
-    
+
     private final Model model;
     private ResMenu view;
     private final ResController prevctrl;
@@ -26,30 +24,27 @@ public class ResMenuCtrl implements Controller {
     private final JFrame mainFrame;
     private float commission;
 
-
-    public ResMenuCtrl(ResController prevctrl, JFrame mainFrame, Model model, Restaurant restaurant) {    
+    public ResMenuCtrl(ResController prevctrl, JFrame mainFrame, Model model, Restaurant restaurant) {
         this.model = model;
         this.mainFrame = mainFrame;
         this.prevctrl = prevctrl;
         this.restaurant = restaurant;
         this.view = new ResMenu(this.mainFrame, this);
         this.commission = this.model.getCommission();
-    
-    }   
 
-    
+    }
 
-    public void handleBack(){
+    public void handleBack() {
         this.prevctrl.showRestaurants();
     }
 
-    public float getBalance(){
+    public float getBalance() {
         return this.model.getBalance();
     }
 
-    public void handleSendOrder(Map<Item, Integer> order){
-        
-        if(this.model.sendOrder(order, this.restaurant.getRestaurantID())){
+    public void handleSendOrder(Map<Item, Integer> order) {
+
+        if (this.model.sendOrder(order, this.restaurant.getRestaurantID())) {
             this.view.updateBalance(this.model.getBalance());
             return;
         }
@@ -57,12 +52,12 @@ public class ResMenuCtrl implements Controller {
         return;
     }
 
-    public String getRestaurantName(){
+    public String getRestaurantName() {
         return this.restaurant.getName();
     }
 
     // get the opening and closing time of the restaurant
-    public Pair<Date, Date> getRestaurantTime(){
+    public Pair<Date, Date> getRestaurantTime() {
         return this.restaurant.getOpeningHours();
     }
 
@@ -73,7 +68,7 @@ public class ResMenuCtrl implements Controller {
         return itemQuantityMap;
     }
 
-    public void handleReviews(){
+    public void handleReviews() {
         new ReviewController(this, this.mainFrame, this.model, this.restaurant.getRestaurantID());
     }
 
@@ -82,9 +77,8 @@ public class ResMenuCtrl implements Controller {
         this.view = new ResMenu(this.mainFrame, this);
     }
 
-    public float getCommission(double total){
-        return this.commission * (float)total;
+    public float getCommission(double total) {
+        return this.commission * (float) total;
     }
 
- 
 }

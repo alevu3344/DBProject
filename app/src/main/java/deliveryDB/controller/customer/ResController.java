@@ -7,15 +7,13 @@ import deliveryDB.model.Model;
 import deliveryDB.view.customer.RestaurantsPage;
 
 public class ResController implements Controller {
-    
 
     private final Model model;
     private RestaurantsPage resView;
     private final Controller prevCtrl;
     private JFrame mainFrame;
 
-
-    public ResController(Controller prevCtrl,JFrame mainFrame, Model model) {
+    public ResController(Controller prevCtrl, JFrame mainFrame, Model model) {
         this.mainFrame = mainFrame;
         this.model = model;
         this.prevCtrl = prevCtrl;
@@ -23,15 +21,15 @@ public class ResController implements Controller {
         this.showRestaurants();
     }
 
-    public void showRestaurants(){
+    public void showRestaurants() {
         this.resView.displayRestaurants(this.model.getRestaurants());
     }
 
-    public void handleRestaurant(int restaurantID){
+    public void handleRestaurant(int restaurantID) {
         new ResMenuCtrl(this, this.mainFrame, this.model, this.model.onRestaurantID(restaurantID));
     }
 
-    public void handleLogOut(){
+    public void handleLogOut() {
         this.model.logout();
         this.prevCtrl.show();
     }
@@ -40,8 +38,5 @@ public class ResController implements Controller {
     public void show() {
         this.resView = new RestaurantsPage(this.mainFrame, this);
     }
-
-
-
 
 }

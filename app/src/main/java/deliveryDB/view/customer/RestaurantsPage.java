@@ -17,12 +17,10 @@ public class RestaurantsPage {
     private ResController controller;
     private final JFrame mainFrame;
 
-
     public RestaurantsPage(JFrame mainFrame, ResController controller) {
         this.controller = controller;
         this.mainFrame = mainFrame;
     }
-
 
     public void displayRestaurants(Map<Pair<String, Integer>, String> restaurants) {
         freshPane(cp -> {

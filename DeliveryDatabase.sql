@@ -1,4 +1,11 @@
-/*DELIVERY DATABASE4 (Ha i dati del 2)  HA L'ATTRIBUTO STATO DI ORDINI*/
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Creato il: Lug 16, 2024 alle 02:56
+-- Versione del server: 10.4.28-MariaDB
+-- Versione PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -11,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `DeliveryDatabase2`
+-- Database: `DEL_DB4_SenzaStatoOrdine`
 --
 
 -- --------------------------------------------------------
@@ -20,13 +27,34 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `ASSEGNAZIONI_CONSEGNE`
 --
 
-CREATE TABLE ASSEGNAZIONI_CONSEGNE (
-  OrdineID int(11) NOT NULL,
-  FattorinoID varchar(50) NOT NULL,
-  DataOraAssegnazione datetime DEFAULT NOW(),
-  DataOraConsegna datetime DEFAULT NULL
+CREATE TABLE `ASSEGNAZIONI_CONSEGNE` (
+  `OrdineID` int(11) NOT NULL,
+  `FattorinoID` varchar(50) NOT NULL,
+  `DataOraAssegnazione` datetime DEFAULT current_timestamp(),
+  `DataOraConsegna` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `ASSEGNAZIONI_CONSEGNE`
+--
+
+INSERT INTO `ASSEGNAZIONI_CONSEGNE` (`OrdineID`, `FattorinoID`, `DataOraAssegnazione`, `DataOraConsegna`) VALUES
+(4, 'sir', '2024-07-14 19:43:14', '2024-07-14 19:43:22'),
+(5, 'sir', '2024-07-14 18:56:01', '2024-07-14 19:43:24'),
+(7, 'sir', '2024-07-14 20:15:25', '2024-07-14 20:15:38'),
+(10, 'sir', '2024-07-15 15:16:01', '2024-07-15 15:16:08'),
+(11, 'sir', '2024-07-14 20:15:28', '2024-07-14 20:15:40'),
+(12, 'sir', '2024-07-14 18:54:20', '2024-07-14 19:43:19'),
+(19, 'sir', '2024-07-14 20:15:30', '2024-07-14 20:15:42'),
+(20, 'sir', '2024-07-14 18:55:51', '2024-07-14 19:43:25'),
+(41, 'sir', '2024-07-16 02:25:48', '2024-07-16 02:25:52'),
+(42, 'sir', '2024-07-16 02:17:08', '2024-07-16 02:17:12'),
+(43, 'sir', '2024-07-16 02:25:27', '2024-07-16 02:25:33'),
+(44, 'sir', '2024-07-16 02:16:04', '2024-07-16 02:16:17'),
+(45, 'sir', '2024-07-16 02:15:16', '2024-07-16 02:15:20'),
+(46, 'sir', '2024-07-16 02:14:51', '2024-07-16 02:15:06'),
+(47, 'sir', '2024-07-16 01:58:48', '2024-07-16 01:58:59'),
+(48, 'sir', '2024-07-15 18:21:07', '2024-07-15 18:21:17');
 
 -- --------------------------------------------------------
 
@@ -40,6 +68,49 @@ CREATE TABLE `DETTAGLI_ORDINI` (
   `RistoranteID` int(11) NOT NULL,
   `Quantità` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `DETTAGLI_ORDINI`
+--
+
+INSERT INTO `DETTAGLI_ORDINI` (`OrdineID`, `ElementoMenuID`, `RistoranteID`, `Quantità`) VALUES
+(25, 4, 10, 1),
+(27, 3, 10, 1),
+(28, 3, 10, 1),
+(28, 12, 10, 1),
+(29, 3, 10, 1),
+(29, 7, 10, 10),
+(29, 12, 10, 1),
+(30, 3, 10, 1),
+(30, 7, 10, 15),
+(30, 12, 10, 1),
+(31, 3, 10, 1),
+(31, 7, 10, 15),
+(31, 12, 10, 1),
+(32, 22, 10, 3),
+(33, 5, 10, 5),
+(34, 5, 10, 1),
+(34, 7, 10, 1),
+(35, 14, 12, 4),
+(36, 16, 16, 1),
+(37, 3, 5, 3),
+(37, 7, 5, 3),
+(38, 2, 12, 4),
+(38, 4, 12, 1),
+(38, 6, 12, 1),
+(38, 8, 12, 2),
+(39, 7, 7, 20),
+(40, 1, 11, 1),
+(41, 2, 19, 1),
+(42, 8, 11, 1),
+(43, 5, 16, 7),
+(44, 12, 16, 4),
+(45, 11, 16, 3),
+(46, 5, 16, 1),
+(47, 7, 1, 1),
+(48, 6, 7, 1),
+(49, 16, 9, 2),
+(50, 14, 9, 2);
 
 -- --------------------------------------------------------
 
@@ -376,6 +447,7 @@ INSERT INTO `ELEMENTI` (`ElementoMenuID`, `Nome`, `Prezzo`, `Tipo`, `RistoranteI
 (30, 'Roero', 28.00, 'Bevanda', 9),
 (31, 'Ruchè di Castagnole Monferrato', 25.00, 'Bevanda', 9),
 (32, 'Terre Alfieri', 23.00, 'Bevanda', 9);
+
 -- --------------------------------------------------------
 
 --
@@ -384,52 +456,63 @@ INSERT INTO `ELEMENTI` (`ElementoMenuID`, `Nome`, `Prezzo`, `Tipo`, `RistoranteI
 
 CREATE TABLE `ORDINI` (
   `OrdineID` int(11) NOT NULL,
-  `DataOra` datetime NOT NULL DEFAULT NOW(),
+  `DataOra` datetime NOT NULL DEFAULT current_timestamp(),
   `Username` varchar(50) NOT NULL,
   `RistoranteID` int(11) NOT NULL,
-  PRIMARY KEY (`OrdineID`),
-  UNIQUE KEY `UniqueOrder` (`DataOra`, `Username`, `RistoranteID`)
+  `Commissione` decimal(5,2) NOT NULL DEFAULT 0.20
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 --
 -- Dump dei dati per la tabella `ORDINI`
 --
 
-INSERT INTO `ORDINI` (`OrdineID`, `DataOra`, `Username`, `RistoranteID`) VALUES
-(1, '2024-07-10 12:30:00', 'luca.verdi', 2),
-(2, '2024-07-09 19:00:00', 'francesca.bianchi', 1),
-(3, '2024-07-11 13:45:00', 'andrea.gallo', 3),
-(4, '2024-07-08 20:15:00', 'paolo.bianchi', 4),
-(5, '2024-07-07 21:30:00', 'giuseppe.ferrari', 2),
-(6, '2024-07-10 18:00:00', 'simone.rizzo', 5),
-(7, '2024-07-09 14:30:00', 'maria.ferraro', 6),
-(8, '2024-07-11 19:30:00', 'laura.galli', 8),
-(9, '2024-07-10 21:00:00', 'giovanna.romano', 10),
-(10, '2024-07-09 12:00:00', 'andrea.vitali', 6),
-(11, '2024-07-08 20:30:00', 'sara.longo', 9),
-(12, '2024-07-07 19:15:00', 'lorenzo.leone', 11),
-(13, '2024-07-10 13:45:00', 'rita.pellegrini', 12),
-(14, '2024-07-11 14:00:00', 'fabio.gallo', 13),
-(15, '2024-07-09 22:15:00', 'elisa.gatti', 14),
-(16, '2024-07-10 20:30:00', 'roberto.marini', 8),
-(17, '2024-07-11 18:45:00', 'serena.conti', 15),
-(18, '2024-07-09 16:30:00', 'giulia.marini', 10),
-(19, '2024-07-08 21:15:00', 'marco.conti', 12),
-(20, '2024-07-07 19:30:00', 'giulia.marini', 2),
-(25, '2024-07-13 13:04:49', 'elisa.gatti', 10),
-(26, '2024-07-13 14:13:01', 'elisa.gatti', 14),
-(27, '2024-07-13 14:32:53', 'elisa.gatti', 10),
-(28, '2024-07-13 14:32:58', 'elisa.gatti', 10),
-(29, '2024-07-13 14:33:04', 'elisa.gatti', 10),
-(30, '2024-07-13 14:33:08', 'elisa.gatti', 10),
-(31, '2024-07-13 14:33:13', 'elisa.gatti', 10),
-(32, '2024-07-13 14:35:34', 'elisa.gatti', 10),
-(33, '2024-07-13 14:35:39', 'elisa.gatti', 10),
-(34, '2024-07-13 14:35:44', 'elisa.gatti', 10),
-(35, '2024-07-13 17:00:44', 'elisa.gatti', 12),
-(36, '2024-07-13 17:14:20', 'elisa.gatti', 16),
-(37, '2024-07-13 19:35:45', 'elisa.gatti', 5);
+INSERT INTO `ORDINI` (`OrdineID`, `DataOra`, `Username`, `RistoranteID`, `Commissione`) VALUES
+(1, '2024-07-10 12:30:00', 'luca.verdi', 2, 0.20),
+(2, '2024-07-09 19:00:00', 'francesca.bianchi', 1, 0.20),
+(3, '2024-07-11 13:45:00', 'andrea.gallo', 3, 0.20),
+(4, '2024-07-08 20:15:00', 'paolo.bianchi', 4, 0.20),
+(5, '2024-07-07 21:30:00', 'giuseppe.ferrari', 2, 0.20),
+(6, '2024-07-10 18:00:00', 'simone.rizzo', 5, 0.20),
+(7, '2024-07-09 14:30:00', 'maria.ferraro', 6, 0.20),
+(8, '2024-07-11 19:30:00', 'laura.galli', 8, 0.20),
+(9, '2024-07-10 21:00:00', 'giovanna.romano', 10, 0.20),
+(10, '2024-07-09 12:00:00', 'andrea.vitali', 6, 0.20),
+(11, '2024-07-08 20:30:00', 'sara.longo', 9, 0.20),
+(12, '2024-07-07 19:15:00', 'lorenzo.leone', 11, 0.20),
+(13, '2024-07-10 13:45:00', 'rita.pellegrini', 12, 0.20),
+(14, '2024-07-11 14:00:00', 'fabio.gallo', 13, 0.20),
+(15, '2024-07-09 22:15:00', 'elisa.gatti', 14, 0.20),
+(16, '2024-07-10 20:30:00', 'roberto.marini', 8, 0.20),
+(17, '2024-07-11 18:45:00', 'serena.conti', 15, 0.20),
+(18, '2024-07-09 16:30:00', 'giulia.marini', 10, 0.20),
+(19, '2024-07-08 21:15:00', 'marco.conti', 12, 0.20),
+(20, '2024-07-07 19:30:00', 'giulia.marini', 2, 0.20),
+(25, '2024-07-13 13:04:49', 'elisa.gatti', 10, 0.20),
+(26, '2024-07-13 14:13:01', 'elisa.gatti', 14, 0.20),
+(27, '2024-07-13 14:32:53', 'elisa.gatti', 10, 0.20),
+(28, '2024-07-13 14:32:58', 'elisa.gatti', 10, 0.20),
+(29, '2024-07-13 14:33:04', 'elisa.gatti', 10, 0.20),
+(30, '2024-07-13 14:33:08', 'elisa.gatti', 10, 0.20),
+(31, '2024-07-13 14:33:13', 'elisa.gatti', 10, 0.20),
+(32, '2024-07-13 14:35:34', 'elisa.gatti', 10, 0.20),
+(33, '2024-07-13 14:35:39', 'elisa.gatti', 10, 0.20),
+(34, '2024-07-13 14:35:44', 'elisa.gatti', 10, 0.20),
+(35, '2024-07-13 17:00:44', 'elisa.gatti', 12, 0.20),
+(36, '2024-07-13 17:14:20', 'elisa.gatti', 16, 0.20),
+(37, '2024-07-13 19:35:45', 'elisa.gatti', 5, 0.20),
+(38, '2024-07-14 20:13:21', 'elisa.gatti', 12, 0.20),
+(39, '2024-07-15 16:01:38', 'elisa.gatti', 7, 0.20),
+(40, '2024-07-15 16:02:30', 'elisa.gatti', 11, 0.20),
+(41, '2024-07-15 16:10:01', 'elisa.gatti', 19, 0.20),
+(42, '2024-07-15 16:56:46', 'elisa.gatti', 11, 0.20),
+(43, '2024-07-15 17:18:24', 'elisa.gatti', 16, 0.20),
+(44, '2024-07-15 17:18:31', 'elisa.gatti', 16, 0.20),
+(45, '2024-07-15 17:28:59', 'elisa.gatti', 16, 0.20),
+(46, '2024-07-15 17:39:45', 'elisa.gatti', 16, 0.20),
+(47, '2024-07-15 17:49:10', 'elisa.gatti', 1, 0.20),
+(48, '2024-07-15 17:50:35', 'elisa.gatti', 7, 0.20),
+(49, '2024-07-16 02:30:36', 'elisa.gatti', 9, 0.20),
+(50, '2024-07-16 02:31:05', 'elisa.gatti', 9, 0.20);
 
 -- --------------------------------------------------------
 
@@ -439,7 +522,7 @@ INSERT INTO `ORDINI` (`OrdineID`, `DataOra`, `Username`, `RistoranteID`) VALUES
 
 CREATE TABLE `RECENSIONI` (
   `Username` varchar(50) NOT NULL,
-  `DataOra` datetime NOT NULL DEFAULT NOW(),
+  `DataOra` datetime NOT NULL DEFAULT current_timestamp(),
   `RistoranteID` int(11) NOT NULL,
   `Voto` int(11) NOT NULL CHECK (`Voto` between 1 and 5),
   `Commento` text DEFAULT NULL
@@ -644,7 +727,6 @@ INSERT INTO `RECENSIONI` (`Username`, `DataOra`, `RistoranteID`, `Voto`, `Commen
 ('zoe.green', '2024-08-13 13:00:00', 9, 4, 'Ottima cucina, ma il servizio potrebbe essere più veloce.'),
 ('zoe.green', '2024-08-21 19:00:00', 17, 5, 'Sushi fresco e ben preparato.');
 
-
 -- --------------------------------------------------------
 
 --
@@ -686,6 +768,7 @@ INSERT INTO `RISTORANTI` (`RistoranteID`, `Nome`, `OraApertura`, `OraChiusura`, 
 (17, 'Sushi Time', '19:00:00', '00:00:00', 'Giapponese', 'Corso Umberto I', '20', 'Milano'),
 (18, 'Eccomi Kebab', '12:30:00', '22:30:00', 'Turca', 'Via Garibaldi', '10', 'Torino'),
 (19, 'Ramen Bar', '18:00:00', '23:30:00', 'Giapponese', 'Via Roma', '15', 'Napoli');
+
 -- --------------------------------------------------------
 
 --
@@ -709,7 +792,7 @@ CREATE TABLE `UTENTI` (
 --
 
 INSERT INTO `UTENTI` (`Username`, `Nome`, `Cognome`, `Password`, `IndirizzoVia`, `IndirizzoCivico`, `IndirizzoCittà`, `Ruolo`, `Balance`) VALUES
-('admin', 'Alessandro', 'Valmori', '123', 'Via Roma', '10', 'Roma', 'Amministratore', 1000.00),
+('admin', 'Alessandro', 'Valmori', '123', 'Via Roma', '10', 'Roma', 'Amministratore', 0.00),
 ('aiden.sanders', 'Aiden', 'Sanders', 'sanders456', 'Palm Street', '4040', 'Oakland', 'Consumatore', 280.00),
 ('amanda.jones', 'Amanda', 'Jones', 'jones432', 'Elm Street', '21', 'Florence', 'Consumatore', 320.00),
 ('amelia.hall', 'Amelia', 'Hall', 'hall567', 'Pecan Drive', '2525', 'Milwaukee', 'Consumatore', 250.00),
@@ -729,7 +812,7 @@ INSERT INTO `UTENTI` (`Username`, `Nome`, `Cognome`, `Password`, `IndirizzoVia`,
 ('daniel.morris', 'Daniel', 'Morris', 'morris456', 'Alder Drive', '3434', 'Colorado Springs', 'Consumatore', 350.00),
 ('eleonora.romano', 'Eleonora', 'Romano', 'romano321', 'Via Garibaldi', '25', 'Napoli', 'Consumatore', 250.00),
 ('elijah.martinez', 'Elijah', 'Martinez', 'martinez123', 'Holly Road', '4242', 'Wichita', 'Consumatore', 320.00),
-('elisa.gatti', 'Elisa', 'Gatti', 'gatti567', 'Via Garibaldi', '9', 'Roma', 'Consumatore', 19809.50),
+('elisa.gatti', 'Elisa', 'Gatti', 'gatti567', 'Via Garibaldi', '9', 'Roma', 'Consumatore', 19074.00),
 ('elizabeth.evans', 'Elizabeth', 'Evans', 'evans456', 'Laurel Street', '5555', 'Newport News', 'Consumatore', 350.00),
 ('ella.baker', 'Ella', 'Baker', 'baker456', 'Maple Street', '3131', 'Mesa', 'Consumatore', 320.00),
 ('ella.brown', 'Ella', 'Brown', 'brown678', 'Sunset Boulevard', '15', 'Los Angeles', 'Consumatore', 380.00),
@@ -741,6 +824,7 @@ INSERT INTO `UTENTI` (`Username`, `Nome`, `Cognome`, `Password`, `IndirizzoVia`,
 ('fabio.gallo', 'Fabio', 'Gallo', 'gallo123', 'Corso Vittorio Emanuele', '25', 'Palermo', 'Consumatore', 350.00),
 ('felix.lee', 'Felix', 'Lee', 'lee901', 'River Road', '19', 'Sydney', 'Consumatore', 350.00),
 ('francesca.bianchi', 'Francesca', 'Bianchi', 'bianchi456', 'Corso Italia', '15', 'Torino', 'Consumatore', 750.00),
+('gabriel.stira', 'gabriel', 'stira', 'skillissue', 'Via Yukai 28', '666', 'Cesena', 'Fattorino', 0.00),
 ('giovanna.romano', 'Giovanna', 'Romano', 'romano789', 'Via Dante Alighieri', '14', 'Firenze', 'Consumatore', 270.00),
 ('giulia.marini', 'Giulia', 'Marini', 'marini890', 'Via Veneto', '8', 'Palermo', 'Consumatore', 150.00),
 ('giuseppe.ferrari', 'Giuseppe', 'Ferrari', 'ferrari789', 'Via Dante', '30', 'Firenze', 'Fattorino', 0.00),
@@ -761,6 +845,7 @@ INSERT INTO `UTENTI` (`Username`, `Nome`, `Cognome`, `Password`, `IndirizzoVia`,
 ('joseph.martin', 'Joseph', 'Martin', 'martin456', 'Palm Avenue', '5252', 'Modesto', 'Consumatore', 340.00),
 ('karen.jones', 'Karen', 'Jones', 'jones345', 'High Street', '30', 'Stockholm', 'Consumatore', 200.00),
 ('laura.galli', 'Laura', 'Galli', 'galli567', 'Corso Vittorio Emanuele', '20', 'Catania', 'Consumatore', 200.00),
+('leo.fiorihno', 'Leo', 'Fiorini', 'fiorinho', 'Via Federico Comandini', '30', 'Cesena', 'Fattorino', 1000.00),
 ('leo.hughes', 'Leo', 'Hughes', 'hughes789', 'Myrtle Avenue', '3838', 'Cleveland', 'Consumatore', 320.00),
 ('liam.wilson', 'Liam', 'Wilson', 'wilson567', 'Hickory Avenue', '1010', 'San Jose', 'Consumatore', 400.00),
 ('logan.flores', 'Logan', 'Flores', 'flores123', 'Cedar Street', '4848', 'Aurora', 'Consumatore', 350.00),
@@ -802,7 +887,7 @@ INSERT INTO `UTENTI` (`Username`, `Nome`, `Cognome`, `Password`, `IndirizzoVia`,
 ('sara.longo', 'Sara', 'Longo', 'longo234', 'Corso Italia', '40', 'Milano', 'Consumatore', 480.00),
 ('serena.conti', 'Serena', 'Conti', 'conti678', 'Via Roma', '17', 'Napoli', 'Consumatore', 210.00),
 ('simone.rizzo', 'Simone', 'Rizzo', 'rizzo567', 'Via Garibaldi', '18', 'Milano', 'Consumatore', 300.00),
-('sir', 'ale', 'valmo', '123', 'Zio', '2', 'Pera', 'Fattorino', 0.00),
+('sir', 'ale', 'valmo', '123', 'Zio', '2', 'Pera', 'Fattorino', 19.30),
 ('sophia.martinez', 'Sophia', 'Martinez', 'martinez345', 'Fawn Lane', '2121', 'El Paso', 'Consumatore', 280.00),
 ('sophie.jones', 'Sophie', 'Jones', 'jones345', 'Birch Blvd', '707', 'San Antonio', 'Consumatore', 310.00),
 ('sophie.murphy', 'Sophie', 'Murphy', 'murphy456', 'Dogwood Lane', '3737', 'Miami', 'Consumatore', 300.00),
@@ -842,6 +927,13 @@ ALTER TABLE `ELEMENTI`
   ADD KEY `RistoranteID` (`RistoranteID`);
 
 --
+-- Indici per le tabelle `ORDINI`
+--
+ALTER TABLE `ORDINI`
+  ADD PRIMARY KEY (`OrdineID`),
+  ADD UNIQUE KEY `UniqueOrder` (`DataOra`,`Username`,`RistoranteID`),
+  ADD KEY `ORDINI_ibfk_1` (`Username`),
+  ADD KEY `ORDINI_ibfk_2` (`RistoranteID`);
 
 --
 -- Indici per le tabelle `RECENSIONI`
@@ -870,7 +962,7 @@ ALTER TABLE `UTENTI`
 -- AUTO_INCREMENT per la tabella `ORDINI`
 --
 ALTER TABLE `ORDINI`
-  MODIFY `OrdineID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `OrdineID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT per la tabella `RISTORANTI`

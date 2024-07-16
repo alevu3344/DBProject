@@ -32,9 +32,7 @@ public class ReviewController {
     }
 
     public void addReview(int stars, String review){
-
-        this.model.addReview(stars, review, this.restaurantID);
-        
+        this.model.addReview(stars, review, this.restaurantID);   
     }
 
     public User.USER_TYPE getUserType(){
@@ -44,8 +42,4 @@ public class ReviewController {
     public void deleteReview(Review review){
         this.model.deleteReview(review);
     }
-
-
-
-    
 }

@@ -153,7 +153,8 @@ public class AdminPanel {
 
     private void showWorstRestaurant() {
         Pair<String, Integer> worstRestaurant = this.adminController.worstRestaurant();
-        showPopup("Worst Restaurant", "Worst Restaurant: " + worstRestaurant.get1() + " with an adjusted average of " + worstRestaurant.get2());
+        showPopup("Worst Restaurant", "Worst Restaurant: " + worstRestaurant.get1() + " with an adjusted average of "
+                + worstRestaurant.get2());
     }
 
     private void showTopFattorini() {

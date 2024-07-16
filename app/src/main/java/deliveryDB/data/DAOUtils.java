@@ -20,12 +20,13 @@ public final class DAOUtils {
         }
     }
 
-    // We must always prepare a statement to make sure we do not fall victim to SQL injection:
+    // We must always prepare a statement to make sure we do not fall victim to SQL
+    // injection:
     // https://owasp.org/www-community/attacks/SQL_Injection
     //
     // This is a helper that prepares the statement with all the values we give it:
     //
-    //     prepare(connection, MY_QUERY, query_arg1, query_arg2, ...)
+    // prepare(connection, MY_QUERY, query_arg1, query_arg2, ...)
     //
     public static PreparedStatement prepare(Connection connection, String query, Object... values) throws SQLException {
         PreparedStatement statement = null;

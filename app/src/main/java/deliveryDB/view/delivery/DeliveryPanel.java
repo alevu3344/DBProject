@@ -63,8 +63,8 @@ public class DeliveryPanel {
             // Create a panel to hold the balance label at the bottom
             JPanel balancePanel = new JPanel();
             balancePanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.BLACK), "Balance", TitledBorder.CENTER, TitledBorder.TOP));
-            
+                    BorderFactory.createLineBorder(Color.BLACK), "Balance", TitledBorder.CENTER, TitledBorder.TOP));
+
             // Create the balance label
             JLabel balanceLabel = new JLabel(String.format("%.2f", this.ctrl.getBalance()));
             balancePanel.add(balanceLabel);

@@ -22,7 +22,7 @@ public class ResMenu {
     private Map<Item, Integer> itemQuantityMap;
     private JTextArea orderSummaryArea;
     private JLabel totalCostLabel; // Label for total cost
-    private JLabel balanceLabel;   // Label for user balance
+    private JLabel balanceLabel; // Label for user balance
     private JLabel restaurantInfoLabel; // Label to show restaurant info
     private JButton sendOrderButton; // Button to send the order
     private Map<Item, JSpinner> itemSpinners; // Map to track spinners for each item
@@ -142,7 +142,7 @@ public class ResMenu {
 
         // Add balance label to the top of the summary panel
         orderSummaryPanel.add(balanceLabel);
-        
+
         orderSummaryPanel.add(new JLabel("Order Summary:"));
 
         // Wrap JTextArea in a JScrollPane and set size constraints
@@ -165,9 +165,9 @@ public class ResMenu {
         restaurantPanel.setLayout(new BoxLayout(restaurantPanel, BoxLayout.Y_AXIS));
         restaurantPanel.setPreferredSize(new Dimension(200, 100)); // Adjust size as needed
         restaurantPanel.setMaximumSize(new Dimension(200, 100)); // Adjust size as needed
-    
+
         restaurantPanel.add(new JLabel("Restaurant Info:"));
-        
+
         // Add restaurantInfoLabel with HTML content
         restaurantPanel.add(restaurantInfoLabel);
 
@@ -182,25 +182,26 @@ public class ResMenu {
             }
         });
         restaurantPanel.add(reviewsButton);
-    
+
         // Align the panel to the top left corner
         restaurantPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         restaurantPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         return restaurantPanel;
     }
-    
+
     private void updateRestaurantInfo() {
         if (controller.isPresent()) {
             var ctrl = controller.get();
             String restaurantName = ctrl.getRestaurantName();
             Pair<Date, Date> openingHours = ctrl.getRestaurantTime();
-    
+
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
             String openingTime = timeFormat.format(openingHours.get1());
             String closingTime = timeFormat.format(openingHours.get2());
-    
+
             // Use HTML to format the text with line breaks
-            String info = String.format("<html>Restaurant: %s<br>Opening Hours: %s - %s</html>", restaurantName, openingTime, closingTime);
+            String info = String.format("<html>Restaurant: %s<br>Opening Hours: %s - %s</html>", restaurantName,
+                    openingTime, closingTime);
             restaurantInfoLabel.setText(info);
         } else {
             restaurantInfoLabel.setText("<html>No restaurant information available.</html>");
@@ -213,13 +214,13 @@ public class ResMenu {
         for (var entry : itemQuantityMap.entrySet()) {
             if (entry.getValue() > 0) {
                 summary.append(entry.getKey().getName())
-                       .append(" (")
-                       .append(entry.getKey().getType())
-                       .append("): ")
-                       .append(entry.getValue())
-                       .append(" x ")
-                       .append(entry.getKey().getPrice())
-                       .append("$\n");
+                        .append(" (")
+                        .append(entry.getKey().getType())
+                        .append("): ")
+                        .append(entry.getValue())
+                        .append(" x ")
+                        .append(entry.getKey().getPrice())
+                        .append("$\n");
                 totalCost += entry.getValue() * entry.getKey().getPrice();
             }
         }
@@ -248,7 +249,7 @@ public class ResMenu {
     }
 
     public void updateBalance(double balance) {
-        balanceLabel.setText("Balance: $" + String.format("%.2f",balance));
+        balanceLabel.setText("Balance: $" + String.format("%.2f", balance));
     }
 
     public void addSendOrderButton(Container cp) {
@@ -262,25 +263,26 @@ public class ResMenu {
                     for (var entry : itemQuantityMap.entrySet()) {
                         if (entry.getValue() > 0) {
                             orderDetails.append(entry.getKey().getName())
-                                        .append(" (")
-                                        .append(entry.getKey().getType())
-                                        .append("): ")
-                                        .append(entry.getValue())
-                                        .append(" x ")
-                                        .append(entry.getKey().getPrice())
-                                        .append("$\n");
+                                    .append(" (")
+                                    .append(entry.getKey().getType())
+                                    .append("): ")
+                                    .append(entry.getValue())
+                                    .append(" x ")
+                                    .append(entry.getKey().getPrice())
+                                    .append("$\n");
                             totalCost += entry.getValue() * entry.getKey().getPrice();
                         }
                     }
                     // Calculate commission
-                    
+
                     double commission = controller.get().getCommission(totalCost);
                     var formattedCommission = String.format("%.2f", commission);
 
                     // Add total cost and commission details
                     orderDetails.append("\nTotal: $").append(totalCost)
-                                .append("\nCommission: $").append(formattedCommission)
-                                .append("\nTotal + Commission: $").append(String.format("%.2f" , (totalCost + Float.parseFloat(formattedCommission))));
+                            .append("\nCommission: $").append(formattedCommission)
+                            .append("\nTotal + Commission: $")
+                            .append(String.format("%.2f", (totalCost + Float.parseFloat(formattedCommission))));
 
                     // Show order confirmation dialog
                     int confirmation = JOptionPane.showConfirmDialog(mainFrame, orderDetails.toString(),
@@ -310,10 +312,12 @@ public class ResMenu {
 
     private void showOrderConfirmation() {
 
-        JOptionPane.showMessageDialog(mainFrame, "Order sent successfully!", "Order Confirmation", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(mainFrame, "Order sent successfully!", "Order Confirmation",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void showOrderError() {
-        JOptionPane.showMessageDialog(mainFrame, "Order could not be sent. Please try again.", "Order Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(mainFrame, "Order could not be sent. Please try again.", "Order Error",
+                JOptionPane.ERROR_MESSAGE);
     }
 }
