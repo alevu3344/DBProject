@@ -26,7 +26,7 @@ public interface Model {
 
     public Pair<String, Integer> worstRestaurant();
 
-    public Pair<String, Integer> topDish();
+    public Pair<Pair<String, Integer>, String> topDish();
 
     public String mostPopularCuisine();
 

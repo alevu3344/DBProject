@@ -76,7 +76,7 @@ public class AdminPanel {
             bottomButtonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             // Create and add bottom buttons
-            JButton topDishButton = new JButton("Top 5 dish");
+            JButton topDishButton = new JButton("Top dish");
             topDishButton.addActionListener(e -> showTopDishes());
 
             JButton popularCuisineButton = new JButton("Most popular cuisine type");
@@ -88,7 +88,7 @@ public class AdminPanel {
             JButton worstRestaurantButton = new JButton("Worst restaurant");
             worstRestaurantButton.addActionListener(e -> showWorstRestaurant());
 
-            JButton topFattoriniButton = new JButton("Top 5 Fattorini");
+            JButton topFattoriniButton = new JButton("Best deliverer");
             topFattoriniButton.addActionListener(e -> showTopFattorini());
 
             // Add buttons to the bottom panel
@@ -133,8 +133,8 @@ public class AdminPanel {
     }
 
     private void showTopDishes() {
-        Pair<String, Integer> topDish = this.adminController.topDish();
-        showPopup("Top dish", "Top Dish: " + topDish.get1() + " with " + topDish.get2() + " orders.");
+        var topDish = this.adminController.topDish();
+        showPopup("Top dish", "Top Dish: " + topDish.get1().get1() +" from "+ topDish.get2()+ ", with " + topDish.get1().get2() + " orders.");
     }
 
     private void showPopularCuisine() {

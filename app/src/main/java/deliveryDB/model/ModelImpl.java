@@ -126,7 +126,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Pair<String, Integer> topDish() {
+    public Pair<Pair<String, Integer>, String> topDish() {
         return Item.DAO.topDish(connection);
     }
 

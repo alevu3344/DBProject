@@ -129,11 +129,12 @@ public final class Queries {
                         WHERE u.Username = ?
                         """;
         public static final String TOP_DISH = """
-                        SELECT e.Nome, SUM(d.Quantità) AS QuantitàTotale
+                        SELECT e.Nome AS Nome, r.Nome AS Ristorante, SUM(d.Quantità) AS QuantitàTotale
                         FROM DETTAGLI_ORDINI d
                         JOIN ELEMENTI e ON d.ElementoMenuID = e.ElementoMenuID AND d.RistoranteID = e.RistoranteID
+                        JOIN RISTORANTI r ON e.RistoranteID = r.RistoranteID
                         WHERE e.Tipo = 'Cibo'
-                        GROUP BY e.Nome
+                        GROUP BY e.Nome, r.Nome
                         ORDER BY QuantitàTotale DESC
                         LIMIT 1
                         """;

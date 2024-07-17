@@ -46,12 +46,12 @@ public class Item {
 
     public final class DAO {
 
-        public static Pair<String, Integer> topDish(Connection connection) {
+        public static Pair<Pair<String, Integer>, String> topDish(Connection connection) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.TOP_DISH);
                 var result = statement.executeQuery();
                 if (result.next()) {
-                    return new Pair<>(result.getString("Nome"), result.getInt("QuantitàTotale"));
+                    return new Pair<>(new Pair<>(result.getString("Nome"), result.getInt("QuantitàTotale")),result.getString("Ristorante") );
                 }
                 return null;
             } catch (Exception e) {

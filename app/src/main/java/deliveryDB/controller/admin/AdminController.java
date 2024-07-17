@@ -44,8 +44,8 @@ public class AdminController implements Controller {
     public Pair<String, Integer> worstRestaurant() {
         return this.model.worstRestaurant();
     }
-
-    public Pair<String, Integer> topDish() {
+    //               Nome     Qtà      Ristorante
+    public Pair<Pair<String, Integer>, String> topDish() {
         return this.model.topDish();
     }
 
