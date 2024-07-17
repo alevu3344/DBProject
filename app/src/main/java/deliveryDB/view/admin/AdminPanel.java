@@ -144,7 +144,7 @@ public class AdminPanel {
 
     private void showTopRestaurants() {
         List<Pair<String, Integer>> topRestaurants = this.adminController.mostChosen5Rest();
-        StringBuilder message = new StringBuilder("Most Chosen Restaurant:\n");
+        StringBuilder message = new StringBuilder("Most Chosen Restaurants:\n");
         for (Pair<String, Integer> restaurant : topRestaurants) {
             message.append(restaurant.get1()).append(": ").append(restaurant.get2()).append(" orders\n");
         }
