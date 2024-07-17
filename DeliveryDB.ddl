@@ -1,5 +1,5 @@
-create database DelDBSenzaRistoranteIDInDetOrd;
-use DelDBSenzaRistoranteIDInDetOrd;
+create database DeliveryDB;
+use DeliveryDB;
 
 CREATE TABLE `ASSEGNAZIONI_CONSEGNE` (
   `OrdineID` int(11) NOT NULL,
