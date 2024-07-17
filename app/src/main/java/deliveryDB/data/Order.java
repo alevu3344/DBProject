@@ -42,17 +42,19 @@ public class Order {
 
     public final class DAO {
 
-        public static float getCommission(Connection connection, int orderID) {
-            try {
-                var statement = DAOUtils.prepare(connection, Queries.GET_COMMISSION, orderID);
+        public static float getCompensation(Connection connection, int orderID){
+            try{
+                var statement = DAOUtils.prepare(connection, Queries.GET_COMPENSATION, orderID);
                 var result = statement.executeQuery();
-                if (result.next()) {
-                    return result.getFloat("Commissione");
+                if(result.next()){
+                    return result.getFloat("CompensoOrdine");
                 }
-                throw new SQLException("Commissione non trovata");
-            } catch (SQLException e) {
+                return 0.0f;
+
+            }
+            catch(SQLException e){
                 e.printStackTrace();
-                return 0.2f;
+                return 0.0f;
             }
         }
 

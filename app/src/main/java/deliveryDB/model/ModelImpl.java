@@ -152,10 +152,7 @@ public class ModelImpl implements Model {
 
     @Override
     public float getCompensation(Order order) {
-        return order.getItems().entrySet().stream()
-                .map(e -> e.getKey().getPrice() * e.getValue())
-                .reduce(0f, Float::sum) *
-                Order.DAO.getCommission(connection, order.getOrderID());
+        return Order.DAO.getCompensation(connection, order.getOrderID());
     }
 
 }

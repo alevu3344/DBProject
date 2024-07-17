@@ -181,5 +181,12 @@ public final class Queries {
                         FROM ORDINI o
                         WHERE o.OrdineID = ?
                         """;
+        public static final String GET_COMPENSATION = """
+                        SELECT SUM(m.Prezzo * d.Quantità) * o.Commissione AS CompensoOrdine
+                        FROM DETTAGLI_ORDINI d
+                        JOIN ELEMENTI m ON d.ElementoMenuID = m.ElementoMenuID AND d.RistoranteID = m.RistoranteID
+                        JOIN ORDINI o ON d.OrdineID = o.OrdineID
+                        WHERE d.OrdineID = ?
+                        """;
 
 }
