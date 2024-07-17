@@ -69,8 +69,8 @@ public final class Queries {
                         """;
 
         public static final String SEND_ORDER_DETAILS = """
-                        INSERT INTO DETTAGLI_ORDINI (OrdineID, ElementoMenuID, RistoranteID , Quantità)
-                        VALUES (?, ?, ? , ?)""";
+                        INSERT INTO DETTAGLI_ORDINI (OrdineID, ElementoMenuID, Quantità)
+                        VALUES (?, ? , ?)""";
         public static final String UPDATE_USER_BALANCE = """
                         UPDATE UTENTI
                         SET Balance = ?
@@ -99,16 +99,18 @@ public final class Queries {
                         """;
 
         public static final String ORDER_DETAILS = """
-                        SELECT d.ElementoMenuID, d.Quantità, m.Nome, m.Prezzo, m.Tipo, d.RistoranteID
+                        SELECT d.ElementoMenuID, d.Quantità, m.Nome, m.Prezzo, m.Tipo, o.RistoranteID
                         FROM DETTAGLI_ORDINI d
-                        JOIN ELEMENTI m ON d.ElementoMenuID = m.ElementoMenuID AND d.RistoranteID = m.RistoranteID
+                        JOIN ORDINI o ON d.OrdineID = o.OrdineID
+                        JOIN ELEMENTI m ON d.ElementoMenuID = m.ElementoMenuID AND o.RistoranteID = m.RistoranteID
                         WHERE d.OrdineID = ?
                         """;
 
         public static final String ORDER_TOTAL_PRICE = """
                         SELECT SUM(m.Prezzo * d.Quantità) AS PrezzoTotale
                         FROM DETTAGLI_ORDINI d
-                        JOIN ELEMENTI m ON d.ElementoMenuID = m.ElementoMenuID AND d.RistoranteID = m.RistoranteID
+                        JOIN ORDINI o ON d.OrdineID = o.OrdineID
+                        JOIN ELEMENTI m ON d.ElementoMenuID = m.ElementoMenuID AND o.RistoranteID = m.RistoranteID
                         WHERE d.OrdineID = ?
                         """;
 
@@ -131,8 +133,9 @@ public final class Queries {
         public static final String TOP_DISH = """
                         SELECT e.Nome AS Nome, r.Nome AS Ristorante, SUM(d.Quantità) AS QuantitàTotale
                         FROM DETTAGLI_ORDINI d
-                        JOIN ELEMENTI e ON d.ElementoMenuID = e.ElementoMenuID AND d.RistoranteID = e.RistoranteID
-                        JOIN RISTORANTI r ON e.RistoranteID = r.RistoranteID
+                        JOIN ORDINI o ON d.OrdineID = o.OrdineID
+                        JOIN ELEMENTI e ON d.ElementoMenuID = e.ElementoMenuID AND o.RistoranteID = e.RistoranteID
+                        JOIN RISTORANTI r ON o.RistoranteID = r.RistoranteID
                         WHERE e.Tipo = 'Cibo'
                         GROUP BY e.Nome, r.Nome
                         ORDER BY QuantitàTotale DESC
@@ -180,8 +183,8 @@ public final class Queries {
         public static final String GET_COMPENSATION = """
                         SELECT SUM(m.Prezzo * d.Quantità) * o.Commissione AS CompensoOrdine
                         FROM DETTAGLI_ORDINI d
-                        JOIN ELEMENTI m ON d.ElementoMenuID = m.ElementoMenuID AND d.RistoranteID = m.RistoranteID
                         JOIN ORDINI o ON d.OrdineID = o.OrdineID
+                        JOIN ELEMENTI m ON d.ElementoMenuID = m.ElementoMenuID AND o.RistoranteID = m.RistoranteID
                         WHERE d.OrdineID = ?
                         """;
 

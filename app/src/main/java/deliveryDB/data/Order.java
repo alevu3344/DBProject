@@ -183,8 +183,7 @@ public class Order {
 
                         detailStatement.setInt(1, ordineID);
                         detailStatement.setInt(2, entry.getKey().getItemID());
-                        detailStatement.setInt(3, restaurant_id);
-                        detailStatement.setInt(4, entry.getValue());
+                        detailStatement.setInt(3, entry.getValue());
                         detailStatement.addBatch();
                     }
                     detailStatement.executeBatch();

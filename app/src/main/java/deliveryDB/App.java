@@ -9,7 +9,7 @@ import deliveryDB.model.Model;
 public final class App {
 
     public static void main(String[] args) throws SQLException {
-        var connection = DAOUtils.localMySQLConnection("DeliveryDB", "root", "");
+        var connection = DAOUtils.localMySQLConnection("DelDBSenzaRistoranteIDInDetOrd", "root", "");
         var model = Model.fromConnection(connection);
         new FirstController(model, connection);
     }

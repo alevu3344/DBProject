@@ -1,5 +1,5 @@
-create database DeliveryDB;
-use DeliveryDB;
+create database DelDBSenzaRistoranteIDInDetOrd;
+use DelDBSenzaRistoranteIDInDetOrd;
 
 CREATE TABLE `ASSEGNAZIONI_CONSEGNE` (
   `OrdineID` int(11) NOT NULL,
@@ -24,47 +24,47 @@ INSERT INTO `ASSEGNAZIONI_CONSEGNE` (`OrdineID`, `FattorinoID`, `DataOraAssegnaz
 CREATE TABLE `DETTAGLI_ORDINI` (
   `OrdineID` int(11) NOT NULL,
   `ElementoMenuID` int(11) NOT NULL,
-  `RistoranteID` int(11) NOT NULL,
   `Quantità` int(11) NOT NULL
 );
 
 
-INSERT INTO `DETTAGLI_ORDINI` (`OrdineID`, `ElementoMenuID`, `RistoranteID`, `Quantità`) VALUES
-(25, 4, 10, 1),
-(27, 3, 10, 1),
-(28, 3, 10, 1),
-(28, 12, 10, 1),
-(29, 3, 10, 1),
-(29, 7, 10, 10),
-(29, 12, 10, 1),
-(30, 3, 10, 1),
-(30, 7, 10, 15),
-(30, 12, 10, 1),
-(31, 3, 10, 1),
-(31, 7, 10, 15),
-(31, 12, 10, 1),
-(32, 22, 10, 3),
-(33, 5, 10, 5),
-(34, 5, 10, 1),
-(34, 7, 10, 1),
-(35, 14, 12, 4),
-(36, 16, 16, 1),
-(37, 3, 5, 3),
-(37, 7, 5, 3),
-(38, 2, 12, 4),
-(38, 4, 12, 1),
-(38, 6, 12, 1),
-(38, 8, 12, 2),
-(39, 7, 7, 20),
-(40, 1, 11, 1),
-(41, 2, 19, 1),
-(42, 8, 11, 1),
-(43, 5, 16, 7),
-(44, 12, 16, 4),
-(45, 11, 16, 3),
-(46, 5, 16, 1),
-(47, 7, 1, 1),
-(48, 6, 7, 1);
+INSERT INTO `DETTAGLI_ORDINI` (`OrdineID`, `ElementoMenuID`, `Quantità`) VALUES
+(25, 4, 1),
+(27, 3, 1),
+(28, 3, 1),
+(28, 12, 1),
+(29, 3, 1),
+(29, 7, 10),
+(29, 12, 1),
+(30, 3, 1),
+(30, 7, 15),
+(30, 12, 1),
+(31, 3, 1),
+(31, 7, 15),
+(31, 12, 1),
+(32, 22, 3),
+(33, 5, 5),
+(34, 5, 1),
+(34, 7, 1),
+(35, 14, 4),
+(36, 16, 1),
+(37, 3, 3),
+(37, 7, 3),
+(38, 2, 4),
+(38, 4, 1),
+(38, 6, 1),
+(38, 8, 2),
+(39, 7, 20),
+(40, 1, 1),
+(41, 2, 1),
+(42, 8, 1),
+(43, 5, 7),
+(44, 12, 4),
+(45, 11, 3),
+(46, 5, 1),
+(47, 7, 1),
+(48, 6, 1);
+
 
 
 CREATE TABLE `ELEMENTI` (
@@ -807,8 +807,7 @@ ALTER TABLE `ASSEGNAZIONI_CONSEGNE`
 
 
 ALTER TABLE `DETTAGLI_ORDINI`
-  ADD PRIMARY KEY (`OrdineID`,`ElementoMenuID`,`RistoranteID`),
-  ADD KEY `ElementoMenuID` (`ElementoMenuID`,`RistoranteID`);
+  ADD PRIMARY KEY (`OrdineID`,`ElementoMenuID`);
 
 
 ALTER TABLE `ELEMENTI`
@@ -847,7 +846,7 @@ ALTER TABLE `ASSEGNAZIONI_CONSEGNE`
 
 ALTER TABLE `DETTAGLI_ORDINI`
   ADD CONSTRAINT `DETTAGLI_ORDINI_ibfk_1` FOREIGN KEY (`OrdineID`) REFERENCES `ORDINI` (`OrdineID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `DETTAGLI_ORDINI_ibfk_2` FOREIGN KEY (`ElementoMenuID`,`RistoranteID`) REFERENCES `ELEMENTI` (`ElementoMenuID`, `RistoranteID`);
+  ADD CONSTRAINT `DETTAGLI_ORDINI_ibfk_2` FOREIGN KEY (`ElementoMenuID`) REFERENCES `ELEMENTI` (`ElementoMenuID`);
 
 ALTER TABLE `ELEMENTI`
   ADD CONSTRAINT `ELEMENTI_ibfk_1` FOREIGN KEY (`RistoranteID`) REFERENCES `RISTORANTI` (`RistoranteID`);
