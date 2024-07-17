@@ -70,7 +70,8 @@ public final class Queries {
 
         public static final String SEND_ORDER_DETAILS = """
                         INSERT INTO DETTAGLI_ORDINI (OrdineID, ElementoMenuID, Quantità)
-                        VALUES (?, ? , ?)""";
+                        VALUES (?, ? , ?)
+                        """;
         public static final String UPDATE_USER_BALANCE = """
                         UPDATE UTENTI
                         SET Balance = ?
@@ -163,9 +164,9 @@ public final class Queries {
                         FROM RISTORANTI r
                         JOIN
                         (
-                                SELECT r.RistoranteID, (SUM(r.Voto) + 1) / (COUNT(*) + 1) AS adjusted_average
-                                FROM RECENSIONI r
-                                GROUP BY r.RistoranteID
+                        SELECT r.RistoranteID, (SUM(r.Voto) + 1) / (COUNT(*) + 1) AS adjusted_average
+                        FROM RECENSIONI r
+                        GROUP BY r.RistoranteID
                         ) subquery ON r.RistoranteID = subquery.RistoranteID
                          ORDER BY subquery.adjusted_average ASC;
 
