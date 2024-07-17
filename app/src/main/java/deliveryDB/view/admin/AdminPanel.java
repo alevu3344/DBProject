@@ -144,11 +144,11 @@ public class AdminPanel {
 
     private void showTopRestaurants() {
         List<Pair<String, Integer>> topRestaurants = this.adminController.mostChosen5Rest();
-        StringBuilder message = new StringBuilder("Top 5 Most Chosen Restaurants:\n");
+        StringBuilder message = new StringBuilder("Most Chosen Restaurant:\n");
         for (Pair<String, Integer> restaurant : topRestaurants) {
             message.append(restaurant.get1()).append(": ").append(restaurant.get2()).append(" orders\n");
         }
-        showPopup("Top 5 Restaurants", message.toString());
+        showPopup("Most chosen restaurant", message.toString());
     }
 
     private void showWorstRestaurant() {
@@ -159,7 +159,7 @@ public class AdminPanel {
 
     private void showTopFattorini() {
         List<Pair<String, Integer>> topFattorini = this.adminController.top5Deliverers();
-        StringBuilder message = new StringBuilder("Top 5 Fattorini:\n");
+        StringBuilder message = new StringBuilder("Top deliverer:\n");
         for (Pair<String, Integer> fattorino : topFattorini) {
             message.append(fattorino.get1()).append(": ").append(fattorino.get2()).append(" deliveries\n");
         }
