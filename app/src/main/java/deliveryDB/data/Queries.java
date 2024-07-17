@@ -176,11 +176,7 @@ public final class Queries {
                         ORDER BY NumeroOrdini DESC
                         LIMIT 1
                         """;
-        public static final String GET_COMMISSION = """
-                        SELECT o.Commissione
-                        FROM ORDINI o
-                        WHERE o.OrdineID = ?
-                        """;
+                        
         public static final String GET_COMPENSATION = """
                         SELECT SUM(m.Prezzo * d.Quantità) * o.Commissione AS CompensoOrdine
                         FROM DETTAGLI_ORDINI d
