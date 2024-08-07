@@ -29,8 +29,8 @@ public class Restaurant {
      * @param openingHours  the opening and closing hours of the restaurant
      * @param cuisineType   the type of cuisine offered by the restaurant
      */
-    public Restaurant(int restaurantID, String name, String address, Pair<Date, Date> openingHours,
-                      String cuisineType) {
+    public Restaurant(final int restaurantID, final String name, final String address, 
+                      final Pair<Date, Date> openingHours, final String cuisineType) {
         this.restaurantID = restaurantID;
         this.name = name;
         this.address = address;
@@ -86,7 +86,12 @@ public class Restaurant {
     /**
      * Data access object (DAO) for interacting with the restaurant-related database operations.
      */
-    public final class DAO {
+    public static final class DAO {
+
+        // Private constructor to prevent instantiation
+        private DAO() {
+            throw new UnsupportedOperationException("Utility class");
+        }
 
         /**
          * Retrieves the most popular cuisine type from the database.
@@ -94,7 +99,7 @@ public class Restaurant {
          * @param connection the database connection
          * @return the most popular cuisine type, or null if not found
          */
-        public static String mostPopularCuisine(Connection connection) {
+        public static String mostPopularCuisine(final Connection connection) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.BEST_CUISINE);
                 var result = statement.executeQuery();
@@ -112,9 +117,9 @@ public class Restaurant {
          * Retrieves the top 5 most chosen restaurants from the database.
          *
          * @param connection the database connection
-         * @return a list of pairs containing restaurant names and their order counts, or null if an error occurs
+         * @return a list of pairs containing restaurant names and their order counts, or an empty list if an error occurs
          */
-        public static List<Pair<String, Integer>> mostChosen5Restaurants(Connection connection) {
+        public static List<Pair<String, Integer>> mostChosen5Restaurants(final Connection connection) {
             var restaurants = new LinkedList<Pair<String, Integer>>();
             try {
                 var statement = DAOUtils.prepare(connection, Queries.TOP5_RESTAURANT);
@@ -125,7 +130,7 @@ public class Restaurant {
                 return restaurants;
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
+                return new LinkedList<>();
             }
         }
 
@@ -136,7 +141,7 @@ public class Restaurant {
          * @param restaurantID the ID of the restaurant to find
          * @return an Optional containing the Restaurant if found, or an empty Optional if not
          */
-        public static Optional<Restaurant> find(Connection connection, int restaurantID) {
+        public static Optional<Restaurant> find(final Connection connection, final int restaurantID) {
             return Optional.empty();
         }
 
@@ -150,8 +155,8 @@ public class Restaurant {
          * @param username      the username of the reviewer
          * @return true if the review was added successfully, false otherwise
          */
-        public static boolean addReview(Connection connection, int restaurantID, int stars, String review,
-                                         String username) {
+        public static boolean addReview(final Connection connection, final int restaurantID, final int stars,
+                                         final String review, final String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.ADD_REVIEW, restaurantID, stars, review, username);
                 statement.executeUpdate();
@@ -169,7 +174,7 @@ public class Restaurant {
          * @param restaurantID the ID of the restaurant for which to list reviews
          * @return an Optional containing the reviews if found, or an empty Optional if not
          */
-        public static Optional<String> listReviews(Connection connection, int restaurantID) {
+        public static Optional<String> listReviews(final Connection connection, final int restaurantID) {
             return Optional.empty();
         }
 
@@ -180,17 +185,18 @@ public class Restaurant {
          * @param restaurantID the ID of the restaurant to find
          * @return the Restaurant object if found, or null if not
          */
-        public static Restaurant findRestaurant(Connection connection, int restaurantID) {
+        public static Restaurant findRestaurant(final Connection connection, final int restaurantID) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.RESTAURANT_DETAILS, restaurantID);
                 var result = statement.executeQuery();
                 if (result.next()) {
-                    return new Restaurant(restaurantID,
+                    return new Restaurant(
+                            restaurantID,
                             result.getString("Nome"),
-                            result.getString("IndirizzoCittà") + " " + result.getString("IndirizzoVia") + " "
-                                    + result.getString("IndirizzoCivico"),
+                            result.getString("IndirizzoCittà") + " " + result.getString("IndirizzoVia") + " " + result.getString("IndirizzoCivico"),
                             new Pair<>(result.getTime("OraApertura"), result.getTime("OraChiusura")),
-                            result.getString("TipologiaCucina"));
+                            result.getString("TipologiaCucina")
+                    );
                 }
                 return null;
             } catch (Exception e) {
@@ -205,7 +211,7 @@ public class Restaurant {
          * @param connection the database connection
          * @return an Optional containing a map of restaurant names and IDs with their cuisine types, or an empty Optional if an error occurs
          */
-        public static Optional<LinkedHashMap<Pair<String, Integer>, String>> listRestaurants(Connection connection) {
+        public static Optional<LinkedHashMap<Pair<String, Integer>, String>> listRestaurants(final Connection connection) {
             var restaurants = new LinkedHashMap<Pair<String, Integer>, String>();
             try {
                 var statement = DAOUtils.prepare(connection, Queries.RESTAURANT_LIST);

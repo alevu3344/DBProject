@@ -278,4 +278,7 @@ public final class Queries {
                     JOIN ELEMENTI m ON d.ElementoMenuID = m.ElementoMenuID AND o.RistoranteID = m.RistoranteID
                     WHERE d.OrdineID = ?
                     """;
+    
+    private Queries() { }
+    
 }

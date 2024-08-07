@@ -11,11 +11,11 @@ import deliverydb.utilities.Pair;
  */
 public class Item {
 
-    public final int itemID;
-    public final int resID;
-    public final float price;
-    public final String type;
-    public final String name;
+    private final int itemID;
+    private final int resID;
+    private final String name;
+    private final float price;
+    private final String type;
 
     /**
      * Constructs an Item object.

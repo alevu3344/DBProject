@@ -33,7 +33,7 @@ public class User {
          * @param type the string representing the user type
          * @return the corresponding {@link USER_TYPE}, or {@code null} if the string does not match any type
          */
-        public static USER_TYPE fromString(String type) {
+        public static USER_TYPE fromString(final String type) {
             return switch (type) {
                 case "Consumatore" -> CUSTOMER;
                 case "Fattorino" -> DELIVERY_PERSON;
@@ -67,8 +67,8 @@ public class User {
      * @param number the street number of the user
      * @param city the city where the user resides
      */
-    public User(USER_TYPE type, String username, String name, String surname, String street, String number,
-            String city) {
+    public User(final USER_TYPE type, final String username, final String name, final String surname,
+                final String street, final String number, final String city) {
         this.type = type;
         this.username = username;
         this.name = name;
@@ -137,14 +137,19 @@ public class User {
      *
      * @return the full address, combining street, number, and city
      */
-    public String getStreet() {
+    public String getAddress() {
         return street + " " + number + ", " + city;
     }
 
     /**
      * Provides data access methods for {@link User}.
      */
-    public final class DAO {
+    public static final class DAO {
+
+        // Private constructor to prevent instantiation
+        private DAO() {
+            throw new UnsupportedOperationException("Utility class");
+        }
 
         /**
          * Retrieves the top 5 delivery persons based on the number of deliveries.
@@ -152,8 +157,8 @@ public class User {
          * @param connection the {@link Connection} object used to execute the query
          * @return a list of {@link Pair} objects, where each pair contains a delivery person's ID and the number of deliveries
          */
-        public static List<Pair<String, Integer>> top5Deliverers(Connection connection) {
-            var deliverers = new LinkedList<Pair<String, Integer>>();
+        public static List<Pair<String, Integer>> top5Deliverers(final Connection connection) {
+            List<Pair<String, Integer>> deliverers = new LinkedList<>();
             try {
                 var statement = DAOUtils.prepare(connection, Queries.TOP5_DELIVERER);
                 var result = statement.executeQuery();
@@ -163,7 +168,7 @@ public class User {
                 return deliverers;
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
+                return List.of(); // Returning an empty list instead of null
             }
         }
 
@@ -174,13 +179,14 @@ public class User {
          * @param username the username of the user whose address is to be retrieved
          * @return the full address of the user, or {@code null} if the user is not found
          */
-        public static String getAddress(Connection connection, String username) {
+        public static String getAddress(final Connection connection, final String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USER_ADDRESS, username);
                 var result = statement.executeQuery();
                 if (result.next()) {
-                    return result.getString("IndirizzoVia") + " " + result.getString("IndirizzoCivico") + ", "
-                            + result.getString("IndirizzoCittà");
+                    return result.getString("IndirizzoVia") + " " +
+                           result.getString("IndirizzoCivico") + ", " +
+                           result.getString("IndirizzoCittà");
                 }
                 return null;
             } catch (Exception e) {
@@ -196,7 +202,7 @@ public class User {
          * @param username the username of the user whose balance is to be retrieved
          * @return the balance of the user, or {@code -1} if the user is not found or an error occurs
          */
-        public static float getBalanceFor(Connection connection, String username) {
+        public static float getBalanceFor(final Connection connection, final String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
                 var result = statement.executeQuery();
@@ -217,7 +223,7 @@ public class User {
          * @param username the username to check for availability
          * @return {@code true} if the username is available, {@code false} otherwise
          */
-        public static boolean isUserNameAvailable(Connection connection, String username) {
+        public static boolean isUserNameAvailable(final Connection connection, final String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USERNAME_AVAILABILITY_CHECK, username);
                 var result = statement.executeQuery();
@@ -236,7 +242,7 @@ public class User {
          * @param password the password of the user
          * @return {@code true} if the login is successful, {@code false} otherwise
          */
-        public static boolean userLogin(Connection connection, String username, String password) {
+        public static boolean userLogin(final Connection connection, final String username, final String password) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USER_LOGIN, username, password);
                 var result = statement.executeQuery();
@@ -261,8 +267,9 @@ public class User {
          * @param city the city where the user resides
          * @return {@code true} if the registration is successful, {@code false} otherwise
          */
-        public static boolean userRegister(Connection connection, User.USER_TYPE type, String username, String password,
-                String name, String surname, String street, String number, String city) {
+        public static boolean userRegister(final Connection connection, final User.USER_TYPE type, final String username,
+                                            final String password, final String name, final String surname,
+                                            final String street, final String number, final String city) {
             try {
                 if (!isUserNameAvailable(connection, username)) {
                     return false;
@@ -284,7 +291,7 @@ public class User {
          * @param username the username of the user to retrieve
          * @return the {@link User} object, or {@code null} if the user is not found
          */
-        public static User getUser(Connection connection, String username) {
+        public static User getUser(final Connection connection, final String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USER_DETAILS, username);
                 var result = statement.executeQuery();

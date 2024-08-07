@@ -31,7 +31,7 @@ public class OrdersView {
 
     private final JFrame mainFrame;
     private final OrdersCtrl ctrl;
-    private Flag flag;
+    private final Flag flag;
 
     /**
      * Constructs an OrdersView with the specified flag, JFrame, and OrdersCtrl.
@@ -40,7 +40,7 @@ public class OrdersView {
      * @param mainFrame the main frame of the application
      * @param ctrl the controller that handles order actions
      */
-    public OrdersView(Flag flag, JFrame mainFrame, OrdersCtrl ctrl) {
+    public OrdersView(final Flag flag, final JFrame mainFrame, final OrdersCtrl ctrl) {
         this.mainFrame = mainFrame;
         this.flag = flag;
         this.ctrl = ctrl;
@@ -52,8 +52,8 @@ public class OrdersView {
      *
      * @param consumer a Consumer function that modifies the content pane
      */
-    private void freshPane(Consumer<Container> consumer) {
-        Container cp = this.mainFrame.getContentPane();
+    private void freshPane(final Consumer<Container> consumer) {
+        final Container cp = this.mainFrame.getContentPane();
         cp.removeAll();
         cp.validate();
         cp.repaint();
@@ -70,29 +70,27 @@ public class OrdersView {
             cp.setLayout(new BorderLayout());
 
             // Title Panel
-            JPanel titlePanel = new JPanel();
+            final JPanel titlePanel = new JPanel();
             titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
             titlePanel.add(Box.createHorizontalGlue());
-            titlePanel.add(new JButton("Back") {
-                {
-                    addActionListener(e -> ctrl.handleBack());
-                }
-            });
+            final JButton backButton = new JButton("Back");
+            backButton.addActionListener(e -> ctrl.handleBack());
+            titlePanel.add(backButton);
             cp.add(titlePanel, BorderLayout.NORTH);
 
             // Orders Panel
-            JPanel ordersPanel = new JPanel();
+            final JPanel ordersPanel = new JPanel();
             ordersPanel.setLayout(new BoxLayout(ordersPanel, BoxLayout.Y_AXIS));
             ordersPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-            List<Order> orders = ctrl.getOrdersOnFlag(flag);
-            for (Order order : orders) {
-                JPanel orderPanel = createOrderPanel(order);
+            final List<Order> orders = ctrl.getOrdersOnFlag(flag);
+            for (final Order order : orders) {
+                final JPanel orderPanel = createOrderPanel(order);
                 ordersPanel.add(orderPanel);
                 ordersPanel.add(Box.createRigidArea(new Dimension(0, 10)));
             }
 
-            JScrollPane scrollPane = new JScrollPane(ordersPanel);
+            final JScrollPane scrollPane = new JScrollPane(ordersPanel);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             scrollPane.setPreferredSize(new Dimension(600, 400)); // Adjust dimensions as needed
@@ -105,10 +103,10 @@ public class OrdersView {
      *
      * @param order the order whose details are to be displayed
      */
-    private void displayOrderDetails(Order order) {
-        var details = ctrl.restaurantDetails(order);
-        Restaurant restaurant = details.get1();
-        String deliveryAddress = details.get2();
+    private void displayOrderDetails(final Order order) {
+        final var details = ctrl.restaurantDetails(order);
+        final Restaurant restaurant = details.get1();
+        final String deliveryAddress = details.get2();
 
         if (restaurant == null) {
             JOptionPane.showMessageDialog(mainFrame, "Restaurant details not found.", "Error",
@@ -116,38 +114,38 @@ public class OrdersView {
             return;
         }
 
-        float compensation = ctrl.getCompensation(order); // Retrieve the compensation value
-        String formattedCompensation = String.format("%.2f", compensation); // Format the compensation
+        final float compensation = ctrl.getCompensation(order); // Retrieve the compensation value
+        final String formattedCompensation = String.format("%.2f", compensation); // Format the compensation
 
-        JPanel detailsPanel = new JPanel();
+        final JPanel detailsPanel = new JPanel();
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
 
-        JPanel namePanel = new JPanel();
+        final JPanel namePanel = new JPanel();
         namePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
         namePanel.add(new JLabel("Restaurant Name: "));
         namePanel.add(new JLabel(restaurant.getName()));
 
-        JPanel addressPanel = new JPanel();
+        final JPanel addressPanel = new JPanel();
         addressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         addressPanel.setLayout(new BoxLayout(addressPanel, BoxLayout.X_AXIS));
         addressPanel.add(new JLabel("Restaurant Address: "));
         addressPanel.add(new JLabel(restaurant.getAddress()));
 
-        JPanel deliveryAddressPanel = new JPanel();
+        final JPanel deliveryAddressPanel = new JPanel();
         deliveryAddressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         deliveryAddressPanel.setLayout(new BoxLayout(deliveryAddressPanel, BoxLayout.X_AXIS));
         deliveryAddressPanel.add(new JLabel("Delivery Address: "));
         deliveryAddressPanel.add(new JLabel(deliveryAddress));
 
-        JPanel itemsPanel = new JPanel();
+        final JPanel itemsPanel = new JPanel();
         itemsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
         itemsPanel.add(new JLabel("Ordered Items:"));
         order.getItems()
                 .forEach((item, quantity) -> itemsPanel.add(new JLabel("- " + item.getName() + " x " + quantity)));
 
-        JPanel compensationPanel = new JPanel();
+        final JPanel compensationPanel = new JPanel();
         compensationPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         compensationPanel.setLayout(new BoxLayout(compensationPanel, BoxLayout.X_AXIS));
         compensationPanel.add(new JLabel("Compensation: $"));
@@ -169,8 +167,8 @@ public class OrdersView {
      * @param order the order to display
      * @return the JPanel representing the order
      */
-    private JPanel createOrderPanel(Order order) {
-        JPanel panel = new JPanel();
+    private JPanel createOrderPanel(final Order order) {
+        final JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new CompoundBorder(new LineBorder(Color.BLACK, 1), new EmptyBorder(10, 10, 10, 10)));
         panel.add(new JLabel("Order ID: " + order.getOrderID()));
@@ -179,17 +177,15 @@ public class OrdersView {
         panel.add(new JLabel("Number of Items: " + order.getItems().size()));
 
         // Show Details Button
-        JButton showDetailsButton = new JButton("Show details");
-        showDetailsButton.addActionListener(e -> {
-            displayOrderDetails(order);
-        });
+        final JButton showDetailsButton = new JButton("Show details");
+        showDetailsButton.addActionListener(e -> displayOrderDetails(order));
         panel.add(showDetailsButton);
 
         // Accept Button (conditionally added if flag is AVAILABLE)
         if (flag == Flag.AVAILABLE) {
-            JButton acceptButton = new JButton("Accept");
+            final JButton acceptButton = new JButton("Accept");
             acceptButton.addActionListener(e -> {
-                int response = JOptionPane.showConfirmDialog(
+                final int response = JOptionPane.showConfirmDialog(
                         mainFrame,
                         "Are you sure you want to accept this order?",
                         "Confirm Accept",
@@ -210,9 +206,9 @@ public class OrdersView {
 
         // Deliver Button (conditionally added if flag is ACCEPTED)
         if (flag == Flag.ACCEPTED) {
-            JButton deliverButton = new JButton("Consegna");
+            final JButton deliverButton = new JButton("Deliver");
             deliverButton.addActionListener(e -> {
-                int response = JOptionPane.showConfirmDialog(
+                final int response = JOptionPane.showConfirmDialog(
                         mainFrame,
                         "Are you sure you want to deliver this order?",
                         "Confirm Deliver",

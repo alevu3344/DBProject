@@ -125,7 +125,7 @@ public class ResMenuCtrl implements Controller {
      * @param total the total order amount
      * @return the calculated commission
      */
-    public float getCommission(double total) {
+    public float getCommission(final double total) {
         return this.commission * (float) total;
     }
 

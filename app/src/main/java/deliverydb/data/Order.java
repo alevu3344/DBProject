@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
  */
 public class Order {
 
-    private int orderID;
-    private String username;
-    private int restaurantID;
-    private Map<Item, Integer> items;
+    private final int orderID;
+    private final String username;
+    private final int restaurantID;
+    private final Map<Item, Integer> items;
 
     /**
      * Constructs an Order object.
@@ -28,7 +28,7 @@ public class Order {
      * @param restaurantID the ID of the restaurant where the order was placed
      * @param items a map of {@link Item} objects and their quantities in the order
      */
-    public Order(int orderID, String username, int restaurantID, Map<Item, Integer> items) {
+    public Order(final int orderID, final String username, final int restaurantID, final Map<Item, Integer> items) {
         this.orderID = orderID;
         this.username = username;
         this.restaurantID = restaurantID;
@@ -74,7 +74,12 @@ public class Order {
     /**
      * Provides data access methods for {@link Order}.
      */
-    public final class DAO {
+    public static final class DAO {
+
+        // Private constructor to prevent instantiation
+        private DAO() {
+            throw new UnsupportedOperationException("Utility class");
+        }
 
         /**
          * Retrieves the compensation for a given order.
@@ -83,7 +88,7 @@ public class Order {
          * @param orderID the ID of the order for which to retrieve the compensation
          * @return the compensation amount for the order
          */
-        public static float getCompensation(Connection connection, int orderID) {
+        public static float getCompensation(final Connection connection, final int orderID) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.GET_COMPENSATION, orderID);
                 var result = statement.executeQuery();
@@ -106,7 +111,7 @@ public class Order {
          * @param compensation the compensation amount for delivering the order
          * @return {@code true} if the order was successfully delivered and the balance updated, {@code false} otherwise
          */
-        public static boolean deliverOrder(Connection connection, int orderID, String username, float compensation) {
+        public static boolean deliverOrder(final Connection connection, final int orderID, final String username, final float compensation) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.DELIVER_ORDER, orderID);
                 if (statement.executeUpdate() > 0) {
@@ -137,7 +142,7 @@ public class Order {
          * @param username the username of the delivery person accepting the order
          * @return {@code true} if the order was successfully accepted, {@code false} otherwise
          */
-        public static boolean acceptOrder(Connection connection, int orderID, String username) {
+        public static boolean acceptOrder(final Connection connection, final int orderID, final String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.ACCEPT_ORDER, orderID, username);
                 return statement.executeUpdate() > 0;
@@ -154,7 +159,7 @@ public class Order {
          * @param orderID the ID of the order for which to retrieve the details
          * @return a map of {@link Item} objects and their quantities, or an empty map if no items are found
          */
-        private static Map<Item, Integer> buildMap(Connection connection, int orderID) {
+        private static Map<Item, Integer> buildMap(final Connection connection, final int orderID) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.ORDER_DETAILS, orderID);
                 var result = statement.executeQuery();
@@ -177,7 +182,7 @@ public class Order {
          * @param connection the {@link Connection} object used to execute the query
          * @return a list of available {@link Order} objects, or an empty list if no orders are found
          */
-        public static List<Order> getAvailableOrders(Connection connection) {
+        public static List<Order> getAvailableOrders(final Connection connection) {
             try {
                 LinkedList<Order> orders = new LinkedList<>();
                 var statement = DAOUtils.prepare(connection, Queries.AVAILABLE_ORDERS);
@@ -201,7 +206,7 @@ public class Order {
          * @param username the username of the delivery person
          * @return a list of accepted {@link Order} objects, or an empty list if no orders are found
          */
-        public static List<Order> getAcceptedOrders(Connection connection, String username) {
+        public static List<Order> getAcceptedOrders(final Connection connection, final String username) {
             try {
                 LinkedList<Order> orders = new LinkedList<>();
                 var statement = DAOUtils.prepare(connection, Queries.ACCEPTED_ORDERS, username);
@@ -223,13 +228,13 @@ public class Order {
          *
          * @param order a map of {@link Item} objects and their quantities for the order
          * @param username the username of the person placing the order
-         * @param restaurant_id the ID of the restaurant where the order is placed
+         * @param restaurantId the ID of the restaurant where the order is placed
          * @param connection the {@link Connection} object used to execute the queries
          * @param commission the commission rate to apply
          * @return {@code true} if the order was successfully placed and the balance updated, {@code false} otherwise
          */
-        public static boolean sendOrder(Map<Item, Integer> order, String username, int restaurant_id,
-                Connection connection, float commission) {
+        public static boolean sendOrder(final Map<Item, Integer> order, final String username, final int restaurantId,
+                final Connection connection, final float commission) {
             try {
                 var balanceStatement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
                 var balanceResult = balanceStatement.executeQuery();
@@ -249,7 +254,7 @@ public class Order {
                     var orderStatement = connection.prepareStatement(Queries.SEND_ORDER,
                             Statement.RETURN_GENERATED_KEYS);
                     orderStatement.setString(1, username);
-                    orderStatement.setInt(2, restaurant_id);
+                    orderStatement.setInt(2, restaurantId);
                     orderStatement.setFloat(3, commission);
                     orderStatement.executeUpdate();
 
@@ -258,11 +263,11 @@ public class Order {
                         connection.rollback(); // Rollback if no order ID generated
                         return false;
                     }
-                    int ordineID = orderIDResult.getInt(1);
+                    int orderID = orderIDResult.getInt(1);
 
                     var detailStatement = connection.prepareStatement(Queries.SEND_ORDER_DETAILS);
                     for (Map.Entry<Item, Integer> entry : filteredOrder.entrySet()) {
-                        detailStatement.setInt(1, ordineID);
+                        detailStatement.setInt(1, orderID);
                         detailStatement.setInt(2, entry.getKey().getItemID());
                         detailStatement.setInt(3, entry.getValue());
                         detailStatement.addBatch();

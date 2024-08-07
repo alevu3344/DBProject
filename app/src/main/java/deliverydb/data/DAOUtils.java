@@ -10,6 +10,11 @@ import java.sql.SQLException;
  */
 public final class DAOUtils {
 
+    // Private constructor to prevent instantiation
+    private DAOUtils() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
     /**
      * Establishes a connection to a MySQL database running locally.
      *
@@ -19,7 +24,7 @@ public final class DAOUtils {
      * @return a {@link Connection} object for the specified database
      * @throws DAOException if a database access error occurs
      */
-    public static Connection localMySQLConnection(String database, String username, String password) {
+    public static Connection localMySQLConnection(final String database, final String username, final String password) {
         try {
             var host = "localhost";
             var port = "3306";
@@ -39,7 +44,7 @@ public final class DAOUtils {
      * @return a {@link PreparedStatement} object with the provided query and parameters
      * @throws SQLException if a database access error occurs or the SQL statement is invalid
      */
-    public static PreparedStatement prepare(Connection connection, String query, Object... values) throws SQLException {
+    public static PreparedStatement prepare(final Connection connection, final String query, final Object... values) throws SQLException {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);

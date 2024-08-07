@@ -18,7 +18,7 @@ import deliverydb.utilities.Pair;
 /**
  * Implementation of the {@link Model} interface.
  */
-public class ModelImpl implements Model {
+public final class ModelImpl implements Model {
 
     private final Connection connection;
     private Optional<User> user = Optional.empty();
@@ -30,13 +30,13 @@ public class ModelImpl implements Model {
      * @param connection the {@link Connection} object used to connect to the database
      * @throws NullPointerException if {@code connection} is {@code null}
      */
-    public ModelImpl(Connection connection) {
+    public ModelImpl(final Connection connection) {
         Objects.requireNonNull(connection, "Model created with null connection");
         this.connection = connection;
     }
 
     @Override
-    public boolean sendOrder(Map<Item, Integer> order, int restaurantID) {
+    public boolean sendOrder(final Map<Item, Integer> order, final int restaurantID) {
         return Order.DAO.sendOrder(order, this.user.get().getUsername(), restaurantID, connection, this.commission);
     }
 
@@ -46,28 +46,28 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public List<Review> getReviewsFor(int restaurantID) {
+    public List<Review> getReviewsFor(final int restaurantID) {
         return Review.DAO.listReviews(connection, restaurantID).orElse(List.of());
     }
 
     @Override
-    public boolean deliverOrder(Order order) {
+    public boolean deliverOrder(final Order order) {
         return Order.DAO.deliverOrder(connection, order.getOrderID(), this.user.get().getUsername(),
                 this.getCompensation(order));
     }
 
     @Override
-    public void deleteReview(Review review) {
+    public void deleteReview(final Review review) {
         Review.DAO.deleteReview(connection, review);
     }
 
     @Override
-    public List<Item> getMenuFor(int restaurantID) {
+    public List<Item> getMenuFor(final int restaurantID) {
         return Item.DAO.getMenuFor(connection, restaurantID).orElse(List.of());
     }
 
     @Override
-    public Optional<User.USER_TYPE> login(String username, String password) {
+    public Optional<User.USER_TYPE> login(final String username, final String password) {
         if (User.DAO.userLogin(connection, username, password)) {
             this.user = Optional.of(User.DAO.getUser(connection, username));
             return Optional.of(this.user.get().getType());
@@ -76,8 +76,9 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public boolean userRegister(User.USER_TYPE type, String username, String name, String surname, String password,
-            String street, String number, String city) {
+    public boolean userRegister(final User.USER_TYPE type, final String username, final String name,
+                                final String surname, final String password, final String street,
+                                final String number, final String city) {
         return User.DAO.userRegister(connection, type, username, password, name, surname, street, number, city);
     }
 
@@ -87,7 +88,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Restaurant onRestaurantID(int restaurantID) {
+    public Restaurant onRestaurantID(final int restaurantID) {
         return Restaurant.DAO.findRestaurant(connection, restaurantID);
     }
 
@@ -97,7 +98,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public boolean addReview(int stars, String review, int restaurantID) {
+    public boolean addReview(final int stars, final String review, final int restaurantID) {
         return Restaurant.DAO.addReview(connection, restaurantID, stars, review, this.user.get().getUsername());
     }
 
@@ -117,18 +118,18 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public boolean acceptOrder(int orderID) {
+    public boolean acceptOrder(final int orderID) {
         return Order.DAO.acceptOrder(connection, orderID, this.user.get().getUsername());
     }
 
     @Override
-    public String getAddress(String username) {
+    public String getAddress(final String username) {
         return User.DAO.getAddress(connection, username);
     }
 
     @Override
     public Pair<String, Integer> worstRestaurant() {
-        return Review.DAO.worstRestaurant(connection);
+        return Review.DAO.worstRestaurant(connection).get();
     }
 
     @Override
@@ -157,7 +158,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public float getCompensation(Order order) {
+    public float getCompensation(final Order order) {
         return Order.DAO.getCompensation(connection, order.getOrderID());
     }
 }

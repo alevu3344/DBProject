@@ -1,16 +1,15 @@
 package deliverydb.view.authentication;
 
 import javax.swing.*;
-
 import deliverydb.controller.authentication.RegisterController;
 import deliverydb.data.User;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -19,16 +18,15 @@ import java.util.function.Consumer;
 public class RegisterPage implements ActionListener {
 
     // Components of the Form
-    private JButton registerButton;
-    private JButton resetButton;
-    private JButton backButton;
-    private JLabel messageLabel;
-    private JCheckBox deliveryManCheckBox; // Add the checkbox
+    private final JButton registerButton;
+    private final JButton resetButton;
+    private final JButton backButton;
+    private final JLabel messageLabel;
+    private final JCheckBox deliveryManCheckBox;
 
-    private RegisterController controller;
+    private final RegisterController controller;
     private final JFrame mainFrame;
-    // a hashmap that maps each text field to the corresponding label
-    private HashMap<JLabel, JTextField> textFieldsMap;
+    private final Map<JLabel, JTextField> textFieldsMap;
 
     /**
      * Constructs a RegisterPage with the given JFrame and RegisterController.
@@ -36,14 +34,21 @@ public class RegisterPage implements ActionListener {
      * @param mainFrame the main frame of the application
      * @param controller the controller that handles registration actions
      */
-    public RegisterPage(JFrame mainFrame, RegisterController controller) {
+    public RegisterPage(final JFrame mainFrame, final RegisterController controller) {
         this.controller = controller;
         this.mainFrame = mainFrame;
-        this.setupComponents();
+        this.textFieldsMap = new LinkedHashMap<>();
+        this.registerButton = new JButton("Register");
+        this.resetButton = new JButton("Reset");
+        this.backButton = new JButton("Back");
+        this.messageLabel = new JLabel("");
+        this.deliveryManCheckBox = new JCheckBox("Register as a delivery man");
+
+        setupComponents();
     }
 
-    private void freshPane(Consumer<Container> consumer) {
-        Container cp = this.mainFrame.getContentPane();
+    private void freshPane(final Consumer<Container> consumer) {
+        final Container cp = this.mainFrame.getContentPane();
         cp.removeAll();
         cp.validate();
         cp.repaint();
@@ -54,12 +59,9 @@ public class RegisterPage implements ActionListener {
     private void setupComponents() {
         freshPane(container -> {
             container.setLayout(new GridBagLayout());
-            GridBagConstraints gbc = new GridBagConstraints();
+            final GridBagConstraints gbc = new GridBagConstraints();
 
-            // add the labels and text fields to the hashmap
-            this.textFieldsMap = new LinkedHashMap<>();
-
-            // Adding entries to the map
+            // Add the labels and text fields to the map
             textFieldsMap.put(new JLabel("Username:"), new JTextField());
             textFieldsMap.put(new JLabel("Nome:"), new JTextField());
             textFieldsMap.put(new JLabel("Cognome:"), new JTextField());
@@ -68,17 +70,9 @@ public class RegisterPage implements ActionListener {
             textFieldsMap.put(new JLabel("Civico:"), new JTextField());
             textFieldsMap.put(new JLabel("Città:"), new JTextField());
 
-            registerButton = new JButton("Register");
-            resetButton = new JButton("Reset");
-            backButton = new JButton("Back");
-
-            deliveryManCheckBox = new JCheckBox("Register as a delivery man"); // Initialize the checkbox
-
-            messageLabel = new JLabel("");
-
             // Set the preferred sizes for the components
-            Dimension fieldDimension = new Dimension(200, 25);
-            this.textFieldsMap.values().forEach(textField -> textField.setPreferredSize(fieldDimension));
+            final Dimension fieldDimension = new Dimension(200, 25);
+            textFieldsMap.values().forEach(textField -> textField.setPreferredSize(fieldDimension));
             registerButton.setPreferredSize(new Dimension(100, 30));
             resetButton.setPreferredSize(new Dimension(100, 30));
             backButton.setPreferredSize(new Dimension(100, 30));
@@ -92,9 +86,9 @@ public class RegisterPage implements ActionListener {
 
             int row = 0; // Initial row index
 
-            for (var entry : textFieldsMap.entrySet()) {
-                JLabel lab = entry.getKey();
-                JTextField txt = entry.getValue();
+            for (final Map.Entry<JLabel, JTextField> entry : textFieldsMap.entrySet()) {
+                final JLabel lab = entry.getKey();
+                final JTextField txt = entry.getValue();
 
                 gbc.gridx = 0;
                 gbc.gridy = row;
@@ -145,21 +139,22 @@ public class RegisterPage implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == registerButton) {
-            LinkedList<String> fields = new LinkedList<>();
+    public void actionPerformed(final ActionEvent e) {
+        if (e.getSource().equals(registerButton)) {
+            final LinkedList<String> fields = new LinkedList<>();
 
-            // get the text from the text fields and put in the fields list using a stream
-            this.textFieldsMap.forEach((label, textField) -> fields.add(textField.getText()));
+            // Get the text from the text fields and put in the fields list
+            textFieldsMap.forEach((label, textField) -> fields.add(textField.getText()));
 
             controller.handleRegistration(
                     deliveryManCheckBox.isSelected() ? User.USER_TYPE.DELIVERY_PERSON : User.USER_TYPE.CUSTOMER,
-                    fields);
-        } else if (e.getSource() == resetButton) {
-            this.textFieldsMap.forEach((label, textField) -> textField.setText(""));
+                    fields
+            );
+        } else if (e.getSource().equals(resetButton)) {
+            textFieldsMap.forEach((label, textField) -> textField.setText(""));
             deliveryManCheckBox.setSelected(false); // Reset the checkbox
             messageLabel.setText("");
-        } else if (e.getSource() == backButton) {
+        } else if (e.getSource().equals(backButton)) {
             controller.handleBack();
         }
     }
@@ -169,7 +164,7 @@ public class RegisterPage implements ActionListener {
      *
      * @param message the message to be displayed
      */
-    public void displayMessage(String message) {
+    public void displayMessage(final String message) {
         messageLabel.setText(message);
     }
 }

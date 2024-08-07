@@ -16,8 +16,8 @@ public class AdminPanel {
 
     private final JFrame mainFrame;
     private final AdminController adminController;
-    private JComboBox<String> reviewComboBox;
-    private List<Pair<String, Integer>> restaurants;
+    private final JComboBox<String> reviewComboBox;
+    private final List<Pair<String, Integer>> restaurants;
 
     /**
      * Constructs an AdminPanel with the given JFrame and AdminController.
@@ -29,148 +29,136 @@ public class AdminPanel {
         this.mainFrame = mainFrame;
         this.adminController = adminController;
         this.restaurants = adminController.getRestaurants();
-        this.initializeUI();
+        this.reviewComboBox = new JComboBox<>();
+        initializeUI();
     }
 
     private void initializeUI() {
         freshPane(container -> {
-            // Set the layout for the main panel
             container.setLayout(new BorderLayout());
-            container.setBackground(Color.WHITE); // Optional: Set background color
+            container.setBackground(Color.WHITE);
 
-            // Create a panel for the top section
-            JPanel topPanel = new JPanel();
-            topPanel.setLayout(new BorderLayout());
-
-            // Create and add the Logout button to the top left
-            JButton logoutButton = new JButton("Logout");
-            logoutButton.addActionListener(e -> this.adminController.handleBack());
+            // Top panel for the Logout button
+            final JPanel topPanel = new JPanel(new BorderLayout());
+            final JButton logoutButton = new JButton("Logout");
+            logoutButton.addActionListener(e -> adminController.handleBack());
             topPanel.add(logoutButton, BorderLayout.WEST);
-
-            // Add the top panel to the container
             container.add(topPanel, BorderLayout.NORTH);
 
-            // Create a panel to hold the View Reviews button and ComboBox
-            JPanel reviewPanel = new JPanel();
+            // Review panel with View Reviews button and ComboBox
+            final JPanel reviewPanel = new JPanel();
             reviewPanel.setLayout(new BoxLayout(reviewPanel, BoxLayout.Y_AXIS));
             reviewPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            // Create and add the View Reviews button
-            JButton viewReviewsButton = new JButton("View Reviews");
+            final JButton viewReviewsButton = new JButton("View Reviews");
             viewReviewsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            reviewPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some space before the button
+            reviewPanel.add(Box.createRigidArea(new Dimension(0, 10)));
             reviewPanel.add(viewReviewsButton);
 
-            // Create and add the ComboBox
-            reviewComboBox = new JComboBox<>();
-            for (Pair<String, Integer> restaurant : restaurants) {
-                reviewComboBox.addItem(restaurant.get1());
-            }
+            populateReviewComboBox();
             reviewComboBox.setAlignmentX(Component.CENTER_ALIGNMENT);
             reviewComboBox.setMaximumSize(new Dimension(150, 30));
-            reviewPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some space before the ComboBox
+            reviewPanel.add(Box.createRigidArea(new Dimension(0, 10)));
             reviewPanel.add(reviewComboBox);
 
-            // Add action listener to the View Reviews button
             viewReviewsButton.addActionListener(e -> {
                 String selectedItem = (String) reviewComboBox.getSelectedItem();
-                this.viewReviews(selectedItem);
+                viewReviews(selectedItem);
             });
 
-            // Add the review panel to the container
             container.add(reviewPanel, BorderLayout.CENTER);
 
-            // Create a panel to hold the bottom buttons
-            JPanel bottomButtonPanel = new JPanel();
+            // Bottom panel with various buttons
+            final JPanel bottomButtonPanel = new JPanel();
             bottomButtonPanel.setLayout(new BoxLayout(bottomButtonPanel, BoxLayout.X_AXIS));
             bottomButtonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            // Create and add bottom buttons
-            JButton topDishButton = new JButton("Top dish");
+            final JButton topDishButton = new JButton("Top dish");
             topDishButton.addActionListener(e -> showTopDishes());
 
-            JButton popularCuisineButton = new JButton("Most popular cuisine type");
+            final JButton popularCuisineButton = new JButton("Most popular cuisine type");
             popularCuisineButton.addActionListener(e -> showPopularCuisine());
 
-            JButton topRestaurantsButton = new JButton("5 most chosen restaurants");
+            final JButton topRestaurantsButton = new JButton("5 most chosen restaurants");
             topRestaurantsButton.addActionListener(e -> showTopRestaurants());
 
-            JButton worstRestaurantButton = new JButton("Worst restaurant");
+            final JButton worstRestaurantButton = new JButton("Worst restaurant");
             worstRestaurantButton.addActionListener(e -> showWorstRestaurant());
 
-            JButton topFattoriniButton = new JButton("Best deliverer");
+            final JButton topFattoriniButton = new JButton("Best deliverer");
             topFattoriniButton.addActionListener(e -> showTopFattorini());
 
-            // Add buttons to the bottom panel
             bottomButtonPanel.add(topDishButton);
-            bottomButtonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Add some space between buttons
+            bottomButtonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
             bottomButtonPanel.add(popularCuisineButton);
-            bottomButtonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Add some space between buttons
+            bottomButtonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
             bottomButtonPanel.add(topRestaurantsButton);
-            bottomButtonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Add some space between buttons
+            bottomButtonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
             bottomButtonPanel.add(worstRestaurantButton);
-            bottomButtonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Add some space between buttons
+            bottomButtonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
             bottomButtonPanel.add(topFattoriniButton);
 
-            // Add the bottom button panel to the container
             container.add(bottomButtonPanel, BorderLayout.SOUTH);
         });
     }
 
-    private void freshPane(Consumer<Container> consumer) {
-        Container cp = this.mainFrame.getContentPane();
+    private void freshPane(final Consumer<Container> consumer) {
+        final Container cp = mainFrame.getContentPane();
         cp.removeAll();
         cp.validate();
         cp.repaint();
         consumer.accept(cp);
-        this.mainFrame.pack();
+        mainFrame.pack();
     }
 
-    private void viewReviews(String selectedItem) {
-        // Find the ristoranteID corresponding to the selected restaurant name
-        int ristoranteID = restaurants.stream()
+    private void populateReviewComboBox() {
+        for (Pair<String, Integer> restaurant : restaurants) {
+            reviewComboBox.addItem(restaurant.get1());
+        }
+    }
+
+    private void viewReviews(final String selectedItem) {
+        final int ristoranteID = restaurants.stream()
                 .filter(pair -> pair.get1().equals(selectedItem))
                 .map(Pair::get2)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Selected restaurant not found"));
 
-        // Call the controller method to show reviews
-        this.adminController.showReviews(ristoranteID);
+        adminController.showReviews(ristoranteID);
     }
 
-    private void showPopup(String title, String message) {
+    private void showPopup(final String title, final String message) {
         JOptionPane.showMessageDialog(mainFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void showTopDishes() {
-        var topDish = this.adminController.topDish();
-        showPopup("Top dish", "Top Dish: " + topDish.get1().get1() +" from "+ topDish.get2()+ ", with " + topDish.get1().get2() + " orders.");
+        final Pair<Pair<String, Integer>, String> topDish = adminController.topDish();
+        showPopup("Top dish", "Top Dish: " + topDish.get1().get1() + " from " + topDish.get2() + ", with " + topDish.get1().get2() + " orders.");
     }
 
     private void showPopularCuisine() {
-        String popularCuisine = this.adminController.mostPopularCuisine();
+        final String popularCuisine = adminController.mostPopularCuisine();
         showPopup("Most Popular Cuisine", "Most Popular Cuisine: " + popularCuisine);
     }
 
     private void showTopRestaurants() {
-        List<Pair<String, Integer>> topRestaurants = this.adminController.mostChosen5Rest();
-        StringBuilder message = new StringBuilder("Most Chosen Restaurants:\n");
-        for (Pair<String, Integer> restaurant : topRestaurants) {
+        final List<Pair<String, Integer>> topRestaurants = adminController.mostChosen5Rest();
+        final StringBuilder message = new StringBuilder("Most Chosen Restaurants:\n");
+        for (final Pair<String, Integer> restaurant : topRestaurants) {
             message.append(restaurant.get1()).append(": ").append(restaurant.get2()).append(" orders\n");
         }
         showPopup("Most chosen restaurant", message.toString());
     }
 
     private void showWorstRestaurant() {
-        Pair<String, Integer> worstRestaurant = this.adminController.worstRestaurant();
-        showPopup("Worst Restaurant", "Worst Restaurant: " + worstRestaurant.get1() + " with an adjusted average of "
-                + worstRestaurant.get2());
+        final Pair<String, Integer> worstRestaurant = adminController.worstRestaurant();
+        showPopup("Worst Restaurant", "Worst Restaurant: " + worstRestaurant.get1() + " with an adjusted average of " + worstRestaurant.get2());
     }
 
     private void showTopFattorini() {
-        List<Pair<String, Integer>> topFattorini = this.adminController.top5Deliverers();
-        StringBuilder message = new StringBuilder("Top deliverer:\n");
-        for (Pair<String, Integer> fattorino : topFattorini) {
+        final List<Pair<String, Integer>> topFattorini = adminController.top5Deliverers();
+        final StringBuilder message = new StringBuilder("Top deliverer:\n");
+        for (final Pair<String, Integer> fattorino : topFattorini) {
             message.append(fattorino.get1()).append(": ").append(fattorino.get2()).append(" deliveries\n");
         }
         showPopup("Miglior fattorino", message.toString());

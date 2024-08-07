@@ -1,7 +1,6 @@
 package deliverydb.view.authentication;
 
 import javax.swing.*;
-
 import deliverydb.controller.authentication.LoginController;
 
 import java.awt.*;
@@ -15,16 +14,16 @@ import java.util.function.Consumer;
 public class LoginPage implements ActionListener {
 
     // Components of the Form
-    private JLabel userLabel;
-    private JLabel passwordLabel;
-    private JTextField userTextField;
-    private JPasswordField passwordField;
-    private JButton loginButton;
-    private JButton resetButton;
-    private JButton backButton;
-    private JLabel messageLabel;
+    private final JLabel userLabel;
+    private final JLabel passwordLabel;
+    private final JTextField userTextField;
+    private final JPasswordField passwordField;
+    private final JButton loginButton;
+    private final JButton resetButton;
+    private final JButton backButton;
+    private final JLabel messageLabel;
 
-    private LoginController controller;
+    private final LoginController controller;
     private final JFrame mainFrame;
 
     /**
@@ -33,14 +32,24 @@ public class LoginPage implements ActionListener {
      * @param mainFrame the main frame of the application
      * @param controller the controller that handles login actions
      */
-    public LoginPage(JFrame mainFrame, LoginController controller) {
+    public LoginPage(final JFrame mainFrame, final LoginController controller) {
         this.controller = controller;
         this.mainFrame = mainFrame;
-        this.setupComponents();
+
+        this.userLabel = new JLabel("Username:");
+        this.passwordLabel = new JLabel("Password:");
+        this.userTextField = new JTextField();
+        this.passwordField = new JPasswordField();
+        this.loginButton = new JButton("Login");
+        this.resetButton = new JButton("Reset");
+        this.backButton = new JButton("Back");
+        this.messageLabel = new JLabel("");
+
+        setupComponents();
     }
 
-    private void freshPane(Consumer<Container> consumer) {
-        Container cp = this.mainFrame.getContentPane();
+    private void freshPane(final Consumer<Container> consumer) {
+        final Container cp = this.mainFrame.getContentPane();
         cp.removeAll();
         cp.validate();
         cp.repaint();
@@ -55,26 +64,14 @@ public class LoginPage implements ActionListener {
         freshPane(container -> {
             container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-            userLabel = new JLabel("Username:");
-            passwordLabel = new JLabel("Password:");
-
-            userTextField = new JTextField();
-            passwordField = new JPasswordField();
-
-            loginButton = new JButton("Login");
-            resetButton = new JButton("Reset");
-            backButton = new JButton("Back");
-
-            messageLabel = new JLabel("");
-
             // Set the preferred sizes and maximum sizes for the components
-            Dimension textFieldSize = new Dimension(150, 25);
+            final Dimension textFieldSize = new Dimension(150, 25);
             userTextField.setPreferredSize(textFieldSize);
             userTextField.setMaximumSize(textFieldSize);
             passwordField.setPreferredSize(textFieldSize);
             passwordField.setMaximumSize(textFieldSize);
 
-            Dimension buttonSize = new Dimension(80, 30);
+            final Dimension buttonSize = new Dimension(80, 30);
             loginButton.setPreferredSize(buttonSize);
             resetButton.setPreferredSize(buttonSize);
             backButton.setPreferredSize(buttonSize);
@@ -84,14 +81,14 @@ public class LoginPage implements ActionListener {
             backButton.addActionListener(this);
 
             // Create horizontal boxes for each row and center them
-            Box userBox = Box.createHorizontalBox();
+            final Box userBox = Box.createHorizontalBox();
             userBox.add(Box.createHorizontalGlue()); // Center horizontally
             userBox.add(userLabel);
             userBox.add(Box.createHorizontalStrut(10));
             userBox.add(userTextField);
             userBox.add(Box.createHorizontalGlue()); // Center horizontally
 
-            Box passwordBox = Box.createHorizontalBox();
+            final Box passwordBox = Box.createHorizontalBox();
             passwordBox.add(Box.createHorizontalGlue()); // Center horizontally
             passwordBox.add(passwordLabel);
             passwordBox.add(Box.createHorizontalStrut(10));
@@ -99,7 +96,7 @@ public class LoginPage implements ActionListener {
             passwordBox.add(Box.createHorizontalGlue()); // Center horizontally
 
             // Center the userBox and passwordBox horizontally in a vertical box
-            Box centerBox = Box.createVerticalBox();
+            final Box centerBox = Box.createVerticalBox();
             centerBox.add(Box.createVerticalStrut(20)); // Add some vertical space at the top
             centerBox.add(userBox);
             centerBox.add(Box.createVerticalStrut(10));
@@ -107,7 +104,7 @@ public class LoginPage implements ActionListener {
             centerBox.add(Box.createVerticalStrut(10));
 
             // Create a horizontal box for buttons and center it
-            Box buttonBox = Box.createHorizontalBox();
+            final Box buttonBox = Box.createHorizontalBox();
             buttonBox.add(Box.createHorizontalGlue()); // Center horizontally
             buttonBox.add(loginButton);
             buttonBox.add(Box.createHorizontalStrut(10));
@@ -124,22 +121,21 @@ public class LoginPage implements ActionListener {
             container.add(Box.createVerticalStrut(10));
             container.add(messageLabel);
             container.add(Box.createVerticalGlue()); // Fill remaining space
-
         });
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == loginButton) {
-            String userText = userTextField.getText();
-            String passwordText = new String(passwordField.getPassword());
+    public void actionPerformed(final ActionEvent e) {
+        if (e.getSource().equals(loginButton)) {
+            final String userText = userTextField.getText();
+            final String passwordText = new String(passwordField.getPassword());
             // Inform the controller about the login attempt
             controller.handleLogin(userText, passwordText);
-        } else if (e.getSource() == resetButton) {
+        } else if (e.getSource().equals(resetButton)) {
             userTextField.setText("");
             passwordField.setText("");
             messageLabel.setText("");
-        } else if (e.getSource() == backButton) {
+        } else if (e.getSource().equals(backButton)) {
             this.controller.handleBack();
         }
     }
@@ -149,7 +145,7 @@ public class LoginPage implements ActionListener {
      *
      * @param message the message to be displayed
      */
-    public void displayMessage(String message) {
+    public void displayMessage(final String message) {
         messageLabel.setText(message);
     }
 }
