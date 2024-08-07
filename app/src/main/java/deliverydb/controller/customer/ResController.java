@@ -25,7 +25,7 @@ public class ResController implements Controller {
      * @param mainFrame the main application frame
      * @param model the data model for the application
      */
-    public ResController(Controller prevCtrl, JFrame mainFrame, Model model) {
+    public ResController(final Controller prevCtrl, final JFrame mainFrame, final Model model) {
         this.mainFrame = mainFrame;
         this.model = model;
         this.prevCtrl = prevCtrl;
@@ -45,7 +45,7 @@ public class ResController implements Controller {
      *
      * @param restaurantID the ID of the selected restaurant
      */
-    public void handleRestaurant(int restaurantID) {
+    public void handleRestaurant(final int restaurantID) {
         new ResMenuCtrl(this, this.mainFrame, this.model, this.model.onRestaurantID(restaurantID));
     }
 

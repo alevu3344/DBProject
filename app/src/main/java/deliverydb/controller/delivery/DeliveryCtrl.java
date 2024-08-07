@@ -25,7 +25,7 @@ public class DeliveryCtrl implements Controller {
      * @param mainFrame the main application frame
      * @param model the data model for the application
      */
-    public DeliveryCtrl(Controller prevCtrl, JFrame mainFrame, Model model) {
+    public DeliveryCtrl(final Controller prevCtrl, final JFrame mainFrame, final Model model) {
         this.prevCtrl = prevCtrl;
         this.model = model;
         this.mainFrame = mainFrame;
@@ -53,7 +53,7 @@ public class DeliveryCtrl implements Controller {
      *
      * @param flag the flag indicating the type of orders to display
      */
-    public void showOrders(Flag flag) {
+    public void showOrders(final Flag flag) {
         new OrdersCtrl(flag, this, this.mainFrame, this.model);
     }
 

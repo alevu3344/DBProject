@@ -32,7 +32,7 @@ public class OrdersCtrl implements Controller {
      * @param mainFrame the main application frame
      * @param model the data model for the application
      */
-    public OrdersCtrl(Flag flag, Controller prevCtrl, JFrame mainFrame, Model model) {
+    public OrdersCtrl(final Flag flag, final Controller prevCtrl, final JFrame mainFrame, final Model model) {
         this.prevCtrl = prevCtrl;
         this.model = model;
         this.mainFrame = mainFrame;
@@ -61,7 +61,7 @@ public class OrdersCtrl implements Controller {
      * @param flag the flag indicating the type of orders to retrieve (available or accepted)
      * @return a list of orders based on the specified flag
      */
-    public List<Order> getOrdersOnFlag(Flag flag) {
+    public List<Order> getOrdersOnFlag(final Flag flag) {
         switch (flag) {
             case AVAILABLE:
                 return this.model.getAvailableOrders();
@@ -78,7 +78,7 @@ public class OrdersCtrl implements Controller {
      * @param order the order for which to retrieve the restaurant details
      * @return a pair containing the restaurant and address associated with the order
      */
-    public Pair<Restaurant, String> restaurantDetails(Order order) {
+    public Pair<Restaurant, String> restaurantDetails(final Order order) {
         return new Pair<>(this.model.onRestaurantID(order.getRestaurantID()),
                 this.model.getAddress(order.getUsername()));
     }
@@ -89,7 +89,7 @@ public class OrdersCtrl implements Controller {
      * @param orderID the ID of the order to accept
      * @return true if the order was successfully accepted, false otherwise
      */
-    public boolean acceptOrder(int orderID) {
+    public boolean acceptOrder(final int orderID) {
         return this.model.acceptOrder(orderID);
     }
 
@@ -99,7 +99,7 @@ public class OrdersCtrl implements Controller {
      * @param order the order to mark as delivered
      * @return true if the order was successfully marked as delivered, false otherwise
      */
-    public boolean deliverOrder(Order order) {
+    public boolean deliverOrder(final Order order) {
         return this.model.deliverOrder(order);
     }
 
@@ -109,7 +109,7 @@ public class OrdersCtrl implements Controller {
      * @param order the order for which to retrieve the compensation
      * @return the compensation amount for the order
      */
-    public float getCompensation(Order order) {
+    public float getCompensation(final Order order) {
         return this.model.getCompensation(order);
     }
 

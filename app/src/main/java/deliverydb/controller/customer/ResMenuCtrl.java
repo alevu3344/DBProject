@@ -36,7 +36,7 @@ public class ResMenuCtrl implements Controller {
      * @param model the data model for the application
      * @param restaurant the restaurant for which the menu is managed
      */
-    public ResMenuCtrl(ResController prevctrl, JFrame mainFrame, Model model, Restaurant restaurant) {
+    public ResMenuCtrl(final ResController prevctrl, final JFrame mainFrame, final Model model, final Restaurant restaurant) {
         this.model = model;
         this.mainFrame = mainFrame;
         this.prevctrl = prevctrl;
@@ -66,7 +66,7 @@ public class ResMenuCtrl implements Controller {
      *
      * @param order the map of items and their quantities to be ordered
      */
-    public void handleSendOrder(Map<Item, Integer> order) {
+    public void handleSendOrder(final Map<Item, Integer> order) {
         if (this.model.sendOrder(order, this.restaurant.getRestaurantID())) {
             this.view.updateBalance(this.model.getBalance());
             return;

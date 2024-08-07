@@ -30,7 +30,7 @@ public class ReviewController {
      * @param model the data model for the application
      * @param restaurantID the ID of the restaurant for which reviews are managed
      */
-    public ReviewController(Controller resMenuCtrl, JFrame mainFrame, Model model, int restaurantID) {
+    public ReviewController(final Controller resMenuCtrl, final JFrame mainFrame, final Model model, final int restaurantID) {
         this.model = model;
         this.mainFrame = mainFrame;
         this.prevCtrl = resMenuCtrl;
@@ -60,7 +60,7 @@ public class ReviewController {
      * @param stars the rating given in the review
      * @param review the review text
      */
-    public void addReview(int stars, String review) {
+    public void addReview(final int stars, final String review) {
         this.model.addReview(stars, review, this.restaurantID);   
     }
 
@@ -78,7 +78,7 @@ public class ReviewController {
      *
      * @param review the review to be deleted
      */
-    public void deleteReview(Review review) {
+    public void deleteReview(final Review review) {
         this.model.deleteReview(review);
     }
 }

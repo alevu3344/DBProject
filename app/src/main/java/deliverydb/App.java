@@ -12,6 +12,7 @@ import deliverydb.model.Model;
  */
 public final class App {
 
+    private App() { }
     /**
      * The main method is the entry point of the application.
      * It establishes a connection to the database, initializes the data model,

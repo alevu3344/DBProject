@@ -31,7 +31,7 @@ public class LoginController implements Controller {
      * @param model the data model for the application
      * @param firstCtrl the controller to return to when the login view is exited
      */
-    public LoginController(JFrame mainFrame, Model model, Controller firstCtrl) {
+    public LoginController(final JFrame mainFrame, final Model model, final Controller firstCtrl) {
         this.mainFrame = mainFrame;
         this.loginView = new LoginPage(mainFrame, this);
         this.model = model;
@@ -44,7 +44,7 @@ public class LoginController implements Controller {
      * @param username the username entered by the user
      * @param password the password entered by the user
      */
-    public void handleLogin(String username, String password) {
+    public void handleLogin(final String username, final String password) {
         var userType = this.model.login(username, password);
         if (userType.equals(Optional.of(User.USER_TYPE.CUSTOMER))) {
             loginView.displayMessage("Login successful");

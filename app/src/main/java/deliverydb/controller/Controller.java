@@ -9,6 +9,6 @@ public interface Controller {
     /**
      * Displays the view associated with the implementing controller.
      */
-    public void show();
+    void show();
 
 }

@@ -28,7 +28,7 @@ public class RegisterController implements Controller {
      * @param model the data model for the application
      * @param firstCtrl the controller to return to after successful registration
      */
-    public RegisterController(JFrame mainFrame, Model model, Controller firstCtrl) {
+    public RegisterController(final JFrame mainFrame, final Model model, final Controller firstCtrl) {
         this.model = model;
         this.mainFrame = mainFrame;
         this.registerView = new RegisterPage(mainFrame, this);
@@ -41,7 +41,7 @@ public class RegisterController implements Controller {
      * @param type the type of user to register
      * @param list the list of user details required for registration
      */
-    public void handleRegistration(User.USER_TYPE type, List<String> list) {
+    public void handleRegistration(final User.USER_TYPE type, final List<String> list) {
         var success = this.model.userRegister(type, list.get(0),
                 list.get(1),
                 list.get(2),

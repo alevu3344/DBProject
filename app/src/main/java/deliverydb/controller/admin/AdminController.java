@@ -29,7 +29,7 @@ public class AdminController implements Controller {
      * @param mainFrame the main application frame
      * @param model the data model for the application
      */
-    public AdminController(LoginController prevctrl, JFrame mainFrame, Model model) {
+    public AdminController(final LoginController prevctrl, final JFrame mainFrame, final Model model) {
         this.mainFrame = mainFrame;
         this.model = model;
         this.prevctrl = prevctrl;
@@ -58,7 +58,7 @@ public class AdminController implements Controller {
      *
      * @param restaurantID the ID of the restaurant for which reviews are to be shown
      */
-    public void showReviews(int restaurantID) {
+    public void showReviews(final int restaurantID) {
         new ReviewController(this, this.mainFrame, this.model, restaurantID);
     }
 

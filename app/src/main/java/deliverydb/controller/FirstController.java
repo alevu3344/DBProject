@@ -26,12 +26,12 @@ public class FirstController implements Controller {
      * @param model the data model for the application
      * @param connection the database connection to be closed on application exit
      */
-    public FirstController(Model model, Connection connection) {
+    public FirstController(final Model model, final Connection connection) {
         this.onClose = () -> {
             try {
                 connection.close();
             } catch (Exception e) {
-                // Handle the exception if needed
+                e.printStackTrace();
             }
         };
 
