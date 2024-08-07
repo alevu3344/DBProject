@@ -5,10 +5,20 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Utility class providing helper methods for database access.
+ */
 public final class DAOUtils {
 
-    // Establishes a connection to a MySQL daemon running locally at port 3306.
-    //
+    /**
+     * Establishes a connection to a MySQL database running locally.
+     *
+     * @param database the name of the database to connect to
+     * @param username the username to use for the connection
+     * @param password the password for the provided username
+     * @return a {@link Connection} object for the specified database
+     * @throws DAOException if a database access error occurs
+     */
     public static Connection localMySQLConnection(String database, String username, String password) {
         try {
             var host = "localhost";
@@ -20,14 +30,15 @@ public final class DAOUtils {
         }
     }
 
-    // We must always prepare a statement to make sure we do not fall victim to SQL
-    // injection:
-    // https://owasp.org/www-community/attacks/SQL_Injection
-    //
-    // This is a helper that prepares the statement with all the values we give it:
-    //
-    // prepare(connection, MY_QUERY, query_arg1, query_arg2, ...)
-    //
+    /**
+     * Prepares a SQL {@link PreparedStatement} with the given query and parameters.
+     *
+     * @param connection the {@link Connection} object used to prepare the statement
+     * @param query the SQL query to prepare
+     * @param values the values to set in the query parameters
+     * @return a {@link PreparedStatement} object with the provided query and parameters
+     * @throws SQLException if a database access error occurs or the SQL statement is invalid
+     */
     public static PreparedStatement prepare(Connection connection, String query, Object... values) throws SQLException {
         PreparedStatement statement = null;
         try {

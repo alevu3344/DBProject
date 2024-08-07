@@ -13,6 +13,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
+/**
+ * Represents the registration page where users can create a new account.
+ */
 public class RegisterPage implements ActionListener {
 
     // Components of the Form
@@ -27,7 +30,12 @@ public class RegisterPage implements ActionListener {
     // a hashmap that maps each text field to the corresponding label
     private HashMap<JLabel, JTextField> textFieldsMap;
 
-    // Constructor to set up the GUI components
+    /**
+     * Constructs a RegisterPage with the given JFrame and RegisterController.
+     *
+     * @param mainFrame the main frame of the application
+     * @param controller the controller that handles registration actions
+     */
     public RegisterPage(JFrame mainFrame, RegisterController controller) {
         this.controller = controller;
         this.mainFrame = mainFrame;
@@ -136,11 +144,15 @@ public class RegisterPage implements ActionListener {
         });
     }
 
+    /**
+     * Retrieves the main frame associated with this page.
+     *
+     * @return the main frame of the application
+     */
     public JFrame getMainFrame() {
         return this.mainFrame;
     }
 
-    // Action event handler
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == registerButton) {
@@ -161,6 +173,11 @@ public class RegisterPage implements ActionListener {
         }
     }
 
+    /**
+     * Displays a message on the registration page.
+     *
+     * @param message the message to be displayed
+     */
     public void displayMessage(String message) {
         messageLabel.setText(message);
     }

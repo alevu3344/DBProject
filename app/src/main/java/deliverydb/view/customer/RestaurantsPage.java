@@ -13,16 +13,31 @@ import deliverydb.utilities.Pair;
 import java.util.function.Consumer;
 import java.util.Map;
 
+/**
+ * Represents the page where users can view a list of restaurants. It displays each restaurant with clickable labels
+ * and allows users to log out.
+ */
 public class RestaurantsPage {
 
     private ResController controller;
     private final JFrame mainFrame;
 
+    /**
+     * Constructs a RestaurantsPage with the given JFrame and ResController.
+     *
+     * @param mainFrame the main frame of the application
+     * @param controller the controller that handles restaurant interactions
+     */
     public RestaurantsPage(JFrame mainFrame, ResController controller) {
         this.controller = controller;
         this.mainFrame = mainFrame;
     }
 
+    /**
+     * Displays the list of restaurants on the page.
+     *
+     * @param restaurants a map where the key is a Pair containing restaurant name and ID, and the value is the cuisine type
+     */
     public void displayRestaurants(Map<Pair<String, Integer>, String> restaurants) {
         freshPane(cp -> {
             var box = Box.createVerticalBox();
@@ -49,10 +64,20 @@ public class RestaurantsPage {
         });
     }
 
+    /**
+     * Gets the main frame of the application.
+     *
+     * @return the main JFrame
+     */
     public JFrame getMainFrame() {
         return this.mainFrame;
     }
 
+    /**
+     * Adds a logout button to the specified container.
+     *
+     * @param cp the container to add the logout button to
+     */
     public void addLogoutButton(Container cp) {
         var logoutButton = new JButton("Logout");
         logoutButton.addActionListener(new ActionListener() {
@@ -65,6 +90,11 @@ public class RestaurantsPage {
         cp.add(logoutButton);
     }
 
+    /**
+     * Refreshes the main content pane of the JFrame and applies the given consumer to it.
+     *
+     * @param consumer a Consumer function that modifies the content pane
+     */
     private void freshPane(Consumer<Container> consumer) {
         var cp = this.mainFrame.getContentPane();
         cp.removeAll();
@@ -75,6 +105,13 @@ public class RestaurantsPage {
         this.mainFrame.pack();
     }
 
+    /**
+     * Creates a JLabel that acts as a clickable link.
+     *
+     * @param labelText the text to display on the label
+     * @param action the action to perform when the label is clicked
+     * @return a JLabel configured to be clickable
+     */
     private JLabel clickableLabel(String labelText, Runnable action) {
         var label = new JLabel(labelText);
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

@@ -8,8 +8,15 @@ import deliverydb.controller.delivery.DeliveryCtrl;
 import java.awt.*;
 import java.util.function.Consumer;
 
+/**
+ * Represents the panel for delivery-related actions in the application. It allows delivery personnel to view available
+ * orders, accepted orders, and manage their account.
+ */
 public class DeliveryPanel {
 
+    /**
+     * Enum representing the state of orders that can be shown: either available or accepted.
+     */
     public enum Flag {
         AVAILABLE, ACCEPTED
     }
@@ -17,12 +24,22 @@ public class DeliveryPanel {
     private final JFrame mainFrame;
     private final DeliveryCtrl ctrl;
 
+    /**
+     * Constructs a DeliveryPanel with the given JFrame and DeliveryCtrl.
+     *
+     * @param mainFrame the main frame of the application
+     * @param ctrl the controller that handles delivery actions
+     */
     public DeliveryPanel(JFrame mainFrame, DeliveryCtrl ctrl) {
         this.mainFrame = mainFrame;
         this.ctrl = ctrl;
         this.initializeUI();
     }
 
+    /**
+     * Initializes the user interface for the delivery panel.
+     * It sets up the layout, buttons, and balance display.
+     */
     private void initializeUI() {
         freshPane(container -> {
             container.setLayout(new BorderLayout());
@@ -75,6 +92,11 @@ public class DeliveryPanel {
         });
     }
 
+    /**
+     * Refreshes the main content pane of the JFrame and applies the given consumer to it.
+     *
+     * @param consumer a Consumer function that modifies the content pane
+     */
     private void freshPane(Consumer<Container> consumer) {
         Container cp = this.mainFrame.getContentPane();
         cp.removeAll();

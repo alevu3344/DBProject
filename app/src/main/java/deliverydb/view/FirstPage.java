@@ -15,6 +15,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
 
+/**
+ * Represents the initial page of the application that provides options to log in or register.
+ */
 public class FirstPage {
 
     private JButton loginButton;
@@ -22,13 +25,35 @@ public class FirstPage {
     private final JFrame mainFrame;
     private FirstController controller;
 
-    // Constructor to set up the GUI components
+    /**
+     * Constructs a FirstPage with the specified controller and JFrame.
+     *
+     * @param controller the controller that handles button actions
+     * @param mainFrame the main frame of the application
+     */
     public FirstPage(FirstController controller, JFrame mainFrame) {
         this.mainFrame = mainFrame;
         this.controller = controller;
         this.initializeUI();
     }
 
+    /**
+     * Refreshes the main content pane of the JFrame and applies the given consumer to it.
+     *
+     * @param consumer a Consumer function that modifies the content pane
+     */
+    private void freshPane(Consumer<Container> consumer) {
+        Container cp = this.mainFrame.getContentPane();
+        cp.removeAll();
+        cp.validate();
+        cp.repaint();
+        consumer.accept(cp);
+        this.mainFrame.pack();
+    }
+
+    /**
+     * Initializes the user interface for the first page, including setting up the layout and buttons.
+     */
     private void initializeUI() {
         freshPane(container -> {
             var padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
@@ -55,15 +80,12 @@ public class FirstPage {
         });
     }
 
-    private void freshPane(Consumer<Container> consumer) {
-        Container cp = this.mainFrame.getContentPane();
-        cp.removeAll();
-        cp.validate();
-        cp.repaint();
-        consumer.accept(cp);
-        this.mainFrame.pack();
-    }
-
+    /**
+     * Creates a button with the specified text, custom styling, and action listeners.
+     *
+     * @param text the text to be displayed on the button
+     * @return the created JButton
+     */
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.PLAIN, 16)); // Set font
@@ -99,6 +121,12 @@ public class FirstPage {
         return button;
     }
 
+    /**
+     * Creates a panel with the specified button centered horizontally.
+     *
+     * @param button the button to be centered
+     * @return the JPanel containing the centered button
+     */
     private JPanel createAlignedButtonPanel(JButton button) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));

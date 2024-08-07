@@ -3,16 +3,19 @@ package deliverydb.view;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.EmptyBorder;
 
 import deliverydb.controller.ReviewController;
 import deliverydb.data.Review;
 import deliverydb.data.User;
 
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Represents the page where users can view and manage reviews.
+ */
 public class ReviewPage {
 
     private final JFrame mainFrame;
@@ -20,6 +23,12 @@ public class ReviewPage {
     private List<Review> reviews;
     private User.USER_TYPE userType;
 
+    /**
+     * Constructs a ReviewPage with the specified JFrame and ReviewController.
+     *
+     * @param mainFrame the main frame of the application
+     * @param controller the controller that handles review actions
+     */
     public ReviewPage(JFrame mainFrame, ReviewController controller) {
         this.mainFrame = mainFrame;
         this.controller = controller;
@@ -28,6 +37,24 @@ public class ReviewPage {
         this.initializeUI();
     }
 
+    /**
+     * Refreshes the main content pane of the JFrame and applies the given consumer to it.
+     *
+     * @param consumer a Consumer function that modifies the content pane
+     */
+    private void freshPane(Consumer<Container> consumer) {
+        Container cp = this.mainFrame.getContentPane();
+        cp.removeAll();
+        cp.setLayout(new BorderLayout());
+        consumer.accept(cp);
+        cp.validate();
+        cp.repaint();
+        this.mainFrame.pack();
+    }
+
+    /**
+     * Initializes the user interface for the review page.
+     */
     private void initializeUI() {
         freshPane(container -> {
             // Create a main panel to hold the content
@@ -80,6 +107,12 @@ public class ReviewPage {
         });
     }
 
+    /**
+     * Creates a panel to display a review with details and an optional delete button.
+     *
+     * @param review the review to be displayed
+     * @return the JPanel containing the review details
+     */
     private JPanel createReviewPanel(Review review) {
         JPanel reviewPanel = new JPanel();
         reviewPanel.setLayout(new BoxLayout(reviewPanel, BoxLayout.Y_AXIS));
@@ -117,20 +150,16 @@ public class ReviewPage {
         return reviewPanel;
     }
 
-    private void freshPane(Consumer<Container> consumer) {
-        Container cp = this.mainFrame.getContentPane();
-        cp.removeAll();
-        cp.setLayout(new BorderLayout());
-        consumer.accept(cp);
-        cp.validate();
-        cp.repaint();
-        this.mainFrame.pack();
-    }
-
+    /**
+     * Handles the action of navigating back to the previous screen.
+     */
     private void handleBack() {
         this.controller.handleBack(); // Assuming handleBack() will manage navigation
     }
 
+    /**
+     * Displays a dialog for adding a new review.
+     */
     private void showAddReviewDialog() {
         // Create a dialog for adding a new review
         JDialog dialog = new JDialog(mainFrame, "Add Review", true);

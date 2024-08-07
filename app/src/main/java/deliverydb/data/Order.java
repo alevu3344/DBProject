@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.Collections;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
+/**
+ * Represents an order placed by a user.
+ */
 public class Order {
 
     private int orderID;
@@ -17,6 +20,14 @@ public class Order {
     private int restaurantID;
     private Map<Item, Integer> items;
 
+    /**
+     * Constructs an Order object.
+     *
+     * @param orderID the unique identifier for the order
+     * @param username the username of the person who placed the order
+     * @param restaurantID the ID of the restaurant where the order was placed
+     * @param items a map of {@link Item} objects and their quantities in the order
+     */
     public Order(int orderID, String username, int restaurantID, Map<Item, Integer> items) {
         this.orderID = orderID;
         this.username = username;
@@ -24,40 +35,77 @@ public class Order {
         this.items = items;
     }
 
+    /**
+     * Gets the unique identifier for the order.
+     *
+     * @return the order ID
+     */
     public int getOrderID() {
         return orderID;
     }
 
+    /**
+     * Gets the username of the person who placed the order.
+     *
+     * @return the username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Gets the ID of the restaurant where the order was placed.
+     *
+     * @return the restaurant ID
+     */
     public int getRestaurantID() {
         return restaurantID;
     }
 
+    /**
+     * Gets the map of {@link Item} objects and their quantities in the order.
+     *
+     * @return a map of items and their quantities
+     */
     public Map<Item, Integer> getItems() {
         return items;
     }
 
+    /**
+     * Provides data access methods for {@link Order}.
+     */
     public final class DAO {
 
-        public static float getCompensation(Connection connection, int orderID){
-            try{
+        /**
+         * Retrieves the compensation for a given order.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param orderID the ID of the order for which to retrieve the compensation
+         * @return the compensation amount for the order
+         */
+        public static float getCompensation(Connection connection, int orderID) {
+            try {
                 var statement = DAOUtils.prepare(connection, Queries.GET_COMPENSATION, orderID);
                 var result = statement.executeQuery();
-                if(result.next()){
+                if (result.next()) {
                     return result.getFloat("CompensoOrdine");
                 }
                 return 0.0f;
-
-            }
-            catch(SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
                 return 0.0f;
             }
         }
 
+        /**
+         * Marks an order as delivered and updates the deliverer's balance.
+         *
+         * @param connection the {@link Connection} object used to execute the queries
+         * @param orderID the ID of the order to deliver
+         * @param username the username of the deliverer
+         * @param compensation the compensation amount for delivering the order
+         * @return {@code true} if the order was successfully delivered and the balance updated, {@code false} otherwise
+         */
         public static boolean deliverOrder(Connection connection, int orderID, String username, float compensation) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.DELIVER_ORDER, orderID);
@@ -81,6 +129,14 @@ public class Order {
             }
         }
 
+        /**
+         * Marks an order as accepted by a delivery person.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param orderID the ID of the order to accept
+         * @param username the username of the delivery person accepting the order
+         * @return {@code true} if the order was successfully accepted, {@code false} otherwise
+         */
         public static boolean acceptOrder(Connection connection, int orderID, String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.ACCEPT_ORDER, orderID, username);
@@ -91,6 +147,13 @@ public class Order {
             }
         }
 
+        /**
+         * Builds a map of items and their quantities for a given order.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param orderID the ID of the order for which to retrieve the details
+         * @return a map of {@link Item} objects and their quantities, or an empty map if no items are found
+         */
         private static Map<Item, Integer> buildMap(Connection connection, int orderID) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.ORDER_DETAILS, orderID);
@@ -108,6 +171,12 @@ public class Order {
             }
         }
 
+        /**
+         * Retrieves all available orders.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @return a list of available {@link Order} objects, or an empty list if no orders are found
+         */
         public static List<Order> getAvailableOrders(Connection connection) {
             try {
                 LinkedList<Order> orders = new LinkedList<>();
@@ -116,9 +185,7 @@ public class Order {
                 while (result.next()) {
                     var order = new Order(result.getInt("OrdineID"), result.getString("Username"),
                             result.getInt("RistoranteID"), buildMap(connection, result.getInt("OrdineID")));
-
                     orders.add(order);
-
                 }
                 return orders;
             } catch (SQLException e) {
@@ -127,6 +194,13 @@ public class Order {
             }
         }
 
+        /**
+         * Retrieves all accepted orders for a specific delivery person.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param username the username of the delivery person
+         * @return a list of accepted {@link Order} objects, or an empty list if no orders are found
+         */
         public static List<Order> getAcceptedOrders(Connection connection, String username) {
             try {
                 LinkedList<Order> orders = new LinkedList<>();
@@ -135,7 +209,6 @@ public class Order {
                 while (result.next()) {
                     var order = new Order(result.getInt("OrdineID"), result.getString("Username"),
                             result.getInt("RistoranteID"), buildMap(connection, result.getInt("OrdineID")));
-
                     orders.add(order);
                 }
                 return orders;
@@ -145,10 +218,19 @@ public class Order {
             }
         }
 
+        /**
+         * Sends a new order and updates the user's balance accordingly.
+         *
+         * @param order a map of {@link Item} objects and their quantities for the order
+         * @param username the username of the person placing the order
+         * @param restaurant_id the ID of the restaurant where the order is placed
+         * @param connection the {@link Connection} object used to execute the queries
+         * @param commission the commission rate to apply
+         * @return {@code true} if the order was successfully placed and the balance updated, {@code false} otherwise
+         */
         public static boolean sendOrder(Map<Item, Integer> order, String username, int restaurant_id,
                 Connection connection, float commission) {
             try {
-
                 var balanceStatement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
                 var balanceResult = balanceStatement.executeQuery();
                 if (balanceResult.next()) {
@@ -159,7 +241,7 @@ public class Order {
                     var total = filteredOrder.entrySet().stream()
                             .mapToDouble(e -> e.getKey().getPrice() * e.getValue()).sum();
                     if (balance < total) {
-                        return false; // Saldo insufficiente
+                        return false; // Insufficient balance
                     }
 
                     connection.setAutoCommit(false);
@@ -173,14 +255,13 @@ public class Order {
 
                     var orderIDResult = orderStatement.getGeneratedKeys();
                     if (!orderIDResult.next()) {
-                        connection.rollback(); // Annulla tutte le operazioni
+                        connection.rollback(); // Rollback if no order ID generated
                         return false;
                     }
                     int ordineID = orderIDResult.getInt(1);
 
                     var detailStatement = connection.prepareStatement(Queries.SEND_ORDER_DETAILS);
                     for (Map.Entry<Item, Integer> entry : filteredOrder.entrySet()) {
-
                         detailStatement.setInt(1, ordineID);
                         detailStatement.setInt(2, entry.getKey().getItemID());
                         detailStatement.setInt(3, entry.getValue());
@@ -188,13 +269,12 @@ public class Order {
                     }
                     detailStatement.executeBatch();
 
-                    // 5. Aggiorna il saldo dell'utente
-
+                    // Update user balance
                     var updateBalanceStatement = DAOUtils.prepare(connection, Queries.UPDATE_USER_BALANCE,
-                            balance - (total + ((total) * commission)), username);
+                            balance - (total + (total * commission)), username);
                     updateBalanceStatement.executeUpdate();
 
-                    // Commit della transazione
+                    // Commit transaction
                     connection.commit();
                     connection.setAutoCommit(true);
                     return true;
@@ -202,7 +282,7 @@ public class Order {
                 return false;
             } catch (SQLException e) {
                 try {
-                    connection.rollback(); // Annulla tutte le operazioni in caso di errore
+                    connection.rollback(); // Rollback on error
                 } catch (SQLException rollbackEx) {
                     rollbackEx.printStackTrace();
                 }

@@ -9,6 +9,9 @@ import java.awt.*;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Represents the administrative panel of the application where admin users can manage and view various data.
+ */
 public class AdminPanel {
 
     private final JFrame mainFrame;
@@ -16,6 +19,12 @@ public class AdminPanel {
     private JComboBox<String> reviewComboBox;
     private List<Pair<String, Integer>> restaurants;
 
+    /**
+     * Constructs an AdminPanel with the given JFrame and AdminController.
+     *
+     * @param mainFrame the main frame of the application
+     * @param adminController the controller that handles administrative actions
+     */
     public AdminPanel(JFrame mainFrame, AdminController adminController) {
         this.mainFrame = mainFrame;
         this.adminController = adminController;

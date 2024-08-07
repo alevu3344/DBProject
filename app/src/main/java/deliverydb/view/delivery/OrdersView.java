@@ -23,12 +23,23 @@ import deliverydb.data.Order;
 import deliverydb.data.Restaurant;
 import deliverydb.view.delivery.DeliveryPanel.Flag;
 
+/**
+ * Represents the view for displaying orders in the application. It allows the user to see available or accepted orders
+ * and perform actions such as accepting or delivering orders.
+ */
 public class OrdersView {
 
     private final JFrame mainFrame;
     private final OrdersCtrl ctrl;
     private Flag flag;
 
+    /**
+     * Constructs an OrdersView with the specified flag, JFrame, and OrdersCtrl.
+     *
+     * @param flag the flag indicating the type of orders to display (AVAILABLE or ACCEPTED)
+     * @param mainFrame the main frame of the application
+     * @param ctrl the controller that handles order actions
+     */
     public OrdersView(Flag flag, JFrame mainFrame, OrdersCtrl ctrl) {
         this.mainFrame = mainFrame;
         this.flag = flag;
@@ -36,6 +47,11 @@ public class OrdersView {
         initializeUI();
     }
 
+    /**
+     * Refreshes the main content pane of the JFrame and applies the given consumer to it.
+     *
+     * @param consumer a Consumer function that modifies the content pane
+     */
     private void freshPane(Consumer<Container> consumer) {
         Container cp = this.mainFrame.getContentPane();
         cp.removeAll();
@@ -45,6 +61,10 @@ public class OrdersView {
         this.mainFrame.pack();
     }
 
+    /**
+     * Initializes the user interface for the orders view, including setting up the layout, title panel, orders list, and
+     * scroll pane.
+     */
     private void initializeUI() {
         freshPane(cp -> {
             cp.setLayout(new BorderLayout());
@@ -80,6 +100,75 @@ public class OrdersView {
         });
     }
 
+    /**
+     * Displays the details of a specific order in a dialog.
+     *
+     * @param order the order whose details are to be displayed
+     */
+    private void displayOrderDetails(Order order) {
+        var details = ctrl.restaurantDetails(order);
+        Restaurant restaurant = details.get1();
+        String deliveryAddress = details.get2();
+
+        if (restaurant == null) {
+            JOptionPane.showMessageDialog(mainFrame, "Restaurant details not found.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        float compensation = ctrl.getCompensation(order); // Retrieve the compensation value
+        String formattedCompensation = String.format("%.2f", compensation); // Format the compensation
+
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
+
+        JPanel namePanel = new JPanel();
+        namePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
+        namePanel.add(new JLabel("Restaurant Name: "));
+        namePanel.add(new JLabel(restaurant.getName()));
+
+        JPanel addressPanel = new JPanel();
+        addressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        addressPanel.setLayout(new BoxLayout(addressPanel, BoxLayout.X_AXIS));
+        addressPanel.add(new JLabel("Restaurant Address: "));
+        addressPanel.add(new JLabel(restaurant.getAddress()));
+
+        JPanel deliveryAddressPanel = new JPanel();
+        deliveryAddressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        deliveryAddressPanel.setLayout(new BoxLayout(deliveryAddressPanel, BoxLayout.X_AXIS));
+        deliveryAddressPanel.add(new JLabel("Delivery Address: "));
+        deliveryAddressPanel.add(new JLabel(deliveryAddress));
+
+        JPanel itemsPanel = new JPanel();
+        itemsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
+        itemsPanel.add(new JLabel("Ordered Items:"));
+        order.getItems()
+                .forEach((item, quantity) -> itemsPanel.add(new JLabel("- " + item.getName() + " x " + quantity)));
+
+        JPanel compensationPanel = new JPanel();
+        compensationPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        compensationPanel.setLayout(new BoxLayout(compensationPanel, BoxLayout.X_AXIS));
+        compensationPanel.add(new JLabel("Compensation: $"));
+        compensationPanel.add(new JLabel(formattedCompensation));
+
+        detailsPanel.add(namePanel);
+        detailsPanel.add(addressPanel);
+        detailsPanel.add(deliveryAddressPanel);
+        detailsPanel.add(itemsPanel);
+        detailsPanel.add(compensationPanel); // Add the compensation panel
+
+        JOptionPane.showMessageDialog(mainFrame, detailsPanel, "Order Details", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Creates a panel for displaying information about a single order, including buttons to show details, accept, or deliver
+     * the order, depending on its status.
+     *
+     * @param order the order to display
+     * @return the JPanel representing the order
+     */
     private JPanel createOrderPanel(Order order) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -143,62 +232,5 @@ public class OrdersView {
         }
 
         return panel;
-    }
-
-    private void displayOrderDetails(Order order) {
-        var details = ctrl.restaurantDetails(order);
-        Restaurant restaurant = details.get1();
-        String deliveryAddress = details.get2();
-
-        if (restaurant == null) {
-            JOptionPane.showMessageDialog(mainFrame, "Restaurant details not found.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        float compensation = ctrl.getCompensation(order); // Retrieve the compensation value
-        String formattedCompensation = String.format("%.2f", compensation); // Format the compensation
-
-        JPanel detailsPanel = new JPanel();
-        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-
-        JPanel namePanel = new JPanel();
-        namePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
-        namePanel.add(new JLabel("Restaurant Name: "));
-        namePanel.add(new JLabel(restaurant.getName()));
-
-        JPanel addressPanel = new JPanel();
-        addressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        addressPanel.setLayout(new BoxLayout(addressPanel, BoxLayout.X_AXIS));
-        addressPanel.add(new JLabel("Restaurant Address: "));
-        addressPanel.add(new JLabel(restaurant.getAddress()));
-
-        JPanel deliveryAddressPanel = new JPanel();
-        deliveryAddressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        deliveryAddressPanel.setLayout(new BoxLayout(deliveryAddressPanel, BoxLayout.X_AXIS));
-        deliveryAddressPanel.add(new JLabel("Delivery Address: "));
-        deliveryAddressPanel.add(new JLabel(deliveryAddress));
-
-        JPanel itemsPanel = new JPanel();
-        itemsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
-        itemsPanel.add(new JLabel("Ordered Items:"));
-        order.getItems()
-                .forEach((item, quantity) -> itemsPanel.add(new JLabel("- " + item.getName() + " x " + quantity)));
-
-        JPanel compensationPanel = new JPanel();
-        compensationPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        compensationPanel.setLayout(new BoxLayout(compensationPanel, BoxLayout.X_AXIS));
-        compensationPanel.add(new JLabel("Compensation: $"));
-        compensationPanel.add(new JLabel(formattedCompensation));
-
-        detailsPanel.add(namePanel);
-        detailsPanel.add(addressPanel);
-        detailsPanel.add(deliveryAddressPanel);
-        detailsPanel.add(itemsPanel);
-        detailsPanel.add(compensationPanel); // Add the compensation panel
-
-        JOptionPane.showMessageDialog(mainFrame, detailsPanel, "Order Details", JOptionPane.INFORMATION_MESSAGE);
     }
 }

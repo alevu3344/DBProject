@@ -15,12 +15,21 @@ import deliverydb.data.User;
 import deliverydb.data.User.USER_TYPE;
 import deliverydb.utilities.Pair;
 
+/**
+ * Implementation of the {@link Model} interface.
+ */
 public class ModelImpl implements Model {
 
     private final Connection connection;
     private Optional<User> user = Optional.empty();
     private float commission = 0.2f;
 
+    /**
+     * Constructs a {@link ModelImpl} instance with the specified database connection.
+     *
+     * @param connection the {@link Connection} object used to connect to the database
+     * @throws NullPointerException if {@code connection} is {@code null}
+     */
     public ModelImpl(Connection connection) {
         Objects.requireNonNull(connection, "Model created with null connection");
         this.connection = connection;
@@ -50,7 +59,6 @@ public class ModelImpl implements Model {
     @Override
     public void deleteReview(Review review) {
         Review.DAO.deleteReview(connection, review);
-        return;
     }
 
     @Override
@@ -69,8 +77,7 @@ public class ModelImpl implements Model {
 
     @Override
     public boolean userRegister(User.USER_TYPE type, String username, String name, String surname, String password,
-            String street,
-            String number, String city) {
+            String street, String number, String city) {
         return User.DAO.userRegister(connection, type, username, password, name, surname, street, number, city);
     }
 
@@ -86,8 +93,7 @@ public class ModelImpl implements Model {
 
     @Override
     public float getBalance() {
-        var x = User.DAO.getBalanceFor(connection, this.user.get().getUsername());
-        return x;
+        return User.DAO.getBalanceFor(connection, this.user.get().getUsername());
     }
 
     @Override
@@ -154,5 +160,4 @@ public class ModelImpl implements Model {
     public float getCompensation(Order order) {
         return Order.DAO.getCompensation(connection, order.getOrderID());
     }
-
 }

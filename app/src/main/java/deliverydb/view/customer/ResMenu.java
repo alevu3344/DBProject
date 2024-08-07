@@ -16,6 +16,10 @@ import java.util.function.Consumer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Represents the restaurant menu where customers can view items, select quantities, 
+ * and place orders. It also displays the restaurant information and user balance.
+ */
 public class ResMenu {
 
     private final JFrame mainFrame;
@@ -29,6 +33,12 @@ public class ResMenu {
     private Map<Item, JSpinner> itemSpinners; // Map to track spinners for each item
     private JButton reviewsButton; // Button to show reviews
 
+    /**
+     * Constructs a ResMenu with the given JFrame and ResMenuCtrl.
+     *
+     * @param mainFrame the main frame of the application
+     * @param controller the controller that handles restaurant menu actions
+     */
     public ResMenu(JFrame mainFrame, ResMenuCtrl controller) {
         this.controller = Optional.of(controller);
         this.mainFrame = mainFrame;
@@ -63,7 +73,7 @@ public class ResMenu {
         this.mainFrame.pack();
     }
 
-    public void displayMenu() {
+    private void displayMenu() {
         freshPane(cp -> {
             var mainPanel = Box.createHorizontalBox(); // Create a horizontal box to hold menu and summary
 
@@ -237,7 +247,7 @@ public class ResMenu {
         sendOrderButton.setEnabled(anySelected);
     }
 
-    public void addBackButton(Container cp) {
+    private void addBackButton(Container cp) {
         var logoutButton = new JButton("Back");
         logoutButton.addActionListener(new ActionListener() {
             @Override
@@ -249,11 +259,16 @@ public class ResMenu {
         cp.add(logoutButton);
     }
 
+    /**
+     * Updates the balance label with the current user balance.
+     *
+     * @param balance the current user balance
+     */
     public void updateBalance(double balance) {
         balanceLabel.setText("Balance: $" + String.format("%.2f", balance));
     }
 
-    public void addSendOrderButton(Container cp) {
+    private void addSendOrderButton(Container cp) {
         sendOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -317,6 +332,9 @@ public class ResMenu {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Shows an error dialog indicating that the order could not be sent.
+     */
     public void showOrderError() {
         JOptionPane.showMessageDialog(mainFrame, "Order could not be sent. Please try again.", "Order Error",
                 JOptionPane.ERROR_MESSAGE);

@@ -10,19 +10,28 @@ import deliverydb.controller.authentication.RegisterController;
 import deliverydb.model.Model;
 import deliverydb.view.FirstPage;
 
+/**
+ * The FirstController class is responsible for handling the initial interaction
+ * with the user in the DeliveryDB application. It manages the main frame of the application,
+ * handles login and registration button clicks, and ensures proper closure of the database connection.
+ */
 public class FirstController implements Controller {
     private final Model model;
-
     private JFrame mainFrame;
     private Runnable onClose;
 
+    /**
+     * Constructs a FirstController object.
+     *
+     * @param model the data model for the application
+     * @param connection the database connection to be closed on application exit
+     */
     public FirstController(Model model, Connection connection) {
-
         this.onClose = () -> {
             try {
                 connection.close();
             } catch (Exception e) {
-
+                // Handle the exception if needed
             }
         };
 
@@ -40,19 +49,25 @@ public class FirstController implements Controller {
         });
         new FirstPage(this, mainFrame);
         this.model = model;
-
-        // Set this controller as the loginView's controller
-
     }
 
+    /**
+     * Handles the login button click event by initializing the LoginController.
+     */
     public void handleLoginButtonClick() {
         new LoginController(this.mainFrame, this.model, this);
     }
 
+    /**
+     * Handles the register button click event by initializing the RegisterController.
+     */
     public void handleRegisterButtonClick() {
         new RegisterController(this.mainFrame, this.model, this);
     }
 
+    /**
+     * Shows the initial page of the application.
+     */
     @Override
     public void show() {
         new FirstPage(this, mainFrame);

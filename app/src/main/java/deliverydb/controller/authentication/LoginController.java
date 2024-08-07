@@ -12,13 +12,25 @@ import deliverydb.data.User;
 import deliverydb.model.Model;
 import deliverydb.view.authentication.LoginPage;
 
+/**
+ * The LoginController class manages the login process for the DeliveryDB application.
+ * It handles user login, directs users to the appropriate controller based on their role,
+ * and provides feedback on login success or failure.
+ */
 public class LoginController implements Controller {
-    
+
     private final Model model;
     private final LoginPage loginView;
     private Controller firstCtrl;
     private JFrame mainFrame;
 
+    /**
+     * Constructs a LoginController object.
+     *
+     * @param mainFrame the main application frame
+     * @param model the data model for the application
+     * @param firstCtrl the controller to return to when the login view is exited
+     */
     public LoginController(JFrame mainFrame, Model model, Controller firstCtrl) {
         this.mainFrame = mainFrame;
         this.loginView = new LoginPage(mainFrame, this);
@@ -26,35 +38,38 @@ public class LoginController implements Controller {
         this.firstCtrl = firstCtrl;
     }
 
+    /**
+     * Handles the login process for a user.
+     *
+     * @param username the username entered by the user
+     * @param password the password entered by the user
+     */
     public void handleLogin(String username, String password) {
-
         var userType = this.model.login(username, password);
         if (userType.equals(Optional.of(User.USER_TYPE.CUSTOMER))) {
-
             loginView.displayMessage("Login successful");
-
             new ResController(this, this.mainFrame, this.model);
-
         } else if (userType.equals(Optional.of(User.USER_TYPE.DELIVERY_PERSON))) {
             loginView.displayMessage("Login successful");
             new DeliveryCtrl(this, this.mainFrame, this.model);
-        }
-
-        else if (userType.equals(Optional.of(User.USER_TYPE.ADMIN))) {
-
+        } else if (userType.equals(Optional.of(User.USER_TYPE.ADMIN))) {
             loginView.displayMessage("Login successful");
             new AdminController(this, this.mainFrame, this.model);
-        }
-
-        else {
+        } else {
             loginView.displayMessage("Invalid username or password");
         }
     }
 
+    /**
+     * Handles the action to go back to the previous controller's view.
+     */
     public void handleBack() {
         this.firstCtrl.show();
     }
 
+    /**
+     * Displays the login page view associated with this controller.
+     */
     @Override
     public void show() {
         this.loginView.setupComponents();

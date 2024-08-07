@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
 
+/**
+ * Represents the login page for the application where users can enter their credentials to log in.
+ */
 public class LoginPage implements ActionListener {
 
     // Components of the Form
@@ -24,7 +27,12 @@ public class LoginPage implements ActionListener {
     private LoginController controller;
     private final JFrame mainFrame;
 
-    // Constructor to set up the GUI components
+    /**
+     * Constructs a LoginPage with the given JFrame and LoginController.
+     *
+     * @param mainFrame the main frame of the application
+     * @param controller the controller that handles login actions
+     */
     public LoginPage(JFrame mainFrame, LoginController controller) {
         this.controller = controller;
         this.mainFrame = mainFrame;
@@ -40,6 +48,9 @@ public class LoginPage implements ActionListener {
         this.mainFrame.pack();
     }
 
+    /**
+     * Sets up the components and layout of the login page.
+     */
     public void setupComponents() {
         freshPane(container -> {
             container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
@@ -133,6 +144,11 @@ public class LoginPage implements ActionListener {
         }
     }
 
+    /**
+     * Displays a message on the login page.
+     *
+     * @param message the message to be displayed
+     */
     public void displayMessage(String message) {
         messageLabel.setText(message);
     }

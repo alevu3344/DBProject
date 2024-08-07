@@ -6,6 +6,9 @@ import java.util.List;
 
 import deliverydb.utilities.Pair;
 
+/**
+ * Represents a user of the system.
+ */
 public class User {
 
     private final USER_TYPE type;
@@ -16,11 +19,20 @@ public class User {
     private final String number;
     private final String city;
 
+    /**
+     * Enum representing the types of users in the system.
+     */
     public enum USER_TYPE {
         CUSTOMER,
         DELIVERY_PERSON,
         ADMIN;
 
+        /**
+         * Converts a string to the corresponding {@link USER_TYPE}.
+         *
+         * @param type the string representing the user type
+         * @return the corresponding {@link USER_TYPE}, or {@code null} if the string does not match any type
+         */
         public static USER_TYPE fromString(String type) {
             return switch (type) {
                 case "Consumatore" -> CUSTOMER;
@@ -30,6 +42,11 @@ public class User {
             };
         }
 
+        /**
+         * Converts the {@link USER_TYPE} to its Italian representation.
+         *
+         * @return the Italian representation of the user type
+         */
         public String toStringIta() {
             return switch (this) {
                 case CUSTOMER -> "Consumatore";
@@ -39,6 +56,17 @@ public class User {
         }
     }
 
+    /**
+     * Constructs a User object.
+     *
+     * @param type the type of the user
+     * @param username the username of the user
+     * @param name the first name of the user
+     * @param surname the last name of the user
+     * @param street the street address of the user
+     * @param number the street number of the user
+     * @param city the city where the user resides
+     */
     public User(USER_TYPE type, String username, String name, String surname, String street, String number,
             String city) {
         this.type = type;
@@ -50,7 +78,11 @@ public class User {
         this.city = city;
     }
 
-    // Custom toString that ovverids the default one
+    /**
+     * Returns a string representation of the User object.
+     *
+     * @return a string containing the user's details
+     */
     @Override
     public String toString() {
         return "User{" +
@@ -64,28 +96,62 @@ public class User {
                 '}';
     }
 
+    /**
+     * Gets the type of the user.
+     *
+     * @return the type of the user
+     */
     public USER_TYPE getType() {
         return type;
     }
 
+    /**
+     * Gets the username of the user.
+     *
+     * @return the username of the user
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Gets the first name of the user.
+     *
+     * @return the first name of the user
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the last name of the user.
+     *
+     * @return the last name of the user
+     */
     public String getSurname() {
         return surname;
     }
 
+    /**
+     * Gets the full address of the user.
+     *
+     * @return the full address, combining street, number, and city
+     */
     public String getStreet() {
-        return street + " " + number + "," + city;
+        return street + " " + number + ", " + city;
     }
 
+    /**
+     * Provides data access methods for {@link User}.
+     */
     public final class DAO {
 
+        /**
+         * Retrieves the top 5 delivery persons based on the number of deliveries.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @return a list of {@link Pair} objects, where each pair contains a delivery person's ID and the number of deliveries
+         */
         public static List<Pair<String, Integer>> top5Deliverers(Connection connection) {
             var deliverers = new LinkedList<Pair<String, Integer>>();
             try {
@@ -101,6 +167,13 @@ public class User {
             }
         }
 
+        /**
+         * Retrieves the address of a user.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param username the username of the user whose address is to be retrieved
+         * @return the full address of the user, or {@code null} if the user is not found
+         */
         public static String getAddress(Connection connection, String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USER_ADDRESS, username);
@@ -116,6 +189,13 @@ public class User {
             }
         }
 
+        /**
+         * Retrieves the balance for a user.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param username the username of the user whose balance is to be retrieved
+         * @return the balance of the user, or {@code -1} if the user is not found or an error occurs
+         */
         public static float getBalanceFor(Connection connection, String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USER_BALANCE, username);
@@ -130,6 +210,13 @@ public class User {
             }
         }
 
+        /**
+         * Checks if a username is available for registration.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param username the username to check for availability
+         * @return {@code true} if the username is available, {@code false} otherwise
+         */
         public static boolean isUserNameAvailable(Connection connection, String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USERNAME_AVAILABILITY_CHECK, username);
@@ -141,6 +228,14 @@ public class User {
             }
         }
 
+        /**
+         * Authenticates a user based on username and password.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param username the username of the user
+         * @param password the password of the user
+         * @return {@code true} if the login is successful, {@code false} otherwise
+         */
         public static boolean userLogin(Connection connection, String username, String password) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USER_LOGIN, username, password);
@@ -152,6 +247,20 @@ public class User {
             }
         }
 
+        /**
+         * Registers a new user in the system.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param type the type of the user
+         * @param username the username of the user
+         * @param password the password of the user
+         * @param name the first name of the user
+         * @param surname the last name of the user
+         * @param street the street address of the user
+         * @param number the street number of the user
+         * @param city the city where the user resides
+         * @return {@code true} if the registration is successful, {@code false} otherwise
+         */
         public static boolean userRegister(Connection connection, User.USER_TYPE type, String username, String password,
                 String name, String surname, String street, String number, String city) {
             try {
@@ -168,6 +277,13 @@ public class User {
             }
         }
 
+        /**
+         * Retrieves a user by username.
+         *
+         * @param connection the {@link Connection} object used to execute the query
+         * @param username the username of the user to retrieve
+         * @return the {@link User} object, or {@code null} if the user is not found
+         */
         public static User getUser(Connection connection, String username) {
             try {
                 var statement = DAOUtils.prepare(connection, Queries.USER_DETAILS, username);
