@@ -16,7 +16,7 @@ public final class DAOException extends RuntimeException {
      *
      * @param message the detail message
      */
-    public DAOException(String message) {
+    public DAOException(final String message) {
         super(message);
     }
 
@@ -25,7 +25,7 @@ public final class DAOException extends RuntimeException {
      *
      * @param cause the cause of the exception
      */
-    public DAOException(Throwable cause) {
+    public DAOException(final Throwable cause) {
         super(cause);
     }
 
@@ -35,7 +35,7 @@ public final class DAOException extends RuntimeException {
      * @param message the detail message
      * @param cause the cause of the exception
      */
-    public DAOException(String message, Throwable cause) {
+    public DAOException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

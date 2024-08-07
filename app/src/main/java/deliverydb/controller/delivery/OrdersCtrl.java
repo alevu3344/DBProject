@@ -22,7 +22,7 @@ public class OrdersCtrl implements Controller {
     private final Model model;
     private final JFrame mainFrame;
     private final Controller prevCtrl;
-    private Flag flag;
+    private final Flag flag;
 
     /**
      * Constructs an OrdersCtrl object.
@@ -68,7 +68,7 @@ public class OrdersCtrl implements Controller {
             case ACCEPTED:
                 return this.model.getAcceptedOrders();
             default:
-                return null;
+                return List.of();
         }
     }
 

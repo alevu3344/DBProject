@@ -31,8 +31,8 @@ public class Review {
      * @param author       the username of the person who wrote the review
      * @param date         the timestamp when the review was created
      */
-    public Review(final int restaurantID, final int stars, final String reviewText, 
-                  final String author, final Timestamp date) {
+    public Review(final int restaurantID, final int stars, final String reviewText,
+            final String author, final Timestamp date) {
         this.restaurantID = restaurantID;
         this.stars = stars;
         this.reviewText = reviewText;
@@ -86,7 +86,8 @@ public class Review {
     }
 
     /**
-     * Data access object (DAO) for interacting with the review-related database operations.
+     * Data access object (DAO) for interacting with the review-related database
+     * operations.
      */
     public static final class DAO {
 
@@ -101,12 +102,13 @@ public class Review {
          * Retrieves the restaurant with the worst rating from the database.
          *
          * @param connection the database connection
-         * @return an Optional containing a Pair with the restaurant name and its adjusted average rating, or an empty Optional if not found
+         * @return an Optional containing a Pair with the restaurant name and its
+         *         adjusted average rating, or an empty Optional if not found
          */
         public static Optional<Pair<String, Integer>> worstRestaurant(final Connection connection) {
             final String query = Queries.WORST_RATING;
             try (var statement = DAOUtils.prepare(connection, query);
-                 var result = statement.executeQuery()) {
+                    var result = statement.executeQuery()) {
                 if (result.next()) {
                     return Optional.of(new Pair<>(result.getString("Nome"), result.getInt("adjusted_average")));
                 }
@@ -120,14 +122,15 @@ public class Review {
         /**
          * Lists all reviews for a specific restaurant.
          *
-         * @param connection    the database connection
+         * @param connection   the database connection
          * @param restaurantID the ID of the restaurant for which to list reviews
-         * @return an Optional containing a list of reviews if found, or an empty Optional if not
+         * @return an Optional containing a list of reviews if found, or an empty
+         *         Optional if not
          */
         public static Optional<List<Review>> listReviews(final Connection connection, final int restaurantID) {
             final String query = Queries.RESTAURANT_REVIEWS;
             try (var statement = DAOUtils.prepare(connection, query, restaurantID);
-                 var result = statement.executeQuery()) {
+                    var result = statement.executeQuery()) {
                 final List<Review> reviews = new LinkedList<>();
                 while (result.next()) {
                     reviews.add(new Review(

@@ -26,9 +26,9 @@ public final class DAOUtils {
      */
     public static Connection localMySQLConnection(final String database, final String username, final String password) {
         try {
-            var host = "localhost";
-            var port = "3306";
-            var connectionString = "jdbc:mysql://" + host + ":" + port + "/" + database;
+            final var host = "localhost";
+            final var port = "3306";
+            final var connectionString = "jdbc:mysql://" + host + ":" + port + "/" + database;
             return DriverManager.getConnection(connectionString, username, password);
         } catch (Exception e) {
             throw new DAOException(e);
@@ -39,12 +39,15 @@ public final class DAOUtils {
      * Prepares a SQL {@link PreparedStatement} with the given query and parameters.
      *
      * @param connection the {@link Connection} object used to prepare the statement
-     * @param query the SQL query to prepare
-     * @param values the values to set in the query parameters
-     * @return a {@link PreparedStatement} object with the provided query and parameters
-     * @throws SQLException if a database access error occurs or the SQL statement is invalid
+     * @param query      the SQL query to prepare
+     * @param values     the values to set in the query parameters
+     * @return a {@link PreparedStatement} object with the provided query and
+     *         parameters
+     * @throws SQLException if a database access error occurs or the SQL statement
+     *                      is invalid
      */
-    public static PreparedStatement prepare(final Connection connection, final String query, final Object... values) throws SQLException {
+    public static PreparedStatement prepare(final Connection connection, final String query, final Object... values)
+            throws SQLException {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
@@ -52,7 +55,7 @@ public final class DAOUtils {
                 statement.setObject(i + 1, values[i]);
             }
             return statement;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             if (statement != null) {
                 statement.close();
             }

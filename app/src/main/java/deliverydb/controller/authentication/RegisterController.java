@@ -41,7 +41,7 @@ public class RegisterController implements Controller {
      * @param type the type of user to register
      * @param list the list of user details required for registration
      */
-    public void handleRegistration(final User.USER_TYPE type, final List<String> list) {
+    public void handleRegistration(final User.Usertype type, final List<String> list) {
         var success = this.model.userRegister(type, list.get(0),
                 list.get(1),
                 list.get(2),

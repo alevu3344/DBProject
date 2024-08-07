@@ -19,6 +19,7 @@ public class FirstController implements Controller {
     private final Model model;
     private JFrame mainFrame;
     private Runnable onClose;
+    private static final int WINDOW_DIM = 600;
 
     /**
      * Constructs a FirstController object.
@@ -36,7 +37,7 @@ public class FirstController implements Controller {
         };
 
         this.mainFrame = new JFrame("DeliveryDB");
-        this.mainFrame.setMinimumSize(new Dimension(600, 600));
+        this.mainFrame.setMinimumSize(new Dimension(WINDOW_DIM, WINDOW_DIM));
         this.mainFrame.setResizable(false);
         this.mainFrame.setLocationRelativeTo(null); // Center the frame on the screen
         this.mainFrame.setVisible(true);

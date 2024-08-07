@@ -21,7 +21,7 @@ public final class App {
      * @param args the command line arguments (not used)
      * @throws SQLException if a database access error occurs
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(final String[] args) throws SQLException {
         // Establish a connection to the local MySQL database named "DeliveryDB" using the "root" user without a password.
         var connection = DAOUtils.localMySQLConnection("DeliveryDB", "root", "");
 

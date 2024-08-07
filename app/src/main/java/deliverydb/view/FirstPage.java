@@ -32,7 +32,7 @@ public class FirstPage {
      * @param controller the controller that handles button actions
      * @param mainFrame the main frame of the application
      */
-    public FirstPage(FirstController controller, JFrame mainFrame) {
+    public FirstPage(final FirstController controller, final JFrame mainFrame) {
         this.mainFrame = mainFrame;
         this.controller = controller;
         this.loginButton = createButton("Login");
@@ -45,7 +45,7 @@ public class FirstPage {
      *
      * @param consumer a Consumer function that modifies the content pane
      */
-    private void freshPane(Consumer<Container> consumer) {
+    private void freshPane(final Consumer<Container> consumer) {
         final Container cp = this.mainFrame.getContentPane();
         cp.removeAll();
         cp.validate();
@@ -99,12 +99,12 @@ public class FirstPage {
         // Add hover effect - change background color when mouse enters
         button.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent evt) {
+            public void mouseEntered(final MouseEvent evt) {
                 button.setBackground(new Color(34, 139, 34)); // Darker green on hover (ForestGreen)
             }
 
             @Override
-            public void mouseExited(MouseEvent evt) {
+            public void mouseExited(final MouseEvent evt) {
                 button.setBackground(new Color(60, 179, 113)); // Restore original color on exit
             }
         });
@@ -112,7 +112,7 @@ public class FirstPage {
         // Add action listener
         button.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
                 if ("Login".equals(text)) {
                     controller.handleLoginButtonClick();
                 } else if ("Register".equals(text)) {

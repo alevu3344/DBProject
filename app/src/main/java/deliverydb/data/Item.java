@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.LinkedList;
 import java.sql.Connection;
+import java.sql.SQLException;
+
 import deliverydb.utilities.Pair;
 
 /**
@@ -26,7 +28,7 @@ public class Item {
      * @param name   the name of the item
      * @param type   the type of the item (e.g., appetizer, main course)
      */
-    public Item(int itemID, int resID, float price, String name, String type) {
+    public Item(final int itemID, final int resID, final float price, final String name, final String type) {
         this.itemID = itemID;
         this.resID = resID;
         this.price = price;
@@ -84,6 +86,8 @@ public class Item {
      */
     public final class DAO {
 
+        private DAO() { }
+
         /**
          * Retrieves the top dish based on total quantity sold and its associated
          * restaurant.
@@ -92,18 +96,19 @@ public class Item {
          * @return a {@link Pair} containing the top dish details and the restaurant
          *         name, or {@code null} if no results are found
          */
-        public static Pair<Pair<String, Integer>, String> topDish(Connection connection) {
+        public static Pair<Pair<String, Integer>, String> topDish(final Connection connection) {
             try {
-                var statement = DAOUtils.prepare(connection, Queries.TOP_DISH);
-                var result = statement.executeQuery();
+                final var statement = DAOUtils.prepare(connection, Queries.TOP_DISH);
+                final var result = statement.executeQuery();
                 if (result.next()) {
                     return new Pair<>(new Pair<>(result.getString("Nome"), result.getInt("QuantitàTotale")),
                             result.getString("Ristorante"));
                 }
                 return null;
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-                return null;
+                return new Pair<>(new Pair<>("None", 0),
+                "None");
             }
         }
 
@@ -115,18 +120,18 @@ public class Item {
          * @return an {@link Optional} containing a list of {@link Item} objects, or
          *         {@link Optional#empty()} if no items are found
          */
-        public static Optional<List<Item>> getMenuFor(Connection connection, int restaurantID) {
-            var items = new LinkedList<Item>();
+        public static Optional<List<Item>> getMenuFor(final Connection connection, final int restaurantID) {
+            final var items = new LinkedList<Item>();
             try {
-                var statement = DAOUtils.prepare(connection, Queries.RESTAURANT_MENU, restaurantID);
-                var result = statement.executeQuery();
+                final var statement = DAOUtils.prepare(connection, Queries.RESTAURANT_MENU, restaurantID);
+                final var result = statement.executeQuery();
                 while (result.next()) {
                     items.addFirst(
                             new Item(result.getInt("ElementoMenuID"), restaurantID, result.getFloat("Prezzo"),
                                     result.getString("Nome"), result.getString("Tipo")));
                 }
                 return Optional.of(items);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
                 return Optional.empty();
             }

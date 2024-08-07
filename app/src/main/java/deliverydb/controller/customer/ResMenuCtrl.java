@@ -24,9 +24,9 @@ public class ResMenuCtrl implements Controller {
     private final Model model;
     private ResMenu view;
     private final ResController prevctrl;
-    private Restaurant restaurant;
+    private final Restaurant restaurant;
     private final JFrame mainFrame;
-    private float commission;
+    private final float commission;
 
     /**
      * Constructs a ResMenuCtrl object.
@@ -98,8 +98,8 @@ public class ResMenuCtrl implements Controller {
      * @return a map of menu items and their initial quantities
      */
     public Map<Item, Integer> getItemMap() {
-        var menu = this.model.getMenuFor(this.restaurant.getRestaurantID());
-        Map<Item, Integer> itemQuantityMap = new LinkedHashMap<>();
+        final var menu = this.model.getMenuFor(this.restaurant.getRestaurantID());
+        final Map<Item, Integer> itemQuantityMap = new LinkedHashMap<>();
         menu.forEach(e -> itemQuantityMap.put(e, 0));
         return itemQuantityMap;
     }

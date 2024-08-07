@@ -21,7 +21,7 @@ public class ReviewPage {
     private final JFrame mainFrame;
     private final ReviewController controller;
     private List<Review> reviews;
-    private final User.USER_TYPE userType;
+    private final User.Usertype userType;
 
     /**
      * Constructs a ReviewPage with the specified JFrame and ReviewController.
@@ -29,7 +29,7 @@ public class ReviewPage {
      * @param mainFrame  the main frame of the application
      * @param controller the controller that handles review actions
      */
-    public ReviewPage(JFrame mainFrame, ReviewController controller) {
+    public ReviewPage(final JFrame mainFrame, final ReviewController controller) {
         this.mainFrame = mainFrame;
         this.controller = controller;
         this.reviews = this.controller.getReviews(); // Load reviews initially
@@ -68,7 +68,7 @@ public class ReviewPage {
             buttonPanel.add(backButton);
 
             // Add Review Button (only for CUSTOMER)
-            if (userType == User.USER_TYPE.CUSTOMER) {
+            if (userType == User.Usertype.CUSTOMER) {
                 final JButton addReviewButton = new JButton("Add Review");
                 addReviewButton.addActionListener(e -> showAddReviewDialog());
                 buttonPanel.add(addReviewButton);
@@ -127,7 +127,7 @@ public class ReviewPage {
         reviewPanel.add(new JLabel("Date: " + review.getDate()));
         reviewPanel.add(new JLabel("Review: " + review.getReviewText()));
 
-        if (userType == User.USER_TYPE.ADMIN) {
+        if (userType == User.Usertype.ADMIN) {
             // Add a delete button for admin users
             final JButton deleteButton = new JButton("X");
             deleteButton.setAlignmentX(Component.RIGHT_ALIGNMENT);

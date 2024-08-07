@@ -46,13 +46,13 @@ public class LoginController implements Controller {
      */
     public void handleLogin(final String username, final String password) {
         var userType = this.model.login(username, password);
-        if (userType.equals(Optional.of(User.USER_TYPE.CUSTOMER))) {
+        if (userType.equals(Optional.of(User.Usertype.CUSTOMER))) {
             loginView.displayMessage("Login successful");
             new ResController(this, this.mainFrame, this.model);
-        } else if (userType.equals(Optional.of(User.USER_TYPE.DELIVERY_PERSON))) {
+        } else if (userType.equals(Optional.of(User.Usertype.DELIVERY_PERSON))) {
             loginView.displayMessage("Login successful");
             new DeliveryCtrl(this, this.mainFrame, this.model);
-        } else if (userType.equals(Optional.of(User.USER_TYPE.ADMIN))) {
+        } else if (userType.equals(Optional.of(User.Usertype.ADMIN))) {
             loginView.displayMessage("Login successful");
             new AdminController(this, this.mainFrame, this.model);
         } else {

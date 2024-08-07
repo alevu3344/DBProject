@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * The ReviewController class handles interactions related to reviews
- * within the DeliveryDB application. It manages the review page, 
+ * within the DeliveryDB application. It manages the review page,
  * facilitates the addition and deletion of reviews, and provides
  * access to review data.
  */
@@ -25,12 +25,14 @@ public class ReviewController {
     /**
      * Constructs a ReviewController object.
      *
-     * @param resMenuCtrl the previous controller, typically the restaurant menu controller
-     * @param mainFrame the main application frame
-     * @param model the data model for the application
+     * @param resMenuCtrl  the previous controller, typically the restaurant menu
+     *                     controller
+     * @param mainFrame    the main application frame
+     * @param model        the data model for the application
      * @param restaurantID the ID of the restaurant for which reviews are managed
      */
-    public ReviewController(final Controller resMenuCtrl, final JFrame mainFrame, final Model model, final int restaurantID) {
+    public ReviewController(final Controller resMenuCtrl, final JFrame mainFrame, final Model model,
+            final int restaurantID) {
         this.model = model;
         this.mainFrame = mainFrame;
         this.prevCtrl = resMenuCtrl;
@@ -57,11 +59,11 @@ public class ReviewController {
     /**
      * Adds a review for the specified restaurant.
      *
-     * @param stars the rating given in the review
+     * @param stars  the rating given in the review
      * @param review the review text
      */
     public void addReview(final int stars, final String review) {
-        this.model.addReview(stars, review, this.restaurantID);   
+        this.model.addReview(stars, review, this.restaurantID);
     }
 
     /**
@@ -69,7 +71,7 @@ public class ReviewController {
      *
      * @return the user type
      */
-    public User.USER_TYPE getUserType() {
+    public User.Usertype getUserType() {
         return this.model.getUserType();
     }
 

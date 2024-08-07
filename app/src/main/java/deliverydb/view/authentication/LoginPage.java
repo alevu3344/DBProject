@@ -1,17 +1,25 @@
 package deliverydb.view.authentication;
 
-import javax.swing.*;
 import deliverydb.controller.authentication.LoginController;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
 /**
  * Represents the login page for the application where users can enter their credentials to log in.
  */
-public class LoginPage implements ActionListener {
+public final class LoginPage implements ActionListener {
 
     // Components of the Form
     private final JLabel userLabel;

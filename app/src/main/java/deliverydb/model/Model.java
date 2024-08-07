@@ -27,7 +27,7 @@ public interface Model {
      *                   database
      * @return a {@link Model} implementation instance
      */
-    public static Model fromConnection(Connection connection) {
+    static Model fromConnection(Connection connection) {
         return new ModelImpl(connection);
     }
 
@@ -185,10 +185,10 @@ public interface Model {
      *
      * @param username the username of the user attempting to log in
      * @param password the password of the user attempting to log in
-     * @return an {@link Optional} containing the {@link User.USER_TYPE} if login is
+     * @return an {@link Optional} containing the {@link User.Usertype} if login is
      *         successful, or {@link Optional#empty()} if not
      */
-    Optional<User.USER_TYPE> login(String username, String password);
+    Optional<User.Usertype> login(String username, String password);
 
     /**
      * Retrieves the balance for the currently logged-in user.
@@ -216,15 +216,15 @@ public interface Model {
      * @return {@code true} if the registration was successful, {@code false}
      *         otherwise
      */
-    boolean userRegister(User.USER_TYPE type, String username, String name, String surname, String password,
+    boolean userRegister(User.Usertype type, String username, String name, String surname, String password,
             String street, String number, String city);
 
     /**
      * Retrieves the user type of the currently logged-in user.
      *
-     * @return the {@link User.USER_TYPE} of the currently logged-in user
+     * @return the {@link User.Usertype} of the currently logged-in user
      */
-    User.USER_TYPE getUserType();
+    User.Usertype getUserType();
 
     /**
      * Retrieves the address of a specified user.

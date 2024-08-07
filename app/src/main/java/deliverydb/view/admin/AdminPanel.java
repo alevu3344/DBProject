@@ -1,16 +1,27 @@
 package deliverydb.view.admin;
 
-import javax.swing.*;
-
 import deliverydb.controller.admin.AdminController;
 import deliverydb.utilities.Pair;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 /**
- * Represents the administrative panel of the application where admin users can manage and view various data.
+ * Represents the administrative panel of the application where admin users can
+ * manage and view various data.
  */
 public class AdminPanel {
 
@@ -22,10 +33,10 @@ public class AdminPanel {
     /**
      * Constructs an AdminPanel with the given JFrame and AdminController.
      *
-     * @param mainFrame the main frame of the application
+     * @param mainFrame       the main frame of the application
      * @param adminController the controller that handles administrative actions
      */
-    public AdminPanel(JFrame mainFrame, AdminController adminController) {
+    public AdminPanel(final JFrame mainFrame, final AdminController adminController) {
         this.mainFrame = mainFrame;
         this.adminController = adminController;
         this.restaurants = adminController.getRestaurants();
@@ -133,7 +144,8 @@ public class AdminPanel {
 
     private void showTopDishes() {
         final Pair<Pair<String, Integer>, String> topDish = adminController.topDish();
-        showPopup("Top dish", "Top Dish: " + topDish.get1().get1() + " from " + topDish.get2() + ", with " + topDish.get1().get2() + " orders.");
+        showPopup("Top dish", "Top Dish: " + topDish.get1().get1() + " from " + topDish.get2() + ", with "
+                + topDish.get1().get2() + " orders.");
     }
 
     private void showPopularCuisine() {
@@ -152,7 +164,8 @@ public class AdminPanel {
 
     private void showWorstRestaurant() {
         final Pair<String, Integer> worstRestaurant = adminController.worstRestaurant();
-        showPopup("Worst Restaurant", "Worst Restaurant: " + worstRestaurant.get1() + " with an adjusted average of " + worstRestaurant.get2());
+        showPopup("Worst Restaurant", "Worst Restaurant: " + worstRestaurant.get1() + " with an adjusted average of "
+                + worstRestaurant.get2());
     }
 
     private void showTopFattorini() {

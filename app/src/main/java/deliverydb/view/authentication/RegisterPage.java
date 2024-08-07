@@ -1,16 +1,29 @@
 package deliverydb.view.authentication;
 
-import javax.swing.*;
+
 import deliverydb.controller.authentication.RegisterController;
 import deliverydb.data.User;
 
-import java.awt.*;
+
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.Consumer;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * Represents the registration page where users can create a new account.
@@ -147,7 +160,7 @@ public class RegisterPage implements ActionListener {
             textFieldsMap.forEach((label, textField) -> fields.add(textField.getText()));
 
             controller.handleRegistration(
-                    deliveryManCheckBox.isSelected() ? User.USER_TYPE.DELIVERY_PERSON : User.USER_TYPE.CUSTOMER,
+                    deliveryManCheckBox.isSelected() ? User.Usertype.DELIVERY_PERSON : User.Usertype.CUSTOMER,
                     fields
             );
         } else if (e.getSource().equals(resetButton)) {

@@ -12,7 +12,7 @@ import deliverydb.data.Order;
 import deliverydb.data.Restaurant;
 import deliverydb.data.Review;
 import deliverydb.data.User;
-import deliverydb.data.User.USER_TYPE;
+import deliverydb.data.User.Usertype;
 import deliverydb.utilities.Pair;
 
 /**
@@ -22,7 +22,7 @@ public final class ModelImpl implements Model {
 
     private final Connection connection;
     private Optional<User> user = Optional.empty();
-    private float commission = 0.2f;
+    private static final float COMMISSION = 0.2f;
 
     /**
      * Constructs a {@link ModelImpl} instance with the specified database connection.
@@ -37,7 +37,7 @@ public final class ModelImpl implements Model {
 
     @Override
     public boolean sendOrder(final Map<Item, Integer> order, final int restaurantID) {
-        return Order.DAO.sendOrder(order, this.user.get().getUsername(), restaurantID, connection, this.commission);
+        return Order.DAO.sendOrder(order, this.user.get().getUsername(), restaurantID, connection, ModelImpl.COMMISSION);
     }
 
     @Override
@@ -67,7 +67,7 @@ public final class ModelImpl implements Model {
     }
 
     @Override
-    public Optional<User.USER_TYPE> login(final String username, final String password) {
+    public Optional<User.Usertype> login(final String username, final String password) {
         if (User.DAO.userLogin(connection, username, password)) {
             this.user = Optional.of(User.DAO.getUser(connection, username));
             return Optional.of(this.user.get().getType());
@@ -76,7 +76,7 @@ public final class ModelImpl implements Model {
     }
 
     @Override
-    public boolean userRegister(final User.USER_TYPE type, final String username, final String name,
+    public boolean userRegister(final User.Usertype type, final String username, final String name,
                                 final String surname, final String password, final String street,
                                 final String number, final String city) {
         return User.DAO.userRegister(connection, type, username, password, name, surname, street, number, city);
@@ -103,7 +103,7 @@ public final class ModelImpl implements Model {
     }
 
     @Override
-    public USER_TYPE getUserType() {
+    public Usertype getUserType() {
         return this.user.get().getType();
     }
 
@@ -154,7 +154,7 @@ public final class ModelImpl implements Model {
 
     @Override
     public float getCommission() {
-        return this.commission;
+        return ModelImpl.COMMISSION;
     }
 
     @Override
