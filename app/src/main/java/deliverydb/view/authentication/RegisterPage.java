@@ -144,15 +144,6 @@ public class RegisterPage implements ActionListener {
         });
     }
 
-    /**
-     * Retrieves the main frame associated with this page.
-     *
-     * @return the main frame of the application
-     */
-    public JFrame getMainFrame() {
-        return this.mainFrame;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == registerButton) {

@@ -65,15 +65,6 @@ public class RestaurantsPage {
     }
 
     /**
-     * Gets the main frame of the application.
-     *
-     * @return the main JFrame
-     */
-    public JFrame getMainFrame() {
-        return this.mainFrame;
-    }
-
-    /**
      * Adds a logout button to the specified container.
      *
      * @param cp the container to add the logout button to
