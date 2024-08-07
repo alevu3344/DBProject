@@ -29,8 +29,9 @@ import java.util.Map;
  */
 public class RestaurantsPage {
 
-    private ResController controller;
+    private final ResController controller;
     private final JFrame mainFrame;
+    private static final int FONT_SIZE = 20;
 
     /**
      * Constructs a RestaurantsPage with the given JFrame and ResController.
@@ -61,7 +62,7 @@ public class RestaurantsPage {
                 label.setAlignmentX(Component.LEFT_ALIGNMENT);
 
                 final var cuisineLabel = new JLabel(restaurant.getValue());
-                cuisineLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+                cuisineLabel.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
                 cuisineLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
                 restaurantBox.add(label);
@@ -115,11 +116,11 @@ public class RestaurantsPage {
     private JLabel clickableLabel(final String labelText, final Runnable action) {
     final var label = new JLabel(labelText);
     label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-    label.setFont(new Font("Arial", Font.PLAIN, 20));
+    label.setFont(new Font("Arial", Font.PLAIN, FONT_SIZE));
     label.setHorizontalAlignment(SwingConstants.LEFT);
     label.addMouseListener((MouseAdapter) new MouseAdapter() {
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(final MouseEvent e) {
             SwingUtilities.invokeLater(action::run);
         }
     });

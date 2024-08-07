@@ -23,10 +23,10 @@ public final class App {
      */
     public static void main(final String[] args) throws SQLException {
         // Establish a connection to the local MySQL database named "DeliveryDB" using the "root" user without a password.
-        var connection = DAOUtils.localMySQLConnection("DeliveryDB", "root", "");
+        final var connection = DAOUtils.localMySQLConnection("DeliveryDB", "root", "");
 
         // Initialize the data model from the established database connection.
-        var model = Model.fromConnection(connection);
+        final var model = Model.fromConnection(connection);
 
         // Start the first controller with the initialized model and the database connection.
         new FirstController(model, connection);

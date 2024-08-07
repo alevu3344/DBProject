@@ -1,6 +1,17 @@
 package deliverydb.view;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.EmptyBorder;
@@ -9,7 +20,11 @@ import deliverydb.controller.ReviewController;
 import deliverydb.data.Review;
 import deliverydb.data.User;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -17,6 +32,21 @@ import java.util.function.Consumer;
  * Represents the page where users can view and manage reviews.
  */
 public class ReviewPage {
+
+    private static final int REVIEW_PANEL_WIDTH = 600;
+    private static final int REVIEW_PANEL_HEIGHT = 400;
+    private static final int DIALOG_WIDTH = 400;
+    private static final int DIALOG_HEIGHT = 300;
+    private static final int MAX_RATING = 5;
+    private static final int MIN_RATING = 1;
+    private static final int RATING_STEP = 1;
+    private static final int RATING_DEFAULT = 1;
+    private static final int REVIEW_SPINNER_WIDTH = 50;
+    private static final int REVIEW_SPINNER_HEIGHT = 30;
+    private static final Dimension REVIEW_SPINNER_DIMENSION = new Dimension(REVIEW_SPINNER_WIDTH, REVIEW_SPINNER_HEIGHT);
+    private static final Dimension RIGID_AREA_DIMENSION = new Dimension(0, 10);
+    private static final int ROWS = 5;
+    private static final int COLS = 2;
 
     private final JFrame mainFrame;
     private final ReviewController controller;
@@ -94,7 +124,7 @@ public class ReviewPage {
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
             // Set a preferred size for the scroll pane
-            scrollPane.setPreferredSize(new Dimension(600, 400)); // Adjust dimensions as needed
+            scrollPane.setPreferredSize(new Dimension(REVIEW_PANEL_WIDTH, REVIEW_PANEL_HEIGHT)); // Adjust dimensions as needed
 
             // Add the scroll pane and button panel to the main panel
             mainPanel.add(buttonPanel, BorderLayout.NORTH);
@@ -143,7 +173,7 @@ public class ReviewPage {
             reviewPanel.add(deleteButton);
         }
 
-        reviewPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Space between reviews
+        reviewPanel.add(Box.createRigidArea(RIGID_AREA_DIMENSION)); // Space between reviews
 
         return reviewPanel;
     }
@@ -160,10 +190,11 @@ public class ReviewPage {
      */
     private void showAddReviewDialog() {
         final JDialog dialog = new JDialog(mainFrame, "Add Review", true);
-        dialog.setLayout(new GridLayout(5, 2));
-        dialog.setSize(400, 300);
+        dialog.setLayout(new GridLayout(ROWS, COLS));
+        dialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
 
-        final JSpinner ratingSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1)); // Rating from 1 to 5
+        final JSpinner ratingSpinner = new JSpinner(new SpinnerNumberModel(RATING_DEFAULT, MIN_RATING, MAX_RATING, RATING_STEP));
+        ratingSpinner.setPreferredSize(REVIEW_SPINNER_DIMENSION);
         final JTextArea reviewArea = new JTextArea();
         reviewArea.setLineWrap(true);
         reviewArea.setWrapStyleWord(true);
@@ -176,15 +207,14 @@ public class ReviewPage {
         final JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
             final int rating = (Integer) ratingSpinner.getValue();
-            final String reviewText = reviewArea.getText();
 
-            if (rating < 1 || rating > 5) {
+            if (rating < MIN_RATING || rating > MAX_RATING) {
                 JOptionPane.showMessageDialog(dialog, "Rating must be between 1 and 5", "Invalid Rating",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            controller.addReview(rating, reviewText); // Add the review
+            controller.addReview(rating, reviewArea.getText()); // Add the review
             reviews = controller.getReviews(); // Refresh the reviews list
             initializeUI(); // Refresh the UI to show the new review
             dialog.dispose(); // Close the dialog

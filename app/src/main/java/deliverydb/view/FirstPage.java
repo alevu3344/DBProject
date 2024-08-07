@@ -7,9 +7,13 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
@@ -17,9 +21,18 @@ import java.util.function.Consumer;
 import deliverydb.controller.FirstController;
 
 /**
- * Represents the initial page of the application that provides options to log in or register.
+ * Represents the initial page of the application that provides options to log
+ * in or register.
  */
 public class FirstPage {
+
+    private static final Color BUTTON_BACKGROUND_COLOR = new Color(60, 179, 113); // PaleGreen
+    private static final Color BUTTON_BACKGROUND_HOVER_COLOR = new Color(34, 139, 34); // ForestGreen
+    private static final Color BUTTON_TEXT_COLOR = Color.WHITE;
+    private static final int BUTTON_FONT_SIZE = 16;
+    private static final Dimension BUTTON_DIMENSION = new Dimension(200, 50);
+    private static final int BUTTON_SPACING = 10;
+    private static final int PADDING = 10;
 
     private final JButton loginButton;
     private final JButton registerButton;
@@ -30,7 +43,7 @@ public class FirstPage {
      * Constructs a FirstPage with the specified controller and JFrame.
      *
      * @param controller the controller that handles button actions
-     * @param mainFrame the main frame of the application
+     * @param mainFrame  the main frame of the application
      */
     public FirstPage(final FirstController controller, final JFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -41,7 +54,8 @@ public class FirstPage {
     }
 
     /**
-     * Refreshes the main content pane of the JFrame and applies the given consumer to it.
+     * Refreshes the main content pane of the JFrame and applies the given consumer
+     * to it.
      *
      * @param consumer a Consumer function that modifies the content pane
      */
@@ -55,11 +69,12 @@ public class FirstPage {
     }
 
     /**
-     * Initializes the user interface for the first page, including setting up the layout and buttons.
+     * Initializes the user interface for the first page, including setting up the
+     * layout and buttons.
      */
     private void initializeUI() {
         freshPane(container -> {
-            final var padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+            final var padding = BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING);
             ((JComponent) container).setBorder(padding);
             container.setLayout(new BorderLayout());
             container.setBackground(Color.WHITE); // Optional: Set background color
@@ -71,7 +86,7 @@ public class FirstPage {
 
             buttonPanel.add(Box.createVerticalGlue()); // Add vertical glue to push buttons to the center
             buttonPanel.add(createAlignedButtonPanel(loginButton));
-            buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add some space between buttons
+            buttonPanel.add(Box.createRigidArea(new Dimension(0, BUTTON_SPACING))); // Add some space between buttons
             buttonPanel.add(createAlignedButtonPanel(registerButton));
             buttonPanel.add(Box.createVerticalGlue()); // Add vertical glue to push buttons to the center
 
@@ -81,43 +96,40 @@ public class FirstPage {
     }
 
     /**
-     * Creates a button with the specified text, custom styling, and action listeners.
+     * Creates a button with the specified text, custom styling, and action
+     * listeners.
      *
      * @param text the text to be displayed on the button
      * @return the created JButton
      */
     private JButton createButton(final String text) {
         final JButton button = new JButton(text);
-        button.setFont(new Font("Arial", Font.PLAIN, 16)); // Set font
-        button.setBackground(new Color(60, 179, 113)); // Set background color (PaleGreen)
-        button.setForeground(Color.WHITE); // Set text color to white
+        button.setFont(new Font("Arial", Font.PLAIN, BUTTON_FONT_SIZE)); // Set font
+        button.setBackground(BUTTON_BACKGROUND_COLOR); // Set background color
+        button.setForeground(BUTTON_TEXT_COLOR); // Set text color to white
         button.setFocusPainted(false); // Remove focus border
         button.setBorderPainted(false); // Remove border
         button.setOpaque(true); // Make the button opaque for background color to show
-        button.setPreferredSize(new Dimension(200, 50)); // Set a larger preferred size for the buttons
+        button.setPreferredSize(BUTTON_DIMENSION); // Set a larger preferred size for the buttons
 
         // Add hover effect - change background color when mouse enters
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(final MouseEvent evt) {
-                button.setBackground(new Color(34, 139, 34)); // Darker green on hover (ForestGreen)
+                button.setBackground(BUTTON_BACKGROUND_HOVER_COLOR); // Darker green on hover
             }
 
             @Override
             public void mouseExited(final MouseEvent evt) {
-                button.setBackground(new Color(60, 179, 113)); // Restore original color on exit
+                button.setBackground(BUTTON_BACKGROUND_COLOR); // Restore original color on exit
             }
         });
 
-        // Add action listener
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                if ("Login".equals(text)) {
-                    controller.handleLoginButtonClick();
-                } else if ("Register".equals(text)) {
-                    controller.handleRegisterButtonClick();
-                }
+        button.addActionListener(e -> {
+            if ("Login".equals(text)) {
+                controller.handleLoginButtonClick();
+            } else if ("Register".equals(text)) {
+                controller.handleRegisterButtonClick();
             }
         });
 

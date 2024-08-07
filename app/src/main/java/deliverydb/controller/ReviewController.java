@@ -18,7 +18,6 @@ import java.util.List;
 public class ReviewController {
 
     private final Model model;
-    private final JFrame mainFrame;
     private final Controller prevCtrl;
     private final int restaurantID;
 
@@ -34,10 +33,9 @@ public class ReviewController {
     public ReviewController(final Controller resMenuCtrl, final JFrame mainFrame, final Model model,
             final int restaurantID) {
         this.model = model;
-        this.mainFrame = mainFrame;
         this.prevCtrl = resMenuCtrl;
         this.restaurantID = restaurantID;
-        new ReviewPage(this.mainFrame, this);
+        new ReviewPage(mainFrame, this);
     }
 
     /**

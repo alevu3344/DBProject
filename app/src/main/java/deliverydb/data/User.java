@@ -27,15 +27,15 @@ public class User {
      */
     public enum Usertype {
         /**
-         * Consumer
+         * Consumer.
          */
         CUSTOMER("Consumatore"),
         /**
-         * Delivery person
+         * Delivery person.
          */
         DELIVERY_PERSON("Fattorino"),
         /**
-         * Administrator
+         * Administrator.
          */
         ADMIN("Amministratore");
 
@@ -182,8 +182,14 @@ public class User {
             try (var statement = DAOUtils.prepare(connection, Queries.USER_ADDRESS, username);
                     var result = statement.executeQuery()) {
                 if (result.next()) {
-                    return result.getString("IndirizzoVia") + " " +
-                            result.getString("IndirizzoCivico") + ", " +
+                    return result.getString("IndirizzoVia") 
+                            + 
+                            " " 
+                            +
+                            result.getString("IndirizzoCivico") 
+                            + 
+                            ", " 
+                            +
                             result.getString("IndirizzoCittà");
                 }
             } catch (SQLException e) {

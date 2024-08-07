@@ -1,9 +1,7 @@
 package deliverydb.view.authentication;
 
-
 import deliverydb.controller.authentication.RegisterController;
 import deliverydb.data.User;
-
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -12,8 +10,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.function.Consumer;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -21,14 +21,16 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
 /**
  * Represents the registration page where users can create a new account.
  */
-public class RegisterPage implements ActionListener {
+public final class RegisterPage implements ActionListener {
+
+    // Constants for layout and component dimensions
+    private static final Dimension FIELD_DIMENSION = new Dimension(200, 25);
+    private static final Dimension BUTTON_DIMENSION = new Dimension(100, 30);
+    private static final Insets GRID_BAG_INSETS = new Insets(5, 5, 5, 5);
+    private static final Insets GRID_BAG_BUTTON_INSETS = new Insets(15, 0, 0, 0);
 
     // Components of the Form
     private final JButton registerButton;
@@ -84,18 +86,17 @@ public class RegisterPage implements ActionListener {
             textFieldsMap.put(new JLabel("Città:"), new JTextField());
 
             // Set the preferred sizes for the components
-            final Dimension fieldDimension = new Dimension(200, 25);
-            textFieldsMap.values().forEach(textField -> textField.setPreferredSize(fieldDimension));
-            registerButton.setPreferredSize(new Dimension(100, 30));
-            resetButton.setPreferredSize(new Dimension(100, 30));
-            backButton.setPreferredSize(new Dimension(100, 30));
+            textFieldsMap.values().forEach(textField -> textField.setPreferredSize(FIELD_DIMENSION));
+            registerButton.setPreferredSize(BUTTON_DIMENSION);
+            resetButton.setPreferredSize(BUTTON_DIMENSION);
+            backButton.setPreferredSize(BUTTON_DIMENSION);
 
             registerButton.addActionListener(this);
             resetButton.addActionListener(this);
             backButton.addActionListener(this);
 
             // Add components to container with GridBagConstraints
-            gbc.insets = new Insets(5, 5, 5, 5);
+            gbc.insets = GRID_BAG_INSETS;
 
             int row = 0; // Initial row index
 
@@ -129,7 +130,7 @@ public class RegisterPage implements ActionListener {
             gbc.gridy = row;
             gbc.anchor = GridBagConstraints.CENTER;
             gbc.gridwidth = 2;
-            gbc.insets = new Insets(15, 0, 0, 0); // Larger top inset for spacing
+            gbc.insets = GRID_BAG_BUTTON_INSETS; // Larger top inset for spacing
 
             container.add(registerButton, gbc);
 

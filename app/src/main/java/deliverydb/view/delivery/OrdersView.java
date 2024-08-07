@@ -32,6 +32,7 @@ public class OrdersView {
     private final JFrame mainFrame;
     private final OrdersCtrl ctrl;
     private final Flag flag;
+    private static final Dimension SCROLL_DIMENSION = new Dimension(600, 400);
 
     /**
      * Constructs an OrdersView with the specified flag, JFrame, and OrdersCtrl.
@@ -93,7 +94,7 @@ public class OrdersView {
             final JScrollPane scrollPane = new JScrollPane(ordersPanel);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scrollPane.setPreferredSize(new Dimension(600, 400)); // Adjust dimensions as needed
+            scrollPane.setPreferredSize(SCROLL_DIMENSION); // Adjust dimensions as needed
             cp.add(scrollPane, BorderLayout.CENTER);
         });
     }
@@ -106,7 +107,6 @@ public class OrdersView {
     private void displayOrderDetails(final Order order) {
         final var details = ctrl.restaurantDetails(order);
         final Restaurant restaurant = details.get1();
-        final String deliveryAddress = details.get2();
 
         if (restaurant == null) {
             JOptionPane.showMessageDialog(mainFrame, "Restaurant details not found.", "Error",
@@ -133,6 +133,7 @@ public class OrdersView {
         addressPanel.add(new JLabel(restaurant.getAddress()));
 
         final JPanel deliveryAddressPanel = new JPanel();
+        final String deliveryAddress = details.get2();
         deliveryAddressPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         deliveryAddressPanel.setLayout(new BoxLayout(deliveryAddressPanel, BoxLayout.X_AXIS));
         deliveryAddressPanel.add(new JLabel("Delivery Address: "));

@@ -21,8 +21,8 @@ public class LoginController implements Controller {
 
     private final Model model;
     private final LoginPage loginView;
-    private Controller firstCtrl;
-    private JFrame mainFrame;
+    private final Controller firstCtrl;
+    private final JFrame mainFrame;
 
     /**
      * Constructs a LoginController object.
@@ -45,7 +45,7 @@ public class LoginController implements Controller {
      * @param password the password entered by the user
      */
     public void handleLogin(final String username, final String password) {
-        var userType = this.model.login(username, password);
+        final var userType = this.model.login(username, password);
         if (userType.equals(Optional.of(User.Usertype.CUSTOMER))) {
             loginView.displayMessage("Login successful");
             new ResController(this, this.mainFrame, this.model);

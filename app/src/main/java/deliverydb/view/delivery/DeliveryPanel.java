@@ -1,11 +1,21 @@
 package deliverydb.view.delivery;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import deliverydb.controller.delivery.DeliveryCtrl;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.util.function.Consumer;
 
 /**
@@ -18,7 +28,14 @@ public class DeliveryPanel {
      * Enum representing the state of orders that can be shown: either available or accepted.
      */
     public enum Flag {
-        AVAILABLE, ACCEPTED
+        /**
+         * Flag tot determine wether the panel requested is about available orders.
+         */
+        AVAILABLE, 
+        /**
+         * Flag tot determine wether the panel requested is about accepted orders.
+         */
+        ACCEPTED
     }
 
     private final JFrame mainFrame;

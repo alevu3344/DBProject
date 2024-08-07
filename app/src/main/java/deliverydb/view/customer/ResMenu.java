@@ -3,19 +3,15 @@ package deliverydb.view.customer;
 import java.util.Optional;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Locale;
+import java.util.function.Consumer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import deliverydb.controller.customer.ResMenuCtrl;
 import deliverydb.data.Item;
 import deliverydb.utilities.Pair;
 
-import java.util.function.Consumer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -28,14 +24,30 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 
 /**
  * Represents the restaurant menu where customers can view items, select
- * quantities,
- * and place orders. It also displays the restaurant information and user
- * balance.
+ * quantities, and place orders. It also displays the restaurant information and
+ * user balance.
  */
 public class ResMenu {
+
+    private static final Locale LOCALE = Locale.getDefault();
+    private static final String CURRENCY_FORMAT = "%.2f";
+    private static final int INITIAL_SPINNER_VALUE = 0;
+    private static final int MAX_SPINNER_VALUE = 20;
+    private static final int SPINNER_STEP = 1;
+    private static final int SPINNER_WIDTH = 50;
+    private static final int SPINNER_HEIGHT = 30;
+    private static final Dimension SPINNER_DIMENSION = new Dimension(SPINNER_WIDTH, SPINNER_HEIGHT);
+    private static final Dimension LABEL_DIMENSION = new Dimension(200, 30);
+    private static final Dimension INFO_PANEL_DIMENSION = new Dimension(200, 100);
+
+    private static final Dimension SCROLLPANE_DIMENSION = new Dimension(600, 600);
 
     private final JFrame mainFrame;
     private final Optional<ResMenuCtrl> controller;
@@ -93,24 +105,25 @@ public class ResMenu {
             final var mainPanel = Box.createHorizontalBox(); // Create a horizontal box to hold menu and summary
 
             final var mainBox = Box.createVerticalBox();
-            for (var item : this.itemQuantityMap.keySet()) {
+            for (final var item : this.itemQuantityMap.keySet()) {
                 final var rowBox = Box.createHorizontalBox();
 
                 final var dishLabel = new JLabel(item.getName());
-                dishLabel.setPreferredSize(new Dimension(200, 30));
-                dishLabel.setMaximumSize(new Dimension(200, 30));
+                dishLabel.setPreferredSize(LABEL_DIMENSION);
+                dishLabel.setMaximumSize(LABEL_DIMENSION);
                 dishLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
                 rowBox.add(dishLabel);
 
                 final var typeLabel = new JLabel(item.getType());
-                typeLabel.setPreferredSize(new Dimension(100, 30));
-                typeLabel.setMaximumSize(new Dimension(100, 30));
+                typeLabel.setPreferredSize(LABEL_DIMENSION);
+                typeLabel.setMaximumSize(LABEL_DIMENSION);
                 typeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
                 rowBox.add(Box.createHorizontalStrut(10));
                 rowBox.add(typeLabel);
 
-                final var spinner = new JSpinner(new SpinnerNumberModel(0, 0, 20, 1));
-                spinner.setMaximumSize(new Dimension(50, 30));
+                final var spinner = new JSpinner(new SpinnerNumberModel(INITIAL_SPINNER_VALUE, INITIAL_SPINNER_VALUE,
+                        MAX_SPINNER_VALUE, SPINNER_STEP));
+                spinner.setMaximumSize(SPINNER_DIMENSION);
                 spinner.addChangeListener(e -> {
                     this.itemQuantityMap.put(item, (Integer) spinner.getValue());
                     updateOrderSummary();
@@ -121,8 +134,8 @@ public class ResMenu {
                 rowBox.add(spinner);
 
                 final var priceLabel = new JLabel(item.getPrice() + "$");
-                priceLabel.setPreferredSize(new Dimension(50, 30));
-                priceLabel.setMaximumSize(new Dimension(50, 30));
+                priceLabel.setPreferredSize(LABEL_DIMENSION);
+                priceLabel.setMaximumSize(LABEL_DIMENSION);
                 priceLabel.setHorizontalAlignment(SwingConstants.LEFT);
                 priceLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
                 rowBox.add(Box.createHorizontalStrut(10));
@@ -140,7 +153,7 @@ public class ResMenu {
             final var scrollPane = new JScrollPane(mainBox);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scrollPane.setPreferredSize(new Dimension(600, 600)); // Adjust the size as needed
+            scrollPane.setPreferredSize(SCROLLPANE_DIMENSION); // Adjust the size as needed
 
             mainPanel.add(scrollPane);
 
@@ -163,8 +176,8 @@ public class ResMenu {
     private JPanel createOrderSummaryPanel() {
         final var orderSummaryPanel = new JPanel();
         orderSummaryPanel.setLayout(new BoxLayout(orderSummaryPanel, BoxLayout.Y_AXIS));
-        orderSummaryPanel.setPreferredSize(new Dimension(200, 200));
-        orderSummaryPanel.setMaximumSize(new Dimension(200, 200));
+        orderSummaryPanel.setPreferredSize(INFO_PANEL_DIMENSION);
+        orderSummaryPanel.setMaximumSize(INFO_PANEL_DIMENSION);
 
         // Add balance label to the top of the summary panel
         orderSummaryPanel.add(balanceLabel);
@@ -172,10 +185,12 @@ public class ResMenu {
         orderSummaryPanel.add(new JLabel("Order Summary:"));
 
         // Wrap JTextArea in a JScrollPane and set size constraints
-        orderSummaryArea.setPreferredSize(new Dimension(200, 100)); // Adjust the height for the scrollable area
+        orderSummaryArea.setPreferredSize(new Dimension(INFO_PANEL_DIMENSION.width, 100)); // Adjust the height for the
+                                                                                           // scrollable area
         final var summaryScrollPane = new JScrollPane(orderSummaryArea);
         summaryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        summaryScrollPane.setPreferredSize(new Dimension(200, 100)); // Ensure the scroll pane is shorter
+        summaryScrollPane.setPreferredSize(new Dimension(INFO_PANEL_DIMENSION.width, 100)); // Ensure the scroll pane is
+                                                                                            // shorter
         orderSummaryPanel.add(summaryScrollPane);
 
         orderSummaryPanel.add(totalCostLabel); // Add total cost label to the panel
@@ -189,8 +204,8 @@ public class ResMenu {
     private JPanel createRestaurantPanel() {
         final var restaurantPanel = new JPanel();
         restaurantPanel.setLayout(new BoxLayout(restaurantPanel, BoxLayout.Y_AXIS));
-        restaurantPanel.setPreferredSize(new Dimension(200, 100)); // Adjust size as needed
-        restaurantPanel.setMaximumSize(new Dimension(200, 100)); // Adjust size as needed
+        restaurantPanel.setPreferredSize(INFO_PANEL_DIMENSION); // Adjust size as needed
+        restaurantPanel.setMaximumSize(INFO_PANEL_DIMENSION); // Adjust size as needed
 
         restaurantPanel.add(new JLabel("Restaurant Info:"));
 
@@ -216,7 +231,7 @@ public class ResMenu {
         final String restaurantName = this.controller.get().getRestaurantName();
         final Pair<Date, Date> openingHours = this.controller.get().getRestaurantTime();
 
-        final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", LOCALE);
         final String openingTime = timeFormat.format(openingHours.get1());
         final String closingTime = timeFormat.format(openingHours.get2());
 
@@ -227,7 +242,7 @@ public class ResMenu {
     }
 
     private void updateOrderSummary() {
-        final StringBuilder summary = new StringBuilder();
+        final StringBuilder summary = new StringBuilder(100); // Initialize with a reasonable capacity
         double totalCost = 0.0;
         for (final var entry : itemQuantityMap.entrySet()) {
             if (entry.getValue() > 0) {
@@ -243,7 +258,7 @@ public class ResMenu {
             }
         }
         orderSummaryArea.setText(summary.toString());
-        totalCostLabel.setText("Total: $" + totalCost); // Update total cost label
+        totalCostLabel.setText("Total: $" + String.format(CURRENCY_FORMAT, totalCost)); // Update total cost label
 
         // Update the send order button state
         updateSendOrderButtonState();
@@ -269,14 +284,14 @@ public class ResMenu {
      * @param balance the current user balance
      */
     public void updateBalance(final double balance) {
-        balanceLabel.setText("Balance: $" + String.format("%.2f", balance));
+        balanceLabel.setText("Balance: $" + String.format(CURRENCY_FORMAT, balance));
     }
 
     private void addSendOrderButton(final Container cp) {
         sendOrderButton.addActionListener(e -> {
             controller.ifPresent(ctrl -> {
                 // Gather order details
-                final StringBuilder orderDetails = new StringBuilder("Order Details:\n");
+                final StringBuilder orderDetails = new StringBuilder(200); // Initialize with a reasonable capacity
                 double totalCost = 0.0;
                 for (final var entry : itemQuantityMap.entrySet()) {
                     if (entry.getValue() > 0) {
@@ -294,14 +309,14 @@ public class ResMenu {
                 // Calculate commission
 
                 final double commission = controller.get().getCommission(totalCost);
-                final var formattedCommission = String.format("%.2f", commission);
-                final var formattedTotalCost = String.format("%.2f", totalCost);
+                final var formattedCommission = String.format(CURRENCY_FORMAT, commission);
+                final var formattedTotalCost = String.format(CURRENCY_FORMAT, totalCost);
 
                 // Add total cost and commission details
                 orderDetails.append("\nTotal: $").append(formattedTotalCost)
                         .append("\nCommission: $").append(formattedCommission)
                         .append("\nTotal + Commission: $")
-                        .append(String.format("%.2f", formattedTotalCost + Float.parseFloat(formattedCommission)));
+                        .append(String.format(CURRENCY_FORMAT, totalCost + commission));
 
                 // Show order confirmation dialog
                 final int confirmation = JOptionPane.showConfirmDialog(mainFrame, orderDetails.toString(),
@@ -321,8 +336,8 @@ public class ResMenu {
     }
 
     private void resetAllSpinners() {
-        itemSpinners.values().forEach(sp -> sp.setValue(0));
-        itemQuantityMap.replaceAll((item, oldValue) -> 0);
+        itemSpinners.values().forEach(sp -> sp.setValue(INITIAL_SPINNER_VALUE));
+        itemQuantityMap.replaceAll((item, oldValue) -> INITIAL_SPINNER_VALUE);
         this.updateOrderSummary(); // Ensure the order summary is updated
     }
 

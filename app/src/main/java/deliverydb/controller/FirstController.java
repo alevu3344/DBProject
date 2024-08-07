@@ -2,6 +2,9 @@ package deliverydb.controller;
 
 import java.awt.Dimension;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import javax.swing.JFrame;
 
@@ -16,9 +19,10 @@ import deliverydb.view.FirstPage;
  * handles login and registration button clicks, and ensures proper closure of the database connection.
  */
 public class FirstController implements Controller {
+    private static final Logger LOGGER = Logger.getLogger(FirstController.class.getName());
     private final Model model;
-    private JFrame mainFrame;
-    private Runnable onClose;
+    private final JFrame mainFrame;
+    private final Runnable onClose;
     private static final int WINDOW_DIM = 600;
 
     /**
@@ -31,8 +35,8 @@ public class FirstController implements Controller {
         this.onClose = () -> {
             try {
                 connection.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Error closing the database connection", e);
             }
         };
 
@@ -43,7 +47,8 @@ public class FirstController implements Controller {
         this.mainFrame.setVisible(true);
         this.mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent e) {
+            @Override
+            public void windowClosing(final java.awt.event.WindowEvent e) {
                 onClose.run();
                 System.exit(0);
             }

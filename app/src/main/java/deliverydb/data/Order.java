@@ -281,7 +281,7 @@ public class Order {
                     final int orderID = orderIDResult.getInt(1);
 
                     final var detailStatement = connection.prepareStatement(Queries.SEND_ORDER_DETAILS);
-                    for (Map.Entry<Item, Integer> entry : filteredOrder.entrySet()) {
+                    for (final var entry : filteredOrder.entrySet()) {
                         detailStatement.setInt(1, orderID);
                         detailStatement.setInt(2, entry.getKey().getItemID());
                         detailStatement.setInt(3, entry.getValue());

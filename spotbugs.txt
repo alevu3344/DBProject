@@ -1,0 +1,50 @@
+M V EI: deliverydb.data.Order.getItems() may expose internal representation by returning Order.items  At Order.java:[line 74]
+M V EI2: new deliverydb.data.Order(int, String, int, Map) may expose internal representation by storing an externally mutable object into Order.items  At Order.java:[line 38]
+M V EI2: new deliverydb.view.authentication.LoginPage(JFrame, LoginController) may expose internal representation by storing an externally mutable object into LoginPage.mainFrame  At LoginPage.java:[line 45]
+M V EI2: new deliverydb.controller.ReviewController(Controller, JFrame, Model, int) may expose internal representation by storing an externally mutable object into ReviewController.model  At ReviewController.java:[line 35]
+M V EI2: new deliverydb.controller.authentication.RegisterController(JFrame, Model, Controller) may expose internal representation by storing an externally mutable object into RegisterController.mainFrame  At RegisterController.java:[line 33]
+M V EI2: new deliverydb.controller.authentication.RegisterController(JFrame, Model, Controller) may expose internal representation by storing an externally mutable object into RegisterController.model  At RegisterController.java:[line 32]
+M V EI2: new deliverydb.controller.delivery.OrdersCtrl(DeliveryPanel$Flag, Controller, JFrame, Model) may expose internal representation by storing an externally mutable object into OrdersCtrl.model  At OrdersCtrl.java:[line 37]
+M V EI2: new deliverydb.controller.delivery.OrdersCtrl(DeliveryPanel$Flag, Controller, JFrame, Model) may expose internal representation by storing an externally mutable object into OrdersCtrl.mainFrame  At OrdersCtrl.java:[line 38]
+M V EI: deliverydb.data.Review.getDate() may expose internal representation by returning Review.date  At Review.java:[line 76]
+M V EI2: new deliverydb.data.Review(int, int, String, String, Timestamp) may expose internal representation by storing an externally mutable object into Review.date  At Review.java:[line 39]
+M V EI2: new deliverydb.view.customer.ResMenu(JFrame, ResMenuCtrl) may expose internal representation by storing an externally mutable object into ResMenu.mainFrame  At ResMenu.java:[line 71]
+
+> Task :app:checkstyleMain FAILED
+[ant:checkstyle] [ERROR] /home/siralex/Desktop/DBProject/app/src/main/java/deliverydb/view/authentication/LoginPage.java:108:51: '20' is a magic number. [MagicNumber]
+
+> Task :app:spotbugsMain
+L V MC: Overridable method intValue is called from constructor new deliverydb.view.customer.ResMenu(JFrame, ResMenuCtrl).  At ResMenu.java:[line 88]
+L V MC: Overridable method handleReviews is called from constructor new deliverydb.view.customer.ResMenu(JFrame, ResMenuCtrl).  At ResMenu.java:[line 88]
+M V EI2: new deliverydb.controller.admin.AdminController(LoginController, JFrame, Model) may expose internal representation by storing an externally mutable object into AdminController.model  At AdminController.java:[line 34]
+M V EI2: new deliverydb.controller.admin.AdminController(LoginController, JFrame, Model) may expose internal representation by storing an externally mutable object into AdminController.mainFrame  At AdminController.java:[line 33]
+M V EI2: new deliverydb.view.delivery.OrdersView(DeliveryPanel$Flag, JFrame, OrdersCtrl) may expose internal representation by storing an externally mutable object into OrdersView.mainFrame  At OrdersView.java:[line 45]
+M V EI2: new deliverydb.view.authentication.RegisterPage(JFrame, RegisterController) may expose internal representation by storing an externally mutable object into RegisterPage.mainFrame  At RegisterPage.java:[line 54]
+M V EI2: new deliverydb.view.customer.RestaurantsPage(JFrame, ResController) may expose internal representation by storing an externally mutable object into RestaurantsPage.mainFrame  At RestaurantsPage.java:[line 44]
+M V EI2: new deliverydb.view.delivery.DeliveryPanel(JFrame, DeliveryCtrl) may expose internal representation by storing an externally mutable object into DeliveryPanel.mainFrame  At DeliveryPanel.java:[line 51]
+M V EI2: new deliverydb.controller.delivery.DeliveryCtrl(Controller, JFrame, Model) may expose internal representation by storing an externally mutable object into DeliveryCtrl.model  At DeliveryCtrl.java:[line 30]
+M V EI2: new deliverydb.controller.delivery.DeliveryCtrl(Controller, JFrame, Model) may expose internal representation by storing an externally mutable object into DeliveryCtrl.mainFrame  At DeliveryCtrl.java:[line 31]
+M X OBL: deliverydb.data.Item$DAO.getMenuFor(Connection, int) may fail to clean up java.sql.ResultSet  Obligation to clean up resource created at Item.java:[line 132] is not discharged
+M X OBL: deliverydb.data.Item$DAO.topDish(Connection) may fail to clean up java.sql.ResultSet  Obligation to clean up resource created at Item.java:[line 107] is not discharged
+M V EI2: new deliverydb.controller.customer.ResMenuCtrl(ResController, JFrame, Model, Restaurant) may expose internal representation by storing an externally mutable object into ResMenuCtrl.mainFrame  At ResMenuCtrl.java:[line 41]
+M V EI2: new deliverydb.controller.customer.ResMenuCtrl(ResController, JFrame, Model, Restaurant) may expose internal representation by storing an externally mutable object into ResMenuCtrl.model  At ResMenuCtrl.java:[line 40]
+M V EI2: new deliverydb.controller.customer.ResController(Controller, JFrame, Model) may expose internal representation by storing an externally mutable object into ResController.model  At ResController.java:[line 30]
+M V EI2: new deliverydb.controller.customer.ResController(Controller, JFrame, Model) may expose internal representation by storing an externally mutable object into ResController.mainFrame  At ResController.java:[line 29]
+M X OBL: deliverydb.data.Order$DAO.sendOrder(Map, String, int, Connection, float) may fail to clean up java.sql.Statement  Obligation to clean up resource created at Order.java:[line 269] is not discharged
+M X OBL: deliverydb.data.Order$DAO.sendOrder(Map, String, int, Connection, float) may fail to clean up java.sql.ResultSet  Obligation to clean up resource created at Order.java:[line 255] is not discharged
+M X OBL: deliverydb.data.Order$DAO.getCompensation(Connection, int) may fail to clean up java.sql.ResultSet  Obligation to clean up resource created at Order.java:[line 103] is not discharged
+M X OBL: deliverydb.data.Order$DAO.buildMap(Connection, int) may fail to clean up java.sql.ResultSet  Obligation to clean up resource created at Order.java:[line 178] is not discharged
+M X OBL: deliverydb.data.Order$DAO.deliverOrder(Connection, int, String, float) may fail to clean up java.sql.ResultSet  Obligation to clean up resource created at Order.java:[line 130] is not discharged
+M X OBL: deliverydb.data.Order$DAO.getAvailableOrders(Connection) may fail to clean up java.sql.ResultSet  Obligation to clean up resource created at Order.java:[line 202] is not discharged
+M X OBL: deliverydb.data.Order$DAO.getAcceptedOrders(Connection, String) may fail to clean up java.sql.ResultSet  Obligation to clean up resource created at Order.java:[line 226] is not discharged
+M V EI2: new deliverydb.controller.authentication.LoginController(JFrame, Model, Controller) may expose internal representation by storing an externally mutable object into LoginController.mainFrame  At LoginController.java:[line 35]
+M V EI2: new deliverydb.controller.authentication.LoginController(JFrame, Model, Controller) may expose internal representation by storing an externally mutable object into LoginController.model  At LoginController.java:[line 37]
+M V EI2: new deliverydb.model.ModelImpl(Connection) may expose internal representation by storing an externally mutable object into ModelImpl.connection  At ModelImpl.java:[line 35]
+M V EI2: new deliverydb.view.FirstPage(FirstController, JFrame) may expose internal representation by storing an externally mutable object into FirstPage.mainFrame  At FirstPage.java:[line 49]
+M V EI2: new deliverydb.view.admin.AdminPanel(JFrame, AdminController) may expose internal representation by storing an externally mutable object into AdminPanel.mainFrame  At AdminPanel.java:[line 41]
+M V EI2: new deliverydb.controller.FirstController(Model, Connection) may expose internal representation by storing an externally mutable object into FirstController.model  At FirstController.java:[line 57]
+M V EI2: new deliverydb.view.ReviewPage(JFrame, ReviewController) may expose internal representation by storing an externally mutable object into ReviewPage.mainFrame  At ReviewPage.java:[line 63]
+M V EI2: new deliverydb.view.ReviewPage(JFrame, ReviewController) may expose internal representation by storing an externally mutable object into ReviewPage.controller  At ReviewPage.java:[line 64]
+L V MC: Overridable method dispose is called from constructor new deliverydb.view.ReviewPage(JFrame, ReviewController).  At ReviewPage.java:[line 67]
+M S Dm: Empty database password in deliverydb.App.main(String[])  At App.java:[line 26]
+M P SIC: Should deliverydb.data.Item$DAO be a _static_ inner class?  At Item.java:[lines 92-141]

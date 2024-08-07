@@ -18,8 +18,8 @@ public class RegisterController implements Controller {
 
     private final Model model;
     private RegisterPage registerView;
-    private Controller firstCtrl;
-    private JFrame mainFrame;
+    private final Controller firstCtrl;
+    private final JFrame mainFrame;
 
     /**
      * Constructs a RegisterController object.
@@ -42,7 +42,7 @@ public class RegisterController implements Controller {
      * @param list the list of user details required for registration
      */
     public void handleRegistration(final User.Usertype type, final List<String> list) {
-        var success = this.model.userRegister(type, list.get(0),
+        final var success = this.model.userRegister(type, list.get(0),
                 list.get(1),
                 list.get(2),
                 list.get(3),

@@ -12,7 +12,6 @@ import deliverydb.data.Review;
 import deliverydb.data.User;
 import deliverydb.utilities.Pair;
 
-import java.util.LinkedHashMap;
 
 /**
  * Defines the operations available for interacting with the delivery system
@@ -100,10 +99,10 @@ public interface Model {
     /**
      * Retrieves a map of restaurants with their IDs and names.
      *
-     * @return a {@link LinkedHashMap} where each entry contains a {@link Pair} of
+     * @return a {@link Map} where each entry contains a {@link Pair} of
      *         restaurant ID and name, and the value is the restaurant's address
      */
-    LinkedHashMap<Pair<String, Integer>, String> getRestaurants();
+    Map<Pair<String, Integer>, String> getRestaurants();
 
     /**
      * Retrieves a restaurant based on its ID.

@@ -29,6 +29,7 @@ public class AdminPanel {
     private final AdminController adminController;
     private final JComboBox<String> reviewComboBox;
     private final List<Pair<String, Integer>> restaurants;
+    private static final Dimension COMBOBOX_DIMENSION = new Dimension(150, 30);
 
     /**
      * Constructs an AdminPanel with the given JFrame and AdminController.
@@ -68,13 +69,12 @@ public class AdminPanel {
 
             populateReviewComboBox();
             reviewComboBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-            reviewComboBox.setMaximumSize(new Dimension(150, 30));
+            reviewComboBox.setMaximumSize(COMBOBOX_DIMENSION);
             reviewPanel.add(Box.createRigidArea(new Dimension(0, 10)));
             reviewPanel.add(reviewComboBox);
 
             viewReviewsButton.addActionListener(e -> {
-                String selectedItem = (String) reviewComboBox.getSelectedItem();
-                viewReviews(selectedItem);
+                viewReviews((String) reviewComboBox.getSelectedItem());
             });
 
             container.add(reviewPanel, BorderLayout.CENTER);
@@ -123,9 +123,7 @@ public class AdminPanel {
     }
 
     private void populateReviewComboBox() {
-        for (Pair<String, Integer> restaurant : restaurants) {
-            reviewComboBox.addItem(restaurant.get1());
-        }
+        restaurants.forEach(res -> reviewComboBox.addItem(res.get1()));
     }
 
     private void viewReviews(final String selectedItem) {
@@ -134,7 +132,6 @@ public class AdminPanel {
                 .map(Pair::get2)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Selected restaurant not found"));
-
         adminController.showReviews(ristoranteID);
     }
 

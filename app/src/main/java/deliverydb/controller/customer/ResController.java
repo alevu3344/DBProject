@@ -11,12 +11,12 @@ import deliverydb.view.customer.RestaurantsPage;
  * within the DeliveryDB application. It supports viewing a list of restaurants,
  * navigating to a restaurant's menu, and handling user logout.
  */
-public class ResController implements Controller {
+public final class ResController implements Controller {
 
     private final Model model;
     private RestaurantsPage resView;
     private final Controller prevCtrl;
-    private JFrame mainFrame;
+    private final JFrame mainFrame;
 
     /**
      * Constructs a ResController object.

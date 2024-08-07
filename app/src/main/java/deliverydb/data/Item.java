@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import deliverydb.utilities.Pair;
 
 /**
@@ -86,6 +89,8 @@ public class Item {
      */
     public final class DAO {
 
+        private static final Logger LOGGER = Logger.getLogger(DAO.class.getName());
+
         private DAO() { }
 
         /**
@@ -106,7 +111,7 @@ public class Item {
                 }
                 return null;
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Error retrieving top dish", e);
                 return new Pair<>(new Pair<>("None", 0),
                 "None");
             }
@@ -132,7 +137,7 @@ public class Item {
                 }
                 return Optional.of(items);
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Error retrieving menu for restaurant ID " + restaurantID, e);
                 return Optional.empty();
             }
         }
